@@ -9,6 +9,7 @@
 #import "SLAccountTool.h"
 #define SLAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"account.data"]
 
+
 @implementation SLAccountTool
 
 + (void)saveAccount:(SLAccount *)account

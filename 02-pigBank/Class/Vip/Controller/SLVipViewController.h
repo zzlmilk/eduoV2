@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ICSDrawerController.h"
+
+@class SLVipViewController;
+
+@protocol SLVipViewControllerDelegate <NSObject>
+
+@optional
+- (void)vipViewController:(SLVipViewController *)vipViewController didClickMoreButton:(UIBarButtonItem *)more;
+
+@end
 
 @interface SLVipViewController : UITableViewController
+
+@property (nonatomic, weak) id<SLVipViewControllerDelegate> delegate;
 
 @end

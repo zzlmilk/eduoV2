@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ICSDrawerController.h"
+@class SLHomeViewController;
 
-@interface SLHomeViewController : UITableViewController
+@protocol SLHomeViewControllerDelegate <NSObject>
+
+@optional
+- (void)homeViewController:(SLHomeViewController *)homeViewController didClickMoreButton:(UIBarButtonItem *)more;
+
+@end
+
+@interface SLHomeViewController : UITableViewController<ICSDrawerControllerChild, ICSDrawerControllerPresenting>
+
+@property(nonatomic, weak) ICSDrawerController *drawer;
+
+@property (nonatomic, weak) id<SLHomeViewControllerDelegate> delegate;
 
 @end

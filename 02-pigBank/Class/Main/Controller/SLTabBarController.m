@@ -7,15 +7,21 @@
 //
 
 #import "SLTabBarController.h"
+
+#import "ICSDrawerController.h"
+
 #import "SLHomeViewController.h"
 #import "SLMessageViewController.h"
 #import "SLPhoneViewController.h"
 #import "SLVipViewController.h"
 #import "SLTabBar.h"
 #import "SLNavigationController.h"
+#import "SLMoreViewController.h"
+#import "UIViewController+REFrostedViewController.h"
+#import "SLMenuViewController.h"
 
 
-@interface SLTabBarController () <SLTabBarDelegate>
+@interface SLTabBarController () <SLTabBarDelegate, SLHomeViewControllerDelegate, SLVipViewControllerDelegate>
 
 @property (nonatomic, weak) SLTabBar *custom;
 
@@ -32,7 +38,7 @@
     return self;
 }
 
-#pragma 按钮的监听代理
+#pragma mark - 按钮的监听代理
 - (void)tabBar:(SLTabBar *)tabBar didSelectedFrom:(int)from to:(int)to
 {
     self.selectedIndex = to;
@@ -52,6 +58,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+    SLLog(@"SLTabBarController----selectedIndexPath-----%d", self.selectedIndex);
+    
+//    [self tabBar:self.custom didSelectedFrom:0 to:self.selectedIndex];
+    self.selectedIndex = self.selectedIndexPath;
+    
     [super viewWillAppear:animated];
     
     for (UIView *child in self.tabBar.subviews) {
@@ -77,11 +89,13 @@
     // 首页
     SLHomeViewController *home = [[SLHomeViewController alloc] init];
     home.tabBarItem.badgeValue = @"1";
+    home.delegate = self;
     [self setupChildController:home title:@"首页" imageName:@"iconHome" selectedImageName:@"iconHomePress"];
      
     // Vip
     SLVipViewController *vip = [[SLVipViewController alloc] init];
     vip.tabBarItem.badgeValue = @"11";
+    vip.delegate = self;
     [self setupChildController:vip title:@"特权" imageName:@"iconVip" selectedImageName:@"iconVipPress"];
     
     // 消息
@@ -89,8 +103,12 @@
     [self setupChildController:message title:@"消息" imageName:@"iconMessage" selectedImageName:@"iconMessagePress"];
     
     // Phone
-    SLPhoneViewController *phone = [[SLPhoneViewController alloc] init];
-    [self setupChildController:phone title:@"电联" imageName:@"iconPhone" selectedImageName:@"iconPhonePress"];
+//    SLPhoneViewController *phone = [[SLPhoneViewController alloc] init];
+//    [self setupChildController:phone title:@"电联" imageName:@"iconPhone" selectedImageName:@"iconPhonePress"];
+    
+    // menu
+    SLMenuViewController *menu = [[SLMenuViewController alloc] init];
+    [self setupChildController:menu title:@"电联" imageName:@"iconPhone" selectedImageName:@"iconPhonePress"];
     
 }
 
@@ -115,6 +133,43 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - homeViewController的代理方法
+/**
+ *  点击了home页面的more按钮
+ */
+- (void)homeViewController:(SLHomeViewController *)homeViewController didClickMoreButton:(UIBarButtonItem *)more
+{
+//    [self.frostedViewController presentMenuViewController]
+    [self.drawer open];
+}
+
+
+#pragma mark ---- REF侧滑菜单的按钮实现方法 --- 未完成
+//- (void)showMenu
+//{
+//    [self.frostedViewController presentMenuViewController];
+//}
+
+#pragma mark - vipViewController的代理方法
+/**
+ *  点击了vip页面的more按钮
+ */
+- (void)vipViewController:(SLVipViewController *)vipViewController didClickMoreButton:(UIBarButtonItem *)more
+{
+    [self.drawer open];
+}
+
+#pragma mark - ICSDrawerControllerPresenting
+- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = NO;
+}
+
+- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = YES;
 }
 
 /*

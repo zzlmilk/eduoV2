@@ -8,8 +8,11 @@
 
 #import "SLPhoneViewController.h"
 #import "SLTitleButton.h"
+#import "MBProgressHUD+MJ.h"
 
-@interface SLPhoneViewController ()
+@interface SLPhoneViewController ()<UIActionSheetDelegate>
+
+@property (nonatomic, weak) UIView *coverView;
 
 @end
 
@@ -27,28 +30,61 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+//    [MBProgressHUD showMessage:@""];
+    
+    
+    
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    
+//    SLTitleButton *button = [[SLTitleButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+//    
+//    [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
+//    [button setTitle:@"哈哈哈哈" forState:UIControlStateNormal];
+//    [button addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    self.navigationItem.titleView = button;
     
-    SLTitleButton *button = [[SLTitleButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     
-    [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
-    [button setTitle:@"哈哈哈哈" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.navigationItem.titleView = button;
 }
 
-- (void)titleClick:(SLTitleButton *)button
+//-
+
+//- (void)titleClick:(SLTitleButton *)button
+//{
+//    if (button.currentImage == [UIImage imageNamed:@"navigationbar_arrow_up_os7"]) {
+//        [UIView animateWithDuration:0.5 animations:^{
+//            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_down_os7"] forState:UIControlStateNormal];
+//        }];
+//    } else {
+//        [UIView animateWithDuration:0.5 animations:^{
+//            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
+//        }];
+//    }
+//}
+
+- (void)viewWillAppear:(BOOL)animated
 {
-    if (button.currentImage == [UIImage imageNamed:@"navigationbar_arrow_up_os7"]) {
-        [UIView animateWithDuration:0.5 animations:^{
-            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_down_os7"] forState:UIControlStateNormal];
-        }];
-    } else {
-        [UIView animateWithDuration:0.5 animations:^{
-            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
-        }];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"猪子" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"021-10000", @"18121253011", nil];
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+#warning 已经创建了call
+    UIWebView *callWebView = [[UIWebView alloc] init];
+    [self.view addSubview:callWebView];
+    
+    if (buttonIndex == 0) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://18121253011"]];
+        [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+    } else if (buttonIndex == 1) {
+        SLLog(@"1111");
+    } else if (buttonIndex == 2) {
+        
     }
 }
 

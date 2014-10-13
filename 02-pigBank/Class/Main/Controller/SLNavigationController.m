@@ -8,7 +8,11 @@
 
 #import "SLNavigationController.h"
 
-@interface SLNavigationController ()
+#import "UIBarButtonItem+SL.h"
+
+#import "SLFinancialProductsListController.h"
+
+@interface SLNavigationController () <SLFinancialProductsListControllerDelegate>
 
 @end
 
@@ -32,6 +36,7 @@
     // 设置导航栏主题
     [self setupNavBarTheme];
     
+    
 }
 
 + (void)setupNavBarTheme
@@ -47,12 +52,23 @@
     attri[UITextAttributeFont] = [UIFont boldSystemFontOfSize:18];
     attri[UITextAttributeTextShadowOffset] = [NSValue valueWithUIOffset:UIOffsetZero];
     [navBar setTitleTextAttributes:attri];
+    
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+#pragma mark - vipViewController的代理方法
+/**
+ *  点击了vip页面的more按钮
+ */
+-(void)financialProductListController:(SLFinancialProductsListController *)financialProductListController didClickMoreButton:(UIBarButtonItem *)more
+{
+    [self.drawer open];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,16 +85,4 @@
     }
     [super pushViewController:viewController animated:animated];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

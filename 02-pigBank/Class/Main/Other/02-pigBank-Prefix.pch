@@ -24,4 +24,45 @@
 #define SLLog(...)
 #endif
 
+// 3.网络请求头文件
+#import "AFNetworking.h"
+
+// 4.定义字体
+#define SLFont11 [UIFont systemFontOfSize:11]
+#define SLFont12 [UIFont systemFontOfSize:12]
+#define SLFont13 [UIFont systemFontOfSize:13]
+#define SLFont14 [UIFont systemFontOfSize:14]
+#define SLFont15 [UIFont systemFontOfSize:15]
+#define SLFont16 [UIFont systemFontOfSize:16]
+#define SLFont17 [UIFont systemFontOfSize:17]
+#define SLFont18 [UIFont systemFontOfSize:18]
+#define SLFont19 [UIFont systemFontOfSize:19]
+#define SLFont20 [UIFont systemFontOfSize:20]
+#define SLFont21 [UIFont systemFontOfSize:21]
+#define SLFont22 [UIFont systemFontOfSize:22]
+#define SLFont23 [UIFont systemFontOfSize:23]
+#define SLFont24 [UIFont systemFontOfSize:24]
+#define SLFont25 [UIFont systemFontOfSize:25]
+
+#define SLBoldFont11 [UIFont boldSystemFontOfSize:11]
+#define SLBoldFont12 [UIFont boldSystemFontOfSize:12]
+#define SLBoldFont13 [UIFont boldSystemFontOfSize:13]
+#define SLBoldFont14 [UIFont boldSystemFontOfSize:14]
+#define SLBoldFont15 [UIFont boldSystemFontOfSize:15]
+#define SLBoldFont16 [UIFont boldSystemFontOfSize:16]
+#define SLBoldFont17 [UIFont boldSystemFontOfSize:17]
+#define SLBoldFont18 [UIFont boldSystemFontOfSize:18]
+#define SLBoldFont19 [UIFont boldSystemFontOfSize:19]
+#define SLBoldFont20 [UIFont boldSystemFontOfSize:20]
+#define SLBoldFont21 [UIFont boldSystemFontOfSize:21]
+#define SLBoldFont22 [UIFont boldSystemFontOfSize:22]
+#define SLBoldFont23 [UIFont boldSystemFontOfSize:23]
+#define SLBoldFont24 [UIFont boldSystemFontOfSize:24]
+#define SLBoldFont25 [UIFont boldSystemFontOfSize:25]
+
+// 5.定义间距
+#define middleMargin 10
+#define smallMargin 5
+#define largeMargin 20
+
 #endif
