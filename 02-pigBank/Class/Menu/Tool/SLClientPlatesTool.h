@@ -7,9 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "SLClientPlate.h"
 
+#import "SLBaseParameters.h"
+
 @interface SLClientPlatesTool : NSObject
+
+/**
+ *  加载理财顾问的数据
+ *
+ *  @param param   请求参数
+ *  @param success 请求成功后的回调
+ *  @param failure 请求失败后的回调
+ */
++ (void)clientPlateWithParameters:(SLBaseParameters *)parameters success:(void (^)(NSArray *clientPlateArray))success failure:(void (^)(NSError *error))failure;
 
 /**
  *  归档数据

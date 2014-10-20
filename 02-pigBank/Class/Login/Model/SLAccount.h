@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "SLAccountInfo.h"
 
-@interface SLAccount : NSObject<NSCoding>
+@interface SLAccount : NSObject
 
 @property (nonatomic, assign) long long code;
 @property (nonatomic, strong) SLAccountInfo *accountInfo;
 @property (nonatomic, copy) NSString *msg;
 @property (nonatomic, assign) long long time;
 @property (nonatomic, copy) NSString *token;
-@property (nonatomic, assign) NSInteger uid;
+@property (nonatomic, strong) NSNumber *uid;
 @property (nonatomic, strong) NSDate *expireTime;
 
 //+ (instancetype)accountWithDict:(NSDictionary *)dict;

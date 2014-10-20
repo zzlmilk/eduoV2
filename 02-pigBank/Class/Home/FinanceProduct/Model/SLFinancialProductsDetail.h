@@ -13,6 +13,8 @@
 
 /** expectedYield 预期收益率 */
 @property (nonatomic, copy) NSNumber *expectedYield;
+/** expectedYield 预期收益率 */
+@property (nonatomic, copy) NSNumber *materialId;
 /** extRiskLevel 风险等级 */
 @property (nonatomic, copy) NSString *extRiskLevel;
 /** extReceiptTimeType 到账时间类型 */

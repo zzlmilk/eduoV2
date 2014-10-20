@@ -8,6 +8,10 @@
 
 #import "SLVipStatus.h"
 
+#import "MJExtension.h"
+
 @implementation SLVipStatus
+
+MJCodingImplementation
 
 @end

@@ -8,6 +8,10 @@
 
 #import "SLVipMerchantDetail.h"
 
+#import "MJExtension.h"
+
 @implementation SLVipMerchantDetail
+
+MJCodingImplementation
 
 @end

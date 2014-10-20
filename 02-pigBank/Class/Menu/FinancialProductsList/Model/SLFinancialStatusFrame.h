@@ -8,13 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SLFinancialProductListStatus.h"
 #import "SLFinanceProduct.h"
 
-
 @interface SLFinancialStatusFrame : NSObject
-
-@property (nonatomic, strong) SLFinancialProductListStatus *financialProductListStatus;
 
 @property (nonatomic, strong) SLFinanceProduct *financeProduct;
 

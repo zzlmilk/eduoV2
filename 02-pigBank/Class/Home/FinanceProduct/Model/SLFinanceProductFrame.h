@@ -14,7 +14,6 @@
 #define SLFinanceProductContentFont [UIFont systemFontOfSize:11]
 #define SLFinanceProductContentSmallFont [UIFont systemFontOfSize:9]
 #define SLDetailGrayLabelFont [UIFont systemFontOfSize:13]
-#define margin 10
 #define smallLabelHeight 14
 #define buttonH 26
 #define shortButtonW 41

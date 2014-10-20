@@ -10,7 +10,21 @@
 
 #import "AFNetworking.h"
 
+@interface SLHttpTool()
+
+@property (nonatomic, strong) AFHTTPRequestOperationManager *mgr;
+
+@end
+
 @implementation SLHttpTool
+
+- (AFHTTPRequestOperationManager *)mgr
+{
+    if (_mgr == nil) {
+        _mgr = [AFHTTPRequestOperationManager manager];
+    }
+    return _mgr;
+}
 
 + (void)postWithUrlstr:(NSString *)url parameters:(NSDictionary *)parameters success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {

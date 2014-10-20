@@ -23,5 +23,7 @@
 /** fullName 商户名称 */
 @property (nonatomic, copy) NSString *fullName;
 
+/** distanceToMe */
+@property (nonatomic, copy) NSString *distanceToMe;
 
 @end

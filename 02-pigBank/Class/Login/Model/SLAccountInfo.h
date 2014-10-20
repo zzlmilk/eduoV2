@@ -18,4 +18,6 @@
 
 @property (nonatomic, strong) SLVipDetail *vipDetail ;
 
+@property (nonatomic, copy) NSString *pictureUrl;
+
 @end

@@ -8,8 +8,6 @@
 
 #import "SLFinanceProductController.h"
 
-#import "AFNetworking.h"
-
 #import "SLAccount.h"
 #import "SLAccountTool.h"
 #import "SLHomeStatus.h"
@@ -21,6 +19,11 @@
 #import "UIImage+S_LINE.h"
 #import "SLDetailGrayLabel.h"
 #import "SLDetailBlackLabel.h"
+
+#import "SLUserOperateParameters.h"
+#import "SLUserOperateTool.h"
+
+#import "MBProgressHUD+MJ.h"
 
 #define SLFont13 [UIFont systemFontOfSize:13]
 
@@ -127,6 +130,8 @@
 
 @property (nonatomic, strong) NSArray *rightBarButtonItems;
 
+@property (nonatomic, copy) NSString *priseOperateValue;
+@property (nonatomic, copy) NSString *collectOperateValue;
 
 @end
 
@@ -712,25 +717,35 @@
     UIButton *zanButton = [[UIButton alloc] init];
     zanButton.bounds = CGRectMake(0, 0, 40, 42);
     [zanButton setImage:[UIImage imageNamed:@"zan"] forState:UIControlStateNormal];
-    [zanButton setImage:[UIImage imageNamed:@"zanJiaoHu@2x "] forState:UIControlStateSelected];
-    SLLog(@"%ld", self.financeProductFrame.financeProduct.praiseCounts);
+    [zanButton setImage:[UIImage imageNamed:@"zanPress@2x"] forState:UIControlStateSelected];
     [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts] forState:UIControlStateNormal];
     [zanButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     zanButton.titleLabel.font = SLFont14;
     zanButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    int praiseFlag = self.financeProductFrame.financeProduct.materialUser.praiseFlag;
+    if (praiseFlag == 1) {
+        zanButton.selected = YES;
+    } else {
+        zanButton.selected = NO;
+    }
     UIBarButtonItem *zanItem = [[UIBarButtonItem alloc] initWithCustomView:zanButton];
     
     UIButton *shoucangButton = [[UIButton alloc] init];
     shoucangButton.bounds = CGRectMake(0, 0, 40, 42);
     [shoucangButton setImage:[UIImage imageNamed:@"shouCang"] forState:UIControlStateNormal];
     [shoucangButton setImage:[UIImage imageNamed:@"shouCangJiaoHu"] forState:UIControlStateSelected];
-    SLLog(@"%ld", self.financeProductFrame.financeProduct.praiseCounts);
     [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts] forState:UIControlStateNormal];
     [shoucangButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     shoucangButton.titleLabel.font = SLFont14;
     shoucangButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [shoucangButton addTarget:self action:@selector(shoucangButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    int collectFlag = self.financeProductFrame.financeProduct.materialUser.collectFlag;
+    if (collectFlag == 1) {
+        shoucangButton.selected = YES;
+    } else {
+        shoucangButton.selected = NO;
+    }
     UIBarButtonItem *shoucangItem = [[UIBarButtonItem alloc] initWithCustomView:shoucangButton];
 //    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
     self.rightBarButtonItems = @[shoucangItem, zanItem];
@@ -740,22 +755,60 @@
 
 - (void)shoucangButtonClick:(UIButton *)shoucangButton
 {
+    // 创建网络参数
+    SLUserOperateParameters *parameters = [SLUserOperateParameters parameters];
+    parameters.operateType = @"collect";
+    parameters.materialId = self.financeProductFrame.financeProduct.financialProductsDetail.materialId;
+
     if (shoucangButton.selected == YES) {
         shoucangButton.selected = NO;
         [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts] forState:UIControlStateNormal];
+        
+        parameters.operateValue = @"0";
+        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
+            [MBProgressHUD showSuccess:@"取消收藏成功"];
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"取消收藏失败"];
+        }];
+        
     } else {
         shoucangButton.selected = YES;
         [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts + 1] forState:UIControlStateSelected];
+        
+        parameters.operateValue = @"1";
+        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
+            [MBProgressHUD showSuccess:@"收藏成功"];
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"收藏失败"];
+        }];
     }
 }
 - (void)zanButtonClick:(UIButton *)zanButton
 {
+    // 创建网络参数
+    SLUserOperateParameters *parameters = [SLUserOperateParameters parameters];
+    parameters.operateType = @"praise";
+
     if (zanButton.selected == YES) {
         zanButton.selected = NO;
         [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts] forState:UIControlStateNormal];
+        
+        parameters.operateValue = @"0";
+        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
+            [MBProgressHUD showSuccess:@"取消赞成功"];
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"取消赞失败"];
+        }];
     } else {
         zanButton.selected = YES;
         [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts + 1] forState:UIControlStateSelected];
+        
+        parameters.operateValue = @"1";
+        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
+            [MBProgressHUD showSuccess:@"赞成功"];
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"赞失败"];
+        }];
     }
 }
 

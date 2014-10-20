@@ -21,7 +21,7 @@
         self.msg = [aDecoder decodeObjectForKey:@"msg"];
         self.time = [aDecoder decodeInt64ForKey:@"time"];
         self.token = [aDecoder decodeObjectForKey:@"token"];
-        self.uid = [aDecoder decodeIntegerForKey:@"uid"];
+        self.uid = [aDecoder decodeObjectForKey:@"uid"];
         self.expireTime = [aDecoder decodeObjectForKey:@"expireTime"];
     }
     return self;
@@ -37,7 +37,7 @@
     [aCoder encodeObject:self.msg forKey:@"msg"];
     [aCoder encodeInt64:self.time forKey:@"time"];
     [aCoder encodeObject:self.token forKey:@"token"];
-    [aCoder encodeInt64:self.uid forKey:@"uid"];
+    [aCoder encodeObject:self.uid forKey:@"uid"];
     [aCoder encodeObject:self.expireTime forKey:@"expireTime"];
 }
 

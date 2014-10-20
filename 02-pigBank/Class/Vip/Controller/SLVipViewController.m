@@ -6,19 +6,33 @@
 //  Copyright (c) 2014年 陆承东. All rights reserved.
 //
 
-#import "SLVipViewController.h"
-#import "UIBarButtonItem+SL.h"
-#import "SLVipHeadViewButton.h"
-#import "AFNetworking.h"
-#import "SLAccountTool.h"
-#import "SLAccount.h"
-#import "SLVipStatus.h"
-#import "SLVipStatusFrame.h"
-#import "MJExtension.h"
-#import "SLVipStatusCell.h"
-#import "SLVipProductViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface SLVipViewController ()
+#import "SLVipViewController.h"
+
+#import "SLVipParameters.h"
+#import "SLVipChildClassParameters.h"
+#import "SLVipStatusFrame.h"
+#import "SLVipStatus.h"
+
+
+#import "SLVipStatusCell.h"
+#import "SLVipHeadViewButton.h"
+
+#import "SLVipProductViewController.h"
+#import "SLVipChildViewController.h"
+
+#import "SLHttpTool.h"
+#import "SLVipStatusTool.h"
+#import "UIBarButtonItem+SL.h"
+
+#import "UIButton+WebCache.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+
+#define ButtonW 64;
+
+@interface SLVipViewController () 
 
 @property (nonatomic, weak) SLVipHeadViewButton *foodHeadButton;
 @property (nonatomic, weak) SLVipHeadViewButton *journeyHeadButton;
@@ -27,7 +41,7 @@
 @property (nonatomic, weak) SLVipHeadViewButton *healthHeadButton;
 
 /** vipStatusFrame */
-@property (nonatomic, strong) NSMutableArray *vipStatusFrames;
+@property (nonatomic, strong) NSArray *vipStatusFrames;
 
 @end
 
@@ -64,50 +78,21 @@
  */
 - (void)setupVipViewData
 {
-    // 1.创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    SLVipParameters *parameters = [SLVipParameters parameters];
     
-    // 2.封装请求参数
-    // 2.1获取当前用户信息
-    SLAccount *account = [SLAccountTool getAccount];
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    // 2.2封装请求数据
-    parameters[@"plateId"] = @1;
-    parameters[@"uid"] = [NSNumber numberWithInteger:account.uid];
-    parameters[@"token"] = account.token;
+    // 封装请求数据
+    parameters.plateId = @1;
     
     // 3.发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/plate/listPlateClass" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    
-        // 取出状态字典数组
-        NSArray *dictArray = [responseObject[@"info"] lastObject];
-        SLLog(@"%@", dictArray[0]);
-        NSMutableArray *vipStatusFrameArray = [NSMutableArray array];
-        for (NSDictionary *dict in dictArray) {
-            SLVipStatus *vipStatus = [SLVipStatus objectWithKeyValues:dict];
-            SLVipStatusFrame *vipStatusFrame = [[SLVipStatusFrame alloc] init];
-            vipStatusFrame.vipStatus = vipStatus;
-            [vipStatusFrameArray addObject:vipStatusFrame];
-        }
+    [SLVipStatusTool vipStatusesWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
         
         self.vipStatusFrames = vipStatusFrameArray;
         
-//        NSArray *statusArray = [SLVipStatus objectArrayWithKeyValuesArray:dictArray];
-//        NSMutableArray *statusFrameArray = [NSMutableArray array];
-//        for (SLVipStatus *vipStatus in statusArray) {
-//            SLVipStatusFrame *vipStatusFrame = [[SLVipStatusFrame alloc] init];
-//
-//            // 将所有homeStatus对象复制给对应的homeStatusFrame对象的homeStatus成员变量
-//            vipStatusFrame.vipStatus = vipStatus;
-//            
-//            [statusFrameArray addObject:vipStatusFrame];
-//        }
-//        self.vipStatusFrames = statusFrameArray;
-        
-        SLLog(@"---------------%@", self.vipStatusFrames);
+        [self setupTableHeadView];
         
         [self.tableView reloadData];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }
@@ -115,90 +100,36 @@
 /** setupTableHeadView 设置tableHeadView */
 - (void)setupTableHeadView
 {
-    UIView *tableHeadView = [[UIView alloc] init];
-    tableHeadView.frame = CGRectMake(0, 0, self.view.frame.size.width, 86);
+    UIScrollView *tableHeadScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 86)];
+    if (self.vipStatusFrames.count > 5) {
+        tableHeadScrollView.contentSize = CGSizeMake(self.vipStatusFrames.count * 64, 0);
+    }
     
-    /** food 食 */
-    SLVipHeadViewButton *foodHeadButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(0, 0, 64, 86)];
-    [foodHeadButton setImage:[UIImage imageNamed:@"meiShi"] forState:UIControlStateNormal];
-    [foodHeadButton setTitle:@"食" forState:UIControlStateNormal];
-    [foodHeadButton addTarget:self action:@selector(foodBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.foodHeadButton = foodHeadButton;
-    [tableHeadView addSubview:foodHeadButton];
+    for (int i = 0; i < self.vipStatusFrames.count; i++) {
+        SLVipStatusFrame *vsf = self.vipStatusFrames[i];
+        
+        CGFloat headButtonX = i * ButtonW;
+        CGFloat headButtonY = 0;
+        CGFloat headButtonW = ButtonW;
+        CGFloat headButtonH = 86;
+        SLVipHeadViewButton *headButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(headButtonX, headButtonY, headButtonW, headButtonH)];
+        headButton.tag = [vsf.vipStatus.classId intValue];
+        
+        [headButton setImageWithURL:[NSURL URLWithString:vsf.vipStatus.pictureUrl] forState:UIControlStateNormal];
+        [headButton setTitle:vsf.vipStatus.className forState:UIControlStateNormal];
+        [headButton addTarget:self action:@selector(headBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [tableHeadScrollView addSubview:headButton];
+    }
     
-    /** journey 行 */
-    SLVipHeadViewButton *journeyHeadButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(64 * 1, 0, 64, 86)];
-    [journeyHeadButton setImage:[UIImage imageNamed:@"chuXing"] forState:UIControlStateNormal];
-    [journeyHeadButton setTitle:@"行" forState:UIControlStateNormal];
-    [journeyHeadButton addTarget:self action:@selector(journeyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.journeyHeadButton = journeyHeadButton;
-    [tableHeadView addSubview:journeyHeadButton];
-    
-    /** live 住 */
-    SLVipHeadViewButton *liveHeadButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(64 * 2, 0, 64, 86)];
-    [liveHeadButton setImage:[UIImage imageNamed:@"jiuDian"] forState:UIControlStateNormal];
-    [liveHeadButton setTitle:@"住" forState:UIControlStateNormal];
-    [liveHeadButton addTarget:self action:@selector(liveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.liveHeadButton = liveHeadButton;
-    [tableHeadView addSubview:liveHeadButton];
-    
-    /** buy 购 */
-    SLVipHeadViewButton *buyHeadButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(64 * 3, 0, 64, 86)];
-    [buyHeadButton setImage:[UIImage imageNamed:@"GouWu"] forState:UIControlStateNormal];
-    [buyHeadButton setTitle:@"购" forState:UIControlStateNormal];
-    [buyHeadButton addTarget:self action:@selector(buyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.buyHeadButton = buyHeadButton;
-    [tableHeadView addSubview:buyHeadButton];
-    
-    /** health 健康 */
-    SLVipHeadViewButton *healthHeadButton = [[SLVipHeadViewButton alloc] initWithFrame:CGRectMake(64 * 4, 0, 64, 86)];
-    [healthHeadButton setImage:[UIImage imageNamed:@"jianKang"] forState:UIControlStateNormal];
-    [healthHeadButton setTitle:@"健康" forState:UIControlStateNormal];
-    [healthHeadButton addTarget:self action:@selector(healthBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    self.healthHeadButton = healthHeadButton;
-    [tableHeadView addSubview:healthHeadButton];
-    
-    self.tableView.tableHeaderView = tableHeadView;
+    self.tableView.tableHeaderView = tableHeadScrollView;
 }
 
-
-/**
- *  healthBtnClick
- */
-- (void)healthBtnClick:(SLVipHeadViewButton *)healthHeadButton
+- (void)headBtnClick:(SLVipHeadViewButton *)headButton
 {
-    SLLog(@"health-----------click");
-}
-/**
- *  buyBtnClick
- */
-- (void)buyBtnClick:(SLVipHeadViewButton *)buyHeadButton
-{
-    SLLog(@"buy-----------click");
-}
-/**
- *  liveBtnClick
- */
-- (void)liveBtnClick:(SLVipHeadViewButton *)liveHeadButton
-{
-    SLLog(@"live-----------click");
-}
-/**
- *  journeyBtnClick
- */
-- (void)journeyBtnClick:(SLVipHeadViewButton *)journeyHeadButton
-{
-    SLLog(@"journey-----------click");
-}
-/**
- *  foodBtnClick
- */
-- (void)foodBtnClick:(SLVipHeadViewButton *)foodHeadButton
-{
-    SLLog(@"food-----------click");
+    SLVipChildViewController *vcvc = [[SLVipChildViewController alloc] init];
+    vcvc.classId = [NSNumber numberWithInt:headButton.tag];
     
-    self.tabBarController.selectedIndex = 0;
-//    self.tabBarController
+    [self.navigationController pushViewController:vcvc animated:YES];
 }
 
 

@@ -7,44 +7,57 @@
 //
 
 #import "SLMenuViewController.h"
+
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
+
+#import "SLMenuGroup.h"
+#import "SLMenuArrowItem.h"
+#import "SLBaseParameters.h"
+
+#import "SLMenuCell.h"
+#import "SLMyInfoCell.h"
+
+#import "SLSettingViewController.h"
+#import "SLFinancialProductsListController.h"
+#import "SLOutletsViewController.h"
+#import "SLMerchantControllerController.h"
 
 #import "SLAccount.h"
 #import "SLAccountTool.h"
 #import "SLClientPlate.h"
 #import "SLClientPlatesTool.h"
+#import "SLHttpTool.h"
 
-#import "SLMenuGroup.h"
-#import "SLMenuItem.h"
-#import "SLSettingViewController.h"
-#import "SLFinancialProductsListController.h"
 
-@interface SLMenuViewController ()
+@interface SLMenuViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 
-/**
- *  菜单列表
- */
-@property (nonatomic, strong) NSArray *menuGroups;
+/** 菜单列表 */
+@property (nonatomic, strong) NSMutableArray *menuGroups;
 
-/**
- *  尊享理财
- */
+/** 尊享理财 */
 @property (nonatomic, strong) SLClientPlate *financialProductClientPlate;
 
-/**
- *  网点信息
- */
+/** 网点信息 */
 @property (nonatomic, strong) SLClientPlate *outletsClientPlate;
 
-/**
- *  账号信息
- */
+/** 账号信息 */
 @property (nonatomic, strong) SLAccount *account;
+
+/** 账号信息 */
+@property (nonatomic, strong) UIImage *iconImage;
 
 @end
 
 @implementation SLMenuViewController
+
+- (NSMutableArray *)menuGroups
+{
+    if (_menuGroups == nil) {
+        _menuGroups = [NSMutableArray array];
+    }
+    return _menuGroups;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -60,7 +73,13 @@
 {
     [super viewDidLoad];
     
-    [self setupMenuGroupsData];
+    self.tableView.sectionFooterHeight = 0;
+    self.tableView.sectionHeaderHeight = 10;
+    self.tableView.contentInset = UIEdgeInsetsMake(-30, 0, 0, 0);
+    
+    [self setupGroup0];
+    [self setupGroup1];
+    [self setupGroup2];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -93,22 +112,73 @@
     SLMenuGroup *cg = self.menuGroups[indexPath.section];
     SLMenuItem *mi = cg.menuItems[indexPath.row];
     
-    static NSString *ID = @"moreItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    cell.textLabel.text = mi.title;
-    cell.imageView.image = mi.iconImage;
     if (indexPath.section == 0) {
-        cell.detailTextLabel.text = mi.mobile;
+        SLMyInfoCell *cell = [SLMyInfoCell cellWithTableView:tableView];
+        cell.menuItem = mi;
+        cell.imageView.userInteractionEnabled = YES;
+        [cell.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconImageTaped:)]];
+        return cell;
+    } else {
+        SLMenuCell *cell = [SLMenuCell cellWithTableView:tableView];
+        cell.menuItem = mi;
+        return cell;
     }
+}
+
+- (void)iconImageTaped:(UIImageView *)imageView
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
     
-    return cell;
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        
+        UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+        ipc.delegate = self;
+        ipc.allowsEditing = YES;
+        [self presentViewController:ipc animated:YES completion:nil];
+        
+    } else if (buttonIndex == 1) {
+        
+        UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+        ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        ipc.delegate = self;
+        ipc.allowsEditing = YES;
+        [self presentViewController:ipc animated:YES completion:nil];
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    self.tabBarController.selectedIndex = 3;
+    
+    // 1.销毁picker控制器
+    [picker dismissViewControllerAnimated:YES completion:^{
+        self.tabBarController.selectedIndex = 3;
+    }];
+    
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/user/uploadAndChangeUserPhoto"];
+    
+    SLBaseParameters *parameters = [SLBaseParameters parameters];
+    // 2.去的图片
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    NSMutableArray *formDataArray = [NSMutableArray array];
+    SLFormData *formData = [[SLFormData alloc] init];
+    formData.data = UIImageJPEGRepresentation(image, 0.000001);
+    formData.name = @"photo";
+    formData.mimeType = @"image/jpeg";
+    formData.filename = @"";
+    [formDataArray addObject:formData];
+    
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues formDataArray:formDataArray success:^(id responseObject) {
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -121,16 +191,66 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        SLSettingViewController *settingVC = [[SLSettingViewController alloc] init];
-        
-        [self.navigationController pushViewController:settingVC animated:YES];
-    } else if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            SLFinancialProductsListController *financialProductListC = [[SLFinancialProductsListController alloc] init];
-            [self.navigationController pushViewController:financialProductListC animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    SLMenuGroup *menuGroup = self.menuGroups[indexPath.section];
+    SLMenuItem *menuItem = menuGroup.menuItems[indexPath.row];
+    
+    if ([menuItem isKindOfClass:[SLMenuArrowItem class]]) {
+        SLMenuArrowItem *arrowItem = (SLMenuArrowItem *)menuItem;
+        if (arrowItem.destVcClass) {
+            UIViewController *vc = [[arrowItem.destVcClass alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
+    
+//    if (indexPath.section == 0) {
+//        SLSettingViewController *settingVC = [[SLSettingViewController alloc] init];
+//        
+//        [self.navigationController pushViewController:settingVC animated:YES];
+//    } else if (indexPath.section == 1) {
+//        if (indexPath.row == 0) {
+//            SLFinancialProductsListController *financialProductListC = [[SLFinancialProductsListController alloc] init];
+//            [self.navigationController pushViewController:financialProductListC animated:YES];
+//        }
+//    }
+}
+
+
+- (SLMenuGroup *)addGroup
+{
+    SLMenuGroup *group = [[SLMenuGroup alloc] init];
+    [self.menuGroups addObject:group];
+    return group;
+}
+
+- (void)setupGroup0
+{
+    SLMenuGroup *menuGroup = [self addGroup];
+    
+    SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"wo" title:[SLAccountTool getAccount].accountInfo.dispName destVcClass:[SLSettingViewController class]];
+    menuGroup.menuItems = @[mai1];
+}
+- (void)setupGroup1
+{
+    SLMenuGroup *menuGroup = [self addGroup];
+    
+    SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"zunXiangLiCai" title:@"尊享理财" destVcClass:[SLFinancialProductsListController class]];
+    SLMenuArrowItem *mai2 = [SLMenuArrowItem itemWithIcon:@"wangDian" title:@"网点信息" destVcClass:[SLOutletsViewController class]];
+    SLMenuArrowItem *mai3 = [SLMenuArrowItem itemWithIcon:@"shangQuan" title:@"商户信息" destVcClass:[SLMerchantControllerController class]];
+    
+    
+    menuGroup.menuItems = @[mai1, mai2, mai3];
+}
+- (void)setupGroup2
+{
+    SLMenuGroup *menuGroup = [self addGroup];
+    
+    SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"dianPing" title:@"我的点评" destVcClass:nil];
+    SLMenuArrowItem *mai2 = [SLMenuArrowItem itemWithIcon:@"MoreShouCang" title:@"我的收藏" destVcClass:nil];
+    SLMenuArrowItem *mai3 = [SLMenuArrowItem itemWithIcon:@"guWen" title:@"我的顾问" destVcClass:[SLSettingViewController class]];
+    
+    menuGroup.menuItems = @[mai1, mai2, mai3];
 }
 
 /**
@@ -195,32 +315,9 @@
 
 - (void)loadClientPlateData
 {
-    // 1.创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    SLBaseParameters *parameters = [SLBaseParameters parameters];
     
-    // 2.封装请求参数
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
-    // 2.2封装请求数据
-    // Long
-//    parameters[@"lastTime"] = @"";
-    // Integer
-    parameters[@"uid"] = [NSNumber numberWithInteger:self.account.uid];
-    // String
-    parameters[@"token"] = self.account.token;
-    
-    // 3.发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/plate/listPlateInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        // 取出状态字典数组
-        NSArray *dictArray = [responseObject[@"info"] lastObject];
-        
-        SLLog(@"%@", dictArray);
-        
-        NSArray *clientPlateArray = [SLClientPlate objectArrayWithKeyValuesArray:dictArray];
-        
-        // 归档
-        [SLClientPlatesTool saveClientPlates:clientPlateArray];
+    [SLClientPlatesTool clientPlateWithParameters:parameters success:^(NSArray *clientPlateArray) {
         
         // 尊享理财板块信息
         SLClientPlate *financialProductClientPlate = clientPlateArray[1];
@@ -228,22 +325,11 @@
         
         // 网点板块信息
         SLClientPlate *outletsClientPlate = clientPlateArray[2];
-        self.outletsClientPlate = financialProductClientPlate;
-        
-        SLLog(@"sdfa");
-        //        NSMutableArray *statusFrameArray = [NSMutableArray array];
-        //        for (SLHomeStatus *homeStatus in statusArray) {
-        //            SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
-        //
-        //            // 将所有homeStatus对象复制给对应的homeStatusFrame对象的homeStatus成员变量
-        //            homeStatusFrame.homeStatus = homeStatus;
-        //
-        //            [statusFrameArray addObject:homeStatusFrame];
-        //        }
-        //        self.homeStatusFrames = statusFrameArray;
+        self.outletsClientPlate = outletsClientPlate;
         
         [self.tableView reloadData];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }

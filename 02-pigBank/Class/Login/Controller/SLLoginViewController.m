@@ -7,20 +7,29 @@
 //
 
 #import "SLLoginViewController.h"
-#import "AFNetworking.h"
+
 #import "NSString+Password.h"
+
+#import "MBProgressHUD+MJ.h"
+#import "MJExtension.h"
+#import "REFrostedViewController.h"
+#import "ICSDrawerController.h"
+
 #import "SLAccount.h"
 #import "SLAccountInfo.h"
-#import "SLTabBarController.h"
-#import "MBProgressHUD+MJ.h"
-#import "SLAccountTool.h"
+#import "SLLoginParameters.h"
+
+
 #import "SLImageView.h"
 #import "SLLoginButton.h"
 #import "SLInputTextField.h"
-#import "MJExtension.h"
-#import "ICSDrawerController.h"
+
+#import "SLTabBarController.h"
 #import "SLMoreViewController.h"
-#import "REFrostedViewController.h"
+
+#import "SLHttpTool.h"
+#import "SLAccountTool.h"
+
 
 
 @interface SLLoginViewController ()
@@ -44,7 +53,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -117,31 +125,23 @@
 #pragma mark ----- 登录按钮的网络请求
 - (void)loginButtonClick
 {
-    // 创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    // 创建传递参数
+    SLLoginParameters *parameters = [[SLLoginParameters alloc] init];
+    parameters.mobile = self.accountTextField.text;
+    parameters.password = [self.pwdTextField.text MD5];
     
-    // 封装请求参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"mobile"] = self.accountTextField.text;
-    NSString *password = [self.pwdTextField.text MD5];
-    paraments[@"password"] = password;
+    // 请求url
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/user/login"];
     
-    // 发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/user/login" parameters:paraments success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        SLLog(@"login_________%@", responseObject);
-#warning --- 当在返回的数据中嵌套了数组时如何处理
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        SLLog(@"%@", responseObject);
         NSDictionary *infoDict = [responseObject[@"info"] lastObject];
-        
-//        SLLog(@"");
-        
         SLAccountInfo *accountInfo = [SLAccountInfo objectWithKeyValues:infoDict];
         
-        // 将字典转为模型
         SLAccount *account = [SLAccount objectWithKeyValues:responseObject];
         account.accountInfo = accountInfo;
         
-        // 归档
+        // 归档账号信息
         [SLAccountTool saveAccount:account];
         
         if ([account.msg isEqualToString:@"登陆成功"]) {
@@ -149,26 +149,17 @@
             SLTabBarController *tabbar = [[SLTabBarController alloc] init];
             ICSDrawerController *drawer = [[ICSDrawerController alloc] initWithLeftViewController:more centerViewController:tabbar];
             self.view.window.rootViewController = drawer;
-            
-#warning ----- REF侧滑菜单的创建
-//            REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:tabbar menuViewController:more];
-//            frostedViewController.direction = REFrostedViewControllerDirectionLeft;
-//            frostedViewController.liveBlurBackgroundStyle = REFrostedViewControllerLiveBackgroundStyleLight;
-//            self.view.window.rootViewController = frostedViewController;
         } else {
             [MBProgressHUD showError:@"账号或密码错误"];
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        SLLog(@"请求失败");
-    }];
-    
-    
-}
+        
+    } failure:^(NSError *error) {
+        
+    }];}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

@@ -7,24 +7,27 @@
 //
 
 #import "SLFinancialProductsListController.h"
-#import "MJExtension.h"
-
-#import "SLAccount.h"
-#import "SLAccountTool.h"
-#import "SLClientPlate.h"
-#import "SLClientPlatesTool.h"
-#import "UIImage+S_LINE.h"
-#import "UIBarButtonItem+SL.h"
 
 #import "SLFinanceProduct.h"
-#import "SLFinancialProductListStatus.h"
 #import "SLFinancialStatusFrame.h"
-#import "SLFinancialProductListCell.h"
-#import "SLFinanceProductController.h"
 #import "SLFinanceProductFrame.h"
+#import "SLClientPlate.h"
+#import "SLFinancialProductParameters.h"
+
+#import "SLFinancialProductListCell.h"
 #import "SLFinancialProductListTableHeadView.h"
 
-@interface SLFinancialProductsListController ()<SLFinancialProductListTableHeadViewDelegate>
+#import "SLFinanceProductController.h"
+
+#import "UIImage+S_LINE.h"
+#import "UIBarButtonItem+SL.h"
+#import "SLClientPlatesTool.h"
+#import "SLFinancialProductTool.h"
+
+#import "MJRefresh.h"
+#import "MJExtension.h"
+
+@interface SLFinancialProductsListController ()<SLFinancialProductListTableHeadViewDelegate, MJRefreshBaseViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *financialProductStatusFrameArray;
 
@@ -38,14 +41,27 @@
 /** orderType 网络参数 */
 @property (nonatomic, copy) NSString *orderType;
 
+@property (nonatomic, weak) MJRefreshHeaderView *header;
+@property (nonatomic, weak) MJRefreshFooterView *footer;
+
+@property (nonatomic, assign) long currentPage;
+
+@property (nonatomic, strong) SLFinancialProductParameters *parameters;
+
 @end
 
 @implementation SLFinancialProductsListController
-
+- (SLFinancialProductParameters *)parameters
+{
+    if (_parameters == nil) {
+        _parameters = [SLFinancialProductParameters parameters];
+    }
+    return _parameters;
+}
 - (NSMutableArray *)financialProductStatusFrameArray
 {
     if (_financialProductStatusFrameArray == nil) {
-        _financialProductStatusFrameArray = [[NSMutableArray alloc] init];
+        _financialProductStatusFrameArray = [NSMutableArray array];
     }
     return _financialProductStatusFrameArray;
 }
@@ -78,6 +94,11 @@
         
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
     }
+    
+    // 集成刷新控件
+    [self setupRefreshView];
+    
+    self.tableView.rowHeight = 85;
 }
 - (void)more:(id)sender
 {
@@ -86,101 +107,143 @@
     }
     [self.drawer open];
 }
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefreshView
+{
+    // 1.下拉刷新
+    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+    header.scrollView = self.tableView;
+    header.delegate = self;
+    // 自动进入刷新状态
+    [header beginRefreshing];
+    self.header = header;
+}
+
+#pragma mark ----- 代理方法,mj刷新包的代理方法
+/**
+ *  刷新控件进入开始刷新状态的时候调用
+ */
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    if ([refreshView isKindOfClass:[MJRefreshFooterView class]]) { // 上拉刷新
+        [self loadMoreData];
+    } else { // 下拉刷新
+        [self loadNewData];
+    }
+}
+
+/**
+ *  发送请求加载更多的数据
+ */
+- (void)loadMoreData
+{
+    self.currentPage += 1;
+    
+    self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
+    
+    [SLFinancialProductTool financialProductListWithParameters:self.parameters success:^(NSArray *financialProductStatusFrameArray) {
+        
+        [self.financialProductStatusFrameArray addObject:financialProductStatusFrameArray];
+        
+        [self.tableView reloadData];
+        
+        // 让刷新控件停止显示刷新状态
+        [self.footer endRefreshing];
+        
+    } failure:^(NSError *error) {
+        [self.footer endRefreshing];
+    }];
+}
+/**
+ *  // 刷新数据(向服务器获取更新的数据)
+ */
+- (void)loadNewData
+{
+    self.currentPage = 1;
+    
+    // 2.2封装请求数据
+    self.parameters.search = @"";
+    self.parameters.pageSize = @20;
+    self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
+    self.parameters.orderType = self.orderType;
+    self.parameters.plateId = [NSNumber numberWithInteger:[SLClientPlatesTool getFinancialProductClientPlate].plateId];
+    
+    [SLFinancialProductTool financialProductListWithParameters:self.parameters success:^(NSArray *financialProductStatusFrameArray) {
+        
+        self.financialProductStatusFrameArray = nil;
+        [self.financialProductStatusFrameArray addObjectsFromArray:financialProductStatusFrameArray];
+        
+        if (financialProductStatusFrameArray.count > 19) {
+            // 2.上拉刷新(上拉加载更多数据)
+            MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+            footer.scrollView = self.tableView;
+            footer.delegate = self;
+            self.footer = footer;
+        }
+        
+        [self.tableView reloadData];
+        
+        // 让刷新控件停止显示刷新状态
+        [self.header endRefreshing];
+        
+    } failure:^(NSError *error) {
+        [self.header endRefreshing];
+    }];
+}
+
+- (void)dealloc
+{
+    // 释放内存
+    [self.header free];
+    [self.footer free];
+}
 
 - (void)financialProductListTableHeadView:(SLFinancialProductListTableHeadView *)financialProductListTableHeadView didClickExpectedYieldButton:(UIButton *)expectedYieldButton
 {
     self.orderType = @"2";
-    [self loadFinancialProductsListData];
+    [self.header beginRefreshing];
 }
 
 -(void)financialProductListTableHeadView:(SLFinancialProductListTableHeadView *)financialProductListTableHeadView didClickLeftTimeButton:(UIButton *)leftTimeButton
 {
     self.orderType = @"1";
-    [self loadFinancialProductsListData];
+    [self.header beginRefreshing];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    /**
-     *  请求网络数据
-     */
-//    [self expectedYieldButtonClick:self.expectedYieldButton];
-    self.orderType = @"2";
-    [self loadFinancialProductsListData];
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    /**
+//     *  请求网络数据
+//     */
+////    [self expectedYieldButtonClick:self.expectedYieldButton];
+//    self.orderType = @"2";
+//    [self loadNewData];
+//}
 
 #pragma mark ----- 请求网络数据
-- (void)loadFinancialProductsListData
-{
-    // 1.创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    
-    // 2.封装请求参数
-    // 2.1获取当前用户信息
-    SLAccount *account = [SLAccountTool getAccount];
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    
-    // 2.2获取当前板块信息
-    SLClientPlate *financialProductClientPlate = [SLClientPlatesTool getFinancialProductClientPlate];
-    
-    // 2.2封装请求数据
-    // Long
-    parameters[@"plateId"] = [NSNumber numberWithInteger:financialProductClientPlate.plateId];
-    // Long
-    //    parameters[@"classId"] = @"";
-    // String
-    parameters[@"orderType"] = self.orderType;
-    // Integer
-    parameters[@"pageSize"] = @20;
-    // Integer
-    parameters[@"curPage"] = @1;
-    // Integer
-    parameters[@"uid"] = [NSNumber numberWithInteger:account.uid];
-    // String
-    parameters[@"token"] = account.token;
-    
-    // 3.发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/material/listFPMaterialInfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // 取出状态字典数组
-        NSArray *dictArray = [responseObject[@"info"] lastObject];
-        
-        SLLog(@"%@", dictArray);
-        
-        NSMutableArray *financialProductStatusFrameArray = [NSMutableArray array];
-        
-        for (NSDictionary *dict in dictArray) {
-            SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
-            SLFinancialStatusFrame *financialStatusFrame = [[SLFinancialStatusFrame alloc] init];
-            financialStatusFrame.financeProduct = financeProduct;
-            [financialProductStatusFrameArray addObject:financialStatusFrame];
-        }
-        
-        _financialProductStatusFrameArray = financialProductStatusFrameArray;
-        
-        //        NSArray *financialProductArray = [SLFinanceProduct objectArrayWithKeyValuesArray:dictArray];
-        //
-        //        NSMutableArray *financialProductFrameArray = [NSMutableArray array];
-        //
-        //        for (SLFinanceProduct *financialProduct in financialProductArray) {
-        //            SLFinancialStatusFrame *financialStatusFrame = [[SLFinancialStatusFrame alloc] init];
-        //
-        //            // 将所有homeStatus对象复制给对应的homeStatusFrame对象的homeStatus成员变量
-        //            financialStatusFrame.financialProduct = financialProduct;
-        //
-        //            [financialProductFrameArray addObject:financialStatusFrame];
-        //        }
-        //        self.financialStatusFrameArray = financialProductFrameArray;
-        
-        [self.tableView reloadData];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-    }];
-}
+//- (void)loadFinancialProductsListData
+//{
+//    SLFinancialProductParameters *parameters = [SLFinancialProductParameters parameters];
+//    
+//    parameters.orderType = self.orderType;
+//    parameters.plateId = [NSNumber numberWithInteger:[SLClientPlatesTool getFinancialProductClientPlate].plateId];
+//    
+//    [SLFinancialProductTool financialProductListWithParameters:parameters success:^(NSArray *financialProductStatusFrameArray) {
+//        
+//        _financialProductStatusFrameArray = (NSMutableArray *)financialProductStatusFrameArray;
+//        
+//        [self.tableView reloadData];
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
+//}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -203,12 +266,12 @@
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    SLFinancialStatusFrame *fsf = self.financialProductStatusFrameArray[indexPath.row];
-    
-    return fsf.cellHeight;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    SLFinancialStatusFrame *fsf = self.financialProductStatusFrameArray[indexPath.row];
+//    
+//    return fsf.cellHeight;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -223,7 +286,6 @@
     financeProductController.financeProductFrame = financeProductFrame;
     
     [self.navigationController pushViewController:financeProductController animated:YES];
-    
 }
 
 @end

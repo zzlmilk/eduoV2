@@ -8,9 +8,39 @@
 
 #import "SLClientPlatesTool.h"
 
+#import "MJExtension.h"
+
+#import "SLHttpTool.h"
+
 #define SLClientPlatesFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"clientPlates.data"]
 
 @implementation SLClientPlatesTool
+
++ (void)clientPlateWithParameters:(SLBaseParameters *)parameters success:(void (^)(NSArray *clientPlateArray))success failure:(void (^)(NSError *error))failure
+{
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/plate/listPlateInfo"];
+    
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        // 取出状态字典数组
+        NSArray *dictArray = [responseObject[@"info"] lastObject];
+        
+        SLLog(@"%@", dictArray);
+        
+        NSArray *clientPlateArray = [SLClientPlate objectArrayWithKeyValuesArray:dictArray];
+        
+        // 归档
+        [SLClientPlatesTool saveClientPlates:clientPlateArray];
+        
+        if (success) {
+            success(clientPlateArray);
+        }
+        
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
 
 + (void)saveClientPlates:(NSArray *)clientPlates
 {

@@ -15,8 +15,9 @@
 - (id)init
 {
     if (self = [super init]) {
-        self.token = [SLAccountTool getAccount].token;
-        self.uid = [NSNumber numberWithInteger:[SLAccountTool getAccount].uid];
+        SLAccount *account = [SLAccountTool getAccount];
+        self.token = account.token;
+        self.uid = account.uid;
     }
     return self;
 }

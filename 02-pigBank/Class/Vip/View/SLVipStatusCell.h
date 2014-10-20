@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class SLVipStatusFrame;
+
+#import "SLVipStatusFrame.h"
 
 @interface SLVipStatusCell : UITableViewCell
 

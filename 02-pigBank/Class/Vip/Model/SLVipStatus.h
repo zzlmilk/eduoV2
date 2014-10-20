@@ -15,10 +15,15 @@
 @interface SLVipStatus : NSObject
 
 /** className */
+@property (nonatomic, strong) NSNumber *classId;
+
+/** className */
 @property (nonatomic, copy) NSString *className;
 
 /** firstMaterialInfo */
 @property (nonatomic, strong) SLVipStatusFirstMaterialInfo *firstMaterialInfo;
 
+/** pictureUrl */
+@property (nonatomic, copy) NSString *pictureUrl;
 
 @end

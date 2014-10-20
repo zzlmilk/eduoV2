@@ -14,15 +14,17 @@
 /** vipStatus */
 @property (nonatomic, strong) SLVipStatus *vipStatus;
 
-/** pictureImageView */
+/** pictureImageViewF */
 @property (nonatomic, assign, readonly) CGRect pictureImageViewF;
-/** titleLabel */
+/** titleLabelF */
 @property (nonatomic, assign, readonly) CGRect titleLabelF;
-/** 赞的图标 */
+/** likeViewF */
 @property (nonatomic, assign, readonly) CGRect likeViewF;
-/** adressLabel */
+/** adressLabelF */
 @property (nonatomic, assign, readonly) CGRect adressLabelF;
-/** priseCountLabel */
+/** priseCountLabelF */
 @property (nonatomic, assign, readonly) CGRect priseCountLabelF;
+/** distanceLabelF */
+@property (nonatomic, assign, readonly) CGRect distanceLabelF;
 
 @end

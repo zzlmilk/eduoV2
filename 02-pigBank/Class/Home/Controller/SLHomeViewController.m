@@ -8,30 +8,37 @@
 
 #import "SLHomeViewController.h"
 
-#import "SLConsultant.h"
-#import "SLConsultantTool.h"
-#import "MJRefresh.h"
-#import "SLHttpTool.h"
-#import "UIBarButtonItem+SL.h"
-#import "SLAccountTool.h"
-#import "SLAccount.h"
-#import "UIImageView+WebCache.h"
-#import "AFNetworking.h"
-#import "MJExtension.h"
 
-#import "SLSearchController.h"
-#import "SLSearchBar.h"
-#import "SLNavigationController.h"
-#import "SLHomeStatus.h"
-#import "SLHomeStatusFrame.h"
-#import "SLHomeStatusCell.h"
-#import "ICSDrawerController.h"
-#import "SLFinanceProductController.h"
-#import "SLTabBarController.h"
 
 #import "SLFinanceProductFrame.h"
 #import "SLFinanceProduct.h"
+#import "SLConsultant.h"
+
+#import "SLFinanceProductParameters.h"
+#import "SLConsultantParameters.h"
+#import "SLPlateParameters.h"
+#import "SLHomeStatus.h"
+#import "SLHomeStatusFrame.h"
+
+#import "SLHomeStatusCell.h"
+#import "SLSearchBar.h"
+
+#import "SLFinanceProductController.h"
+#import "SLTabBarController.h"
+#import "SLSearchController.h"
+#import "SLNavigationController.h"
+#import "ICSDrawerController.h"
+
+#import "SLFinanceProductCacheTool.h"
+#import "SLHttpTool.h"
 #import "SLHomeStatusTool.h"
+#import "SLConsultantTool.h"
+#import "UIBarButtonItem+SL.h"
+#import "SLAccountTool.h"
+
+#import "UIImageView+WebCache.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
 
 
 @interface SLHomeViewController ()<UIActionSheetDelegate, MJRefreshBaseViewDelegate>
@@ -91,6 +98,19 @@
     
     // 集成刷新控件
     [self setupRefreshView];
+    
+    [self setupAllPlate];
+}
+- (void)setupAllPlate
+{
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/plate/listPlateInfo"];
+    SLPlateParameters *parameters = [SLPlateParameters parameters];
+    
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 /**
@@ -171,6 +191,7 @@
     parameters.search = @"";
     parameters.pageSize = @20;
     parameters.curPage = [NSNumber numberWithLong:self.currentPage];
+    parameters.uid = @147;
 
     [SLHomeStatusTool homeStatusesWithParameters:parameters success:^(NSArray *homeStatusArray) {
         NSMutableArray *homeStatusFrameArray = [NSMutableArray array];
@@ -189,42 +210,6 @@
     } failure:^(NSError *error) {
         [self.header endRefreshing];
     }];
-    
-//    [SLHttpTool postWithUrlstr:@"http://117.79.93.100:8013/data2.0/ds/material/listIndexMaterialInfo" parameters:parameters.keyValues success:^(id responseObject) {
-//        // 取出状态字典数组
-//        NSArray *dictArray = [responseObject[@"info"] lastObject];
-//        
-//        NSArray *statusArray = [SLHomeStatus objectArrayWithKeyValuesArray:dictArray];
-//        NSArray *financeProductArray = [SLFinanceProduct objectArrayWithKeyValuesArray:dictArray];
-//        
-//        NSMutableArray *statusFrameArray = [NSMutableArray array];
-//        for (SLHomeStatus *homeStatus in statusArray) {
-//            SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
-//            
-//            // 将所有homeStatus对象复制给对应的homeStatusFrame对象的homeStatus成员变量
-//            homeStatusFrame.homeStatus = homeStatus;
-//            
-//            [statusFrameArray addObject:homeStatusFrame];
-//        }
-//        [self.homeStatusFrames addObjectsFromArray:statusFrameArray];
-//        
-//        NSMutableArray *financeProductFrameArray = [NSMutableArray array];
-//        for (SLFinanceProduct *financeProduct in financeProductArray) {
-//            SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
-//            
-//            financeProductFrame.financeProduct = financeProduct;
-//            [financeProductFrameArray addObject:financeProductFrame];
-//        }
-//        
-//        [self.financeProductFrames addObjectsFromArray:financeProductFrameArray];
-//    
-//        [self.tableView reloadData];
-//
-//        // 让刷新控件停止显示刷新状态
-//        [self.header endRefreshing];
-//    } failure:^(NSError *error) {
-//        [self.header endRefreshing];
-//    }];
 }
 
 - (void)dealloc
@@ -244,31 +229,12 @@
  */
 - (void)getCurrentconsultant
 {
-    // 1.创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    SLConsultantParameters *parameters = [SLConsultantParameters parameters];
+    parameters.consultantId = [NSNumber numberWithLong:[SLAccountTool getAccount].accountInfo.vipDetail.userConsultant];
     
-    // 2.封装请求参数
-    // 2.1获取当前用户信息
-    SLAccount *account = [SLAccountTool getAccount];
-    
-    NSMutableDictionary *parameters1 = [NSMutableDictionary dictionary];
-    parameters1[@"consultantId"] = [NSNumber numberWithLong:account.accountInfo.vipDetail.userConsultant];
-//    SLLog(@"%ld", account.accountInfo.vipDetail.userConsultant);
-    parameters1[@"uid"] = [NSNumber numberWithLong:account.uid];
-    parameters1[@"token"] = account.token;
-    
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/user/catchConsultantInfoById" parameters:parameters1 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        // 取出状态字典数组
-        NSDictionary *consultantDict = [responseObject[@"info"] lastObject];
-        
-//        SLLog(@"%@", responseObject);
-        
-        SLConsultant *consultant = [SLConsultant objectWithKeyValues:consultantDict];
+    [SLConsultantTool consultantWithParameters:parameters success:^(SLConsultant *consultant) {
         self.consultant = consultant;
-        
-        // 归档
-        [SLConsultantTool saveConsultantAccount:consultant];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSError *error) {
         
     }];
 }
@@ -388,30 +354,15 @@
     if (homeStatus.templetType == 3) {
         SLFinanceProductController *financeProductController = [[SLFinanceProductController alloc] init];
         
-        // 2.封装请求参数
-        // 2.1获取当前用户信息
-        SLAccount *account = [SLAccountTool getAccount];
-        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        SLFinanceProductParameters *parameters = [SLFinanceProductParameters parameters];
         
-        // 2.2封装请求数据
-        parameters[@"materialId"] = [NSNumber numberWithLong:homeStatus.materialId];
-        parameters[@"uid"] = [NSNumber numberWithLong:(long)account.uid];
-        parameters[@"token"] = account.token;
+        parameters.materialId = [NSNumber numberWithLong:homeStatus.materialId];
         
-        [SLHttpTool postWithUrlstr:@"http://117.79.93.100:8013/data2.0/ds/material/catchMaterialInfoById" parameters:parameters success:^(id responseObject) {
-            
-            // 取出理财产品的info内容
-            NSDictionary *dictionary = [responseObject[@"info"] lastObject];
-            
-            SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dictionary];
-            
-            SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
-            financeProductFrame.financeProduct = financeProduct;
-            
-            financeProductController.financeProductFrame = financeProductFrame;
-        } failure:^(NSError *error) {
-            
-        }];
+        // 1.先从缓存里面加载
+        SLFinanceProductFrame *fpf = [SLFinanceProductCacheTool statuesWithParameters:parameters];
+        
+        // 传递了block
+        financeProductController.financeProductFrame = fpf;
         
         [self.navigationController pushViewController:financeProductController animated:YES];
 

@@ -21,7 +21,7 @@ static FMDatabaseQueue *_queue;
 + (void)setup
 {
     // 0.获得沙盒中的数据库文件名
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"homeStatus.sqlite"];
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"pigBank.sqlite"];
     
     // 1.创建队列
     _queue = [FMDatabaseQueue databaseQueueWithPath:path];
@@ -46,7 +46,7 @@ static FMDatabaseQueue *_queue;
     
     [_queue inDatabase:^(FMDatabase *db) {
         // 1.获得需要存储的数据
-        NSNumber *uid = [NSNumber numberWithInteger:[SLAccountTool getAccount].uid ];
+        NSNumber *uid = [SLAccountTool getAccount].uid;
         NSNumber *materialId = [NSNumber numberWithInteger:status.materialId];
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:status];
         
@@ -70,7 +70,7 @@ static FMDatabaseQueue *_queue;
         statusArray = [NSMutableArray array];
         
         // uid
-        NSNumber *uid = [NSNumber numberWithInteger:[SLAccountTool getAccount].uid];
+        NSNumber *uid = [SLAccountTool getAccount].uid;
         
         long long limitFrom = [parameters.pageSize longLongValue] * ([parameters.curPage longLongValue] - 1);
         

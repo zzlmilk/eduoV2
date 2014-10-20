@@ -8,6 +8,10 @@
 
 #import "SLFinancialProductsDetail.h"
 
+#import "MJExtension.h"
+
 @implementation SLFinancialProductsDetail
+
+MJCodingImplementation
 
 @end

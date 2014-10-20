@@ -15,7 +15,7 @@
  */
 @property (nonatomic, copy) NSString *token;
 
-@property (nonatomic, assign) NSNumber *uid;
+@property (nonatomic, strong) NSNumber *uid;
 
 + (instancetype)parameters;
 

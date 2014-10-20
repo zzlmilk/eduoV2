@@ -37,6 +37,9 @@
 {
     [super viewDidLoad];
     
+    self.tableView.sectionFooterHeight = 0;
+    self.tableView.sectionHeaderHeight = 10;
+    
     // 请求网络
     [self loadNetData];
     
@@ -83,21 +86,19 @@
     si11.title = @"清除缓存";
     NSFileManager *mgr = [NSFileManager defaultManager];
     NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    [mgr removeItemAtPath:cachePath error:nil];
-    
+
     // 计算缓存文件夹的大小
-    NSArray *subpaths = [mgr contentsOfDirectoryAtPath:cachePath error:nil];
+    NSArray *subpaths = [mgr subpathsAtPath:cachePath];
     double totalSize = 0;
     for (NSString *subpath in subpaths) {
         NSString *fullpath = [cachePath stringByAppendingPathComponent:subpath];
         BOOL dir = NO;
         [mgr fileExistsAtPath:fullpath isDirectory:&dir];
         if (dir == NO) {// 文件
-            totalSize += [[mgr attributesOfItemAtPath:fullpath error:nil][NSFileSize] longLongValue];
+            totalSize += [[mgr attributesOfItemAtPath:fullpath error:nil][NSFileSize] doubleValue];
         }
     }
     si11.info = [NSString stringWithFormat:@"%.2fM", totalSize / 1024 / 1024];
-    
     si11.operation =  ^{
         // 弹框
         [MBProgressHUD showMessage:@"哥正在帮你拼命清理中..."];
@@ -106,7 +107,7 @@
         NSFileManager *mgr = [NSFileManager defaultManager];
         NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
         
-        NSArray *subpaths = [mgr contentsOfDirectoryAtPath:cachePath error:nil];
+        NSArray *subpaths = [mgr subpathsAtPath:cachePath];
         for (NSString *subpath in subpaths) {
             NSString *fullpath = [cachePath stringByAppendingPathComponent:subpath];
             [mgr removeItemAtPath:fullpath error:nil];
@@ -223,6 +224,11 @@
             SLModifyPwdController *midifyPwdController = [[SLModifyPwdController alloc] init];
             [self.navigationController pushViewController:midifyPwdController animated:YES];
         }
+    }
+    SLSettingGroup *sg = self.settingGroups[indexPath.section];
+    SLSettingItem *si = sg.settingItems[indexPath.row];
+    if (si.operation) {
+        si.operation();
     }
 }
 

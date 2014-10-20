@@ -19,6 +19,7 @@
         self.dispName = [aDecoder decodeObjectForKey:@"dispName"];
         self.mobile = [aDecoder decodeObjectForKey:@"mobile"];
         self.vipDetail = [aDecoder decodeObjectForKey:@"vipDetail"];
+        self.pictureUrl = [aDecoder decodeObjectForKey:@"pictureUrl"];
     }
     return self;
 }
@@ -31,6 +32,7 @@
     [aCoder encodeObject:self.dispName forKey:@"dispName"];
     [aCoder encodeObject:self.mobile forKey:@"mobile"];
     [aCoder encodeObject:self.vipDetail forKey:@"vipDetail"];
+    [aCoder encodeObject:self.pictureUrl forKey:@"pictureUrl"];
 }
 
 @end

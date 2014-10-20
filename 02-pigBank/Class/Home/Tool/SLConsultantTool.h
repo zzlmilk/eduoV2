@@ -10,7 +10,18 @@
 
 #import "SLConsultant.h"
 
+#import "SLConsultantParameters.h"
+
 @interface SLConsultantTool : NSObject
+
+/**
+ *  加载理财顾问的数据
+ *
+ *  @param param   请求参数
+ *  @param success 请求成功后的回调
+ *  @param failure 请求失败后的回调
+ */
++ (void)consultantWithParameters:(SLConsultantParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure;
 
 + (void)saveConsultantAccount:(SLConsultant *)consultant;
 + (SLConsultant *)getConsultantAccount;

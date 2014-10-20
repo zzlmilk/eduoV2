@@ -8,6 +8,10 @@
 
 #import "SLVipStatusFirstMaterialInfo.h"
 
+#import "MJExtension.h"
+
 @implementation SLVipStatusFirstMaterialInfo
+
+MJCodingImplementation
 
 @end

@@ -16,6 +16,7 @@
 @property (nonatomic, assign) long collectCounts;
 /** praiseCounts 素材被赞次数 */
 @property (nonatomic, assign) long praiseCounts;
+
 /** financialProductsDetail */
 //@property (nonatomic, assign) SLFinancialProductsDetail *financialProductsDetail;
 

@@ -30,6 +30,9 @@
 /** priseCountLabel */
 @property (nonatomic, weak) UILabel *priseCountLabel;
 
+/** distabceLabel */
+@property (nonatomic, weak) UILabel *distabceLabel;
+
 @end
 
 @implementation SLVipStatusCell
@@ -94,6 +97,12 @@
     priseCountLabel.font = SLVipStatusPraiseCountsFont;
     [self.contentView addSubview:priseCountLabel];
     self.priseCountLabel = priseCountLabel;
+    
+    /** distabceLabel */
+    UILabel *distabceLabel = [[UILabel alloc] init];
+    distabceLabel.font = SLVipStatusPraiseCountsFont;
+    [self.contentView addSubview:distabceLabel];
+    self.distabceLabel = distabceLabel;
 }
 
 /**
@@ -143,6 +152,18 @@
     self.priseCountLabel.frame = self.vipStatusFrame.priseCountLabelF;
     // praiseCounts
     self.priseCountLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", vipStatus.firstMaterialInfo.praiseCounts];
+    
+    /** distabceLabel */
+    // frame
+    self.distabceLabel.frame = self.vipStatusFrame.distanceLabelF;
+    // data
+    if ([self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue] == 0) {
+        self.distabceLabel.hidden = YES;
+    } else if ([self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue] > 5.0) {
+        self.distabceLabel.text = @">5千米";
+    } else {
+    self.distabceLabel.text = [NSString stringWithFormat:@"%.2f千米", [self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue]];
+    }
 }
 
 - (void)awakeFromNib

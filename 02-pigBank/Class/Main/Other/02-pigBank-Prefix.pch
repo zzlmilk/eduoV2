@@ -16,6 +16,7 @@
 
 // 1.获得RGB颜色
 #define SLColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define SLColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
 // 2.自定义log
 #ifdef DEBUG
@@ -64,5 +65,11 @@
 #define middleMargin 10
 #define smallMargin 5
 #define largeMargin 20
+
+// 6.定义网络访问端口
+#define SLHttpUrl @"http://117.79.93.100:8013/data2.0/ds"
+
+// 7 定义cell的默认高度
+#define heightForCell 44
 
 #endif

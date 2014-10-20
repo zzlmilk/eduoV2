@@ -8,6 +8,8 @@
 
 #import "SLFinancialStatusFrame.h"
 
+#import "MJExtension.h"
+
 #define ratio 0.75
 
 #define leftW 200
@@ -81,5 +83,7 @@
     
     _cellHeight = CGRectGetMaxY(_expectedYieldLabelF) + middleMargin;
 }
+
+MJCodingImplementation
 
 @end

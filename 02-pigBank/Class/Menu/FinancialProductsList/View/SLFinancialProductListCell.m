@@ -127,9 +127,9 @@
 {
     _financialStatusFrame = financialStatusFrame;
     
-    SLFinanceProduct *financeProduct = financialStatusFrame.financeProduct;
+//    SLFinanceProduct *financeProduct = financialStatusFrame.financeProduct;
     
-    self.financeProduct = financeProduct;
+    self.financeProduct = financialStatusFrame.financeProduct;
     
     // 设置所有子控件的尺寸和数据
     [self setupSubviewsData];

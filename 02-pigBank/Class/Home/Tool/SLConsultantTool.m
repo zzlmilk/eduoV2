@@ -8,9 +8,36 @@
 
 #import "SLConsultantTool.h"
 
+#import "MJExtension.h"
+
+#import "SLHttpTool.h"
+
 #define SLConsultantAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"consultantAccount.data"]
 
 @implementation SLConsultantTool
+
++ (void)consultantWithParameters:(SLConsultantParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure
+{
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/user/catchConsultantInfoById"];
+    
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        NSDictionary *consultantDict = [responseObject[@"info"] lastObject];
+        
+        SLConsultant *consultant = [SLConsultant objectWithKeyValues:consultantDict];
+        
+        // 归档
+        [SLConsultantTool saveConsultantAccount:consultant];
+        
+        if (success) {
+            success(consultant);
+        }
+        
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
 
 + (void)saveConsultantAccount:(SLConsultant *)consultant
 {

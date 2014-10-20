@@ -14,7 +14,7 @@
 
 /** 预期收益率 */
 @property (nonatomic, weak) UIButton *expectedYieldButton;
-/** 预期收益率 */
+/** 剩余时间 */
 @property (nonatomic, weak) UIButton *leftTimeButton;
 
 @end

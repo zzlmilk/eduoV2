@@ -7,22 +7,34 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "SLFinancialProductsDetail.h"
+#import "SLMaterialUser.h"
 
 @interface SLFinanceProduct : NSObject
 
-
 /** title 标题 */
 @property (nonatomic, copy) NSString *title;
+
 /** collectCounts 素材被收藏次数 */
 @property (nonatomic, assign) long collectCounts;
+
 /** praiseCounts 素材被赞次数 */
 @property (nonatomic, assign) long praiseCounts;
+
 /** financialProductsDetail */
 @property (nonatomic, strong) SLFinancialProductsDetail *financialProductsDetail;
+
+/** materialUser */
+@property (nonatomic, strong) SLMaterialUser *materialUser;
+
 /** content 内容 */
 @property (nonatomic, copy) NSString *content;
+
 /** verifyTime 开始时间 */
 @property (nonatomic, assign) long long verifyTime;
+
+/** plateId */
+@property (nonatomic, strong) NSNumber *plateId;
 
 @end
