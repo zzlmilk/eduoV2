@@ -22,6 +22,7 @@
 #import "SLFinancialProductsListController.h"
 #import "SLOutletsViewController.h"
 #import "SLMerchantControllerController.h"
+#import "SLMyCollectionController.h"
 
 #import "SLAccount.h"
 #import "SLAccountTool.h"
@@ -247,7 +248,7 @@
     SLMenuGroup *menuGroup = [self addGroup];
     
     SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"dianPing" title:@"我的点评" destVcClass:nil];
-    SLMenuArrowItem *mai2 = [SLMenuArrowItem itemWithIcon:@"MoreShouCang" title:@"我的收藏" destVcClass:nil];
+    SLMenuArrowItem *mai2 = [SLMenuArrowItem itemWithIcon:@"MoreShouCang" title:@"我的收藏" destVcClass:[SLMyCollectionController class]];
     SLMenuArrowItem *mai3 = [SLMenuArrowItem itemWithIcon:@"guWen" title:@"我的顾问" destVcClass:[SLSettingViewController class]];
     
     menuGroup.menuItems = @[mai1, mai2, mai3];

@@ -56,7 +56,7 @@
     [self.serviceItemButton setImage:[UIImage imageNamed:@"xiaLa"] forState:UIControlStateNormal];
     [self.serviceItemButton setImage:[UIImage imageNamed:@"xiaLaJiaoHu"] forState:UIControlStateSelected];
     // 背景
-    [self.serviceItemButton setBackgroundImage:[UIImage resizableImageWithImageName:@"xian"] forState:UIControlStateNormal];
+//    [self.serviceItemButton setBackgroundImage:[UIImage resizableImageWithImageName:@"xian"] forState:UIControlStateNormal];
     [self.serviceItemButton addTarget:self action:@selector(serviceItemButtonClick:) forControlEvents:UIControlEventTouchDown];
     
     /** 设置serviceAreaButton数据 */
@@ -65,7 +65,7 @@
     [self.serviceAreaButton setImage:[UIImage imageNamed:@"xiaLa"] forState:UIControlStateNormal];
     [self.serviceAreaButton setImage:[UIImage imageNamed:@"xiaLaJiaoHu"] forState:UIControlStateSelected];
     // 背景
-    [self.serviceAreaButton setBackgroundImage:[UIImage resizableImageWithImageName:@"xian"] forState:UIControlStateNormal];
+//    [self.serviceAreaButton setBackgroundImage:[UIImage resizableImageWithImageName:@"xian"] forState:UIControlStateNormal];
     [self.serviceAreaButton addTarget:self action:@selector(serviceAreaButtonClick:) forControlEvents:UIControlEventTouchDown];
 }
 

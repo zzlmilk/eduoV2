@@ -1,20 +1,18 @@
 //
-//  SLVipStatusFrame.m
+//  SLMerchantStatusFrame.m
 //  02-pigBank
 //
-//  Created by 陆承东 on 14-9-23.
+//  Created by 陆承东 on 14/10/21.
 //  Copyright (c) 2014年 陆承东. All rights reserved.
 //
 
-#import "SLVipStatusFrame.h"
+#import "SLMerchantStatusFrame.h"
 
-#import "MJExtension.h"
+@implementation SLMerchantStatusFrame
 
-@implementation SLVipStatusFrame
-
-- (void)setVipStatus:(SLVipStatus *)vipStatus
+- (void)setMerchantDetial:(SLVipMerchantDetail *)merchantDetial
 {
-    _vipStatus = vipStatus;
+    _merchantDetial = merchantDetial;
     
     // cell的宽度
     CGFloat cellW = [UIScreen mainScreen].bounds.size.width;
@@ -50,9 +48,9 @@
     /** priseCountLabelF */
     CGFloat priseCountLabelX = CGRectGetMaxX(_likeViewF) + smallMargin;
     CGFloat priseCountLabelY = likeViewY;
-//    CGFloat priseCountLabelW = titleLabelW;
-//    CGFloat priseCountLabelH = 16;
-    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%ld人很喜欢", vipStatus.firstMaterialInfo.praiseCounts] sizeWithFont:SLVipStatusPraiseCountsFont];
+    //    CGFloat priseCountLabelW = titleLabelW;
+    //    CGFloat priseCountLabelH = 16;
+    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%ld人很喜欢", merchantDetial.praiseCounts] sizeWithFont:SLFont12];
     _priseCountLabelF = (CGRect){{priseCountLabelX, priseCountLabelY}, priseCountLabelS};
     
     /** distanceLabelF */
@@ -62,7 +60,5 @@
     CGFloat distanceLabelH = _priseCountLabelF.size.height;
     _distanceLabelF = CGRectMake(distanceLabelX, distanceLabelY, distanceLabelW, distanceLabelH);
 }
-
-MJCodingImplementation
 
 @end

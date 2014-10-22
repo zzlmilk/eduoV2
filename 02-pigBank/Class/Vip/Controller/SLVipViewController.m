@@ -60,6 +60,8 @@
 {
     [super viewDidLoad];
     
+    self.tableView.rowHeight = 70;
+    
     // 设置左上角的barButton
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
     
@@ -69,8 +71,6 @@
     [self setupTableHeadView];
     
     [self setupVipViewData];
-    
-    self.tableView.rowHeight = 70;
 }
 
 /**

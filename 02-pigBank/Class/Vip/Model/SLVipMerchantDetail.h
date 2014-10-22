@@ -6,6 +6,24 @@
 //  Copyright (c) 2014年 陆承东. All rights reserved.
 //
 
+/*
+ address = "\U4e0a\U6d77\U5e02\U65b0\U534e\U8def25\U53f7";
+ certificateUrl = "http://xynh.eduoinfo.com/resources/client/image/Lighthouse.jpg";
+ collectCounts = 5;
+ commentCounts = 14;
+ description = "<p></p>";
+ distanceToMe = "1802.642228581841";
+ fullName = "\U6fb3\U9645\U9910\U5385";
+ gradeScore = "3.64";
+ latitude = "31.208078";
+ longitude = "121.437686";
+ merchantId = 42;
+ merchantUserInfo = {};
+ praiseCounts = 6;
+ shortName = "\U6fb3\U9645\U9910\U5385";
+ userId = 162;
+ */
+
 #import <Foundation/Foundation.h>
 #import "SLVipMerchantUserInfo.h"
 
@@ -25,5 +43,8 @@
 
 /** distanceToMe */
 @property (nonatomic, copy) NSString *distanceToMe;
+
+/** praiseCounts */
+@property (nonatomic, assign) long praiseCounts;
 
 @end

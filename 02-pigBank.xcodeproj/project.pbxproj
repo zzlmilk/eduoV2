@@ -69,6 +69,8 @@
 		015FF66A19ED7CA70002C618 /* SLConsultantParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 015FF66919ED7CA70002C618 /* SLConsultantParameters.m */; };
 		01666C7B19CD35F7002AFBFC /* SLLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01666C7A19CD35F7002AFBFC /* SLLabelView.m */; };
 		016B5DB519F4B0FA005F1CC8 /* SLChildrenScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DB419F4B0FA005F1CC8 /* SLChildrenScope.m */; };
+		016B5DBB19F5043F005F1CC8 /* SLMerchantHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DBA19F5043F005F1CC8 /* SLMerchantHeadView.m */; };
+		016B5DBE19F51121005F1CC8 /* SLMerchantTypeCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DBD19F51121005F1CC8 /* SLMerchantTypeCoverView.m */; };
 		017225AB19ECF2260087E683 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017225AA19ECF2260087E683 /* CoreLocation.framework */; };
 		017225AD19ECF2360087E683 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017225AC19ECF2360087E683 /* MapKit.framework */; };
 		017225B119ECF5B60087E683 /* SLVipChildClassParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 017225B019ECF5B60087E683 /* SLVipChildClassParameters.m */; };
@@ -164,6 +166,12 @@
 		019FA98A19CBCE0E00811211 /* SLHomeStatusTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FA98919CBCE0E00811211 /* SLHomeStatusTool.m */; };
 		019FA98D19CBD3A100811211 /* SLFinanceProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FA98C19CBD3A100811211 /* SLFinanceProduct.m */; };
 		019FA99019CC083900811211 /* SLFinanceProductFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FA98F19CC083900811211 /* SLFinanceProductFrame.m */; };
+		019FE3A919F6091B0065E135 /* SLMerchantAreaCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3A819F6091B0065E135 /* SLMerchantAreaCoverView.m */; };
+		019FE3AC19F6096F0065E135 /* SLChildrenArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3AB19F6096F0065E135 /* SLChildrenArea.m */; };
+		019FE3B419F61BFD0065E135 /* SLMyCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3B319F61BFD0065E135 /* SLMyCollectionController.m */; };
+		019FE3BC19F62EB40065E135 /* SLMyConsultantController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3BB19F62EB40065E135 /* SLMyConsultantController.m */; };
+		019FE3BF19F63E010065E135 /* SLMerchantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3BE19F63E010065E135 /* SLMerchantCell.m */; };
+		019FE3C219F63F4D0065E135 /* SLMerchantStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 019FE3C119F63F4D0065E135 /* SLMerchantStatusFrame.m */; };
 		01AC95D319ED2443009AB082 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC95C119ED2443009AB082 /* AFHTTPRequestOperation.m */; };
 		01AC95D419ED2443009AB082 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC95C319ED2443009AB082 /* AFHTTPRequestOperationManager.m */; };
 		01AC95D519ED2443009AB082 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC95C519ED2443009AB082 /* AFHTTPSessionManager.m */; };
@@ -334,6 +342,10 @@
 		01666C7A19CD35F7002AFBFC /* SLLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLLabelView.m; sourceTree = "<group>"; };
 		016B5DB319F4B0FA005F1CC8 /* SLChildrenScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLChildrenScope.h; sourceTree = "<group>"; };
 		016B5DB419F4B0FA005F1CC8 /* SLChildrenScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLChildrenScope.m; sourceTree = "<group>"; };
+		016B5DB919F5043F005F1CC8 /* SLMerchantHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantHeadView.h; sourceTree = "<group>"; };
+		016B5DBA19F5043F005F1CC8 /* SLMerchantHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantHeadView.m; sourceTree = "<group>"; };
+		016B5DBC19F51121005F1CC8 /* SLMerchantTypeCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantTypeCoverView.h; sourceTree = "<group>"; };
+		016B5DBD19F51121005F1CC8 /* SLMerchantTypeCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantTypeCoverView.m; sourceTree = "<group>"; };
 		017225AA19ECF2260087E683 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		017225AC19ECF2360087E683 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		017225AF19ECF5B60087E683 /* SLVipChildClassParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLVipChildClassParameters.h; sourceTree = "<group>"; };
@@ -528,6 +540,18 @@
 		019FA98C19CBD3A100811211 /* SLFinanceProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceProduct.m; sourceTree = "<group>"; };
 		019FA98E19CC083900811211 /* SLFinanceProductFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinanceProductFrame.h; sourceTree = "<group>"; };
 		019FA98F19CC083900811211 /* SLFinanceProductFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceProductFrame.m; sourceTree = "<group>"; };
+		019FE3A719F6091B0065E135 /* SLMerchantAreaCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantAreaCoverView.h; sourceTree = "<group>"; };
+		019FE3A819F6091B0065E135 /* SLMerchantAreaCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantAreaCoverView.m; sourceTree = "<group>"; };
+		019FE3AA19F6096F0065E135 /* SLChildrenArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLChildrenArea.h; sourceTree = "<group>"; };
+		019FE3AB19F6096F0065E135 /* SLChildrenArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLChildrenArea.m; sourceTree = "<group>"; };
+		019FE3B219F61BFD0065E135 /* SLMyCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCollectionController.h; sourceTree = "<group>"; };
+		019FE3B319F61BFD0065E135 /* SLMyCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCollectionController.m; sourceTree = "<group>"; };
+		019FE3BA19F62EB40065E135 /* SLMyConsultantController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyConsultantController.h; sourceTree = "<group>"; };
+		019FE3BB19F62EB40065E135 /* SLMyConsultantController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyConsultantController.m; sourceTree = "<group>"; };
+		019FE3BD19F63E010065E135 /* SLMerchantCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantCell.h; sourceTree = "<group>"; };
+		019FE3BE19F63E010065E135 /* SLMerchantCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantCell.m; sourceTree = "<group>"; };
+		019FE3C019F63F4D0065E135 /* SLMerchantStatusFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantStatusFrame.h; sourceTree = "<group>"; };
+		019FE3C119F63F4D0065E135 /* SLMerchantStatusFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantStatusFrame.m; sourceTree = "<group>"; };
 		01AC95C019ED2443009AB082 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		01AC95C119ED2443009AB082 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		01AC95C219ED2443009AB082 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -788,6 +812,10 @@
 				014F69F319F11D5600D98E02 /* Parameter */,
 				016B5DB319F4B0FA005F1CC8 /* SLChildrenScope.h */,
 				016B5DB419F4B0FA005F1CC8 /* SLChildrenScope.m */,
+				019FE3AA19F6096F0065E135 /* SLChildrenArea.h */,
+				019FE3AB19F6096F0065E135 /* SLChildrenArea.m */,
+				019FE3C019F63F4D0065E135 /* SLMerchantStatusFrame.h */,
+				019FE3C119F63F4D0065E135 /* SLMerchantStatusFrame.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -802,6 +830,14 @@
 		014F69EF19F11AAC00D98E02 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				016B5DB919F5043F005F1CC8 /* SLMerchantHeadView.h */,
+				016B5DBA19F5043F005F1CC8 /* SLMerchantHeadView.m */,
+				016B5DBC19F51121005F1CC8 /* SLMerchantTypeCoverView.h */,
+				016B5DBD19F51121005F1CC8 /* SLMerchantTypeCoverView.m */,
+				019FE3A719F6091B0065E135 /* SLMerchantAreaCoverView.h */,
+				019FE3A819F6091B0065E135 /* SLMerchantAreaCoverView.m */,
+				019FE3BD19F63E010065E135 /* SLMerchantCell.h */,
+				019FE3BE19F63E010065E135 /* SLMerchantCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1191,6 +1227,8 @@
 		0174B5BD19D40A5C00D59D52 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				019FE3B519F622A10065E135 /* MyConsultant */,
+				019FE3AD19F61B9F0065E135 /* MyCollection */,
 				014F69EB19F11AAC00D98E02 /* Merchant */,
 				0100A9FF19EE57B400B9C6D5 /* Outlets */,
 				01732B7719D5004D00D8A98C /* Setting */,
@@ -1613,6 +1651,88 @@
 				0143FA3A19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		019FE3AD19F61B9F0065E135 /* MyCollection */ = {
+			isa = PBXGroup;
+			children = (
+				019FE3AE19F61B9F0065E135 /* Controller */,
+				019FE3AF19F61B9F0065E135 /* Model */,
+				019FE3B019F61B9F0065E135 /* Other */,
+				019FE3B119F61B9F0065E135 /* View */,
+			);
+			path = MyCollection;
+			sourceTree = "<group>";
+		};
+		019FE3AE19F61B9F0065E135 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				019FE3B219F61BFD0065E135 /* SLMyCollectionController.h */,
+				019FE3B319F61BFD0065E135 /* SLMyCollectionController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		019FE3AF19F61B9F0065E135 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		019FE3B019F61B9F0065E135 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		019FE3B119F61B9F0065E135 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		019FE3B519F622A10065E135 /* MyConsultant */ = {
+			isa = PBXGroup;
+			children = (
+				019FE3B619F622A10065E135 /* Controller */,
+				019FE3B719F622A10065E135 /* Model */,
+				019FE3B819F622A10065E135 /* Other */,
+				019FE3B919F622A10065E135 /* View */,
+			);
+			path = MyConsultant;
+			sourceTree = "<group>";
+		};
+		019FE3B619F622A10065E135 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				019FE3BA19F62EB40065E135 /* SLMyConsultantController.h */,
+				019FE3BB19F62EB40065E135 /* SLMyConsultantController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		019FE3B719F622A10065E135 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		019FE3B819F622A10065E135 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		019FE3B919F622A10065E135 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		01AC95BF19ED2443009AB082 /* AFNetworking */ = {
@@ -2142,6 +2262,7 @@
 				019F693119D2B17C0072B87C /* UIView+REFrostedViewController.m in Sources */,
 				017225C319ED0A230087E683 /* SLVipChildClassTool.m in Sources */,
 				01D0FA1D19F0C18100C4D1EC /* SLOutletsServiceItem.m in Sources */,
+				016B5DBE19F51121005F1CC8 /* SLMerchantTypeCoverView.m in Sources */,
 				017F27B819C3EA5C00068BC4 /* SLHomeViewController.m in Sources */,
 				01E66E9119C2F95C0005C79C /* SLTabBarController.m in Sources */,
 				017F27C419C3F2BB00068BC4 /* SLTabBarButton.m in Sources */,
@@ -2156,12 +2277,14 @@
 				01732B8719D5199600D8A98C /* SLSettingItem.m in Sources */,
 				0185B7A719E4E17D00FD9C95 /* SDWebImageManager.m in Sources */,
 				01AC95D719ED2443009AB082 /* AFSecurityPolicy.m in Sources */,
+				019FE3AC19F6096F0065E135 /* SLChildrenArea.m in Sources */,
 				01982FBB19D1719A00E41EE9 /* SLVipStatusCell.m in Sources */,
 				017CF75919CABD9700872031 /* ICSDrawerController.m in Sources */,
 				0193C5D619D0114100AF5A49 /* SLMoreGroups.m in Sources */,
 				01666C7B19CD35F7002AFBFC /* SLLabelView.m in Sources */,
 				01982FB819D16CD100E41EE9 /* SLVipStatusFrame.m in Sources */,
 				015920EC19C7DCCB00AC091B /* SLNewFeaturesController.m in Sources */,
+				019FE3BC19F62EB40065E135 /* SLMyConsultantController.m in Sources */,
 				0185B7AC19E4E17D00FD9C95 /* UIImage+WebP.m in Sources */,
 				0174B5BC19D3BE4200D59D52 /* SLViewController.m in Sources */,
 				01AC95D319ED2443009AB082 /* AFHTTPRequestOperation.m in Sources */,
@@ -2185,6 +2308,7 @@
 				0185B7A519E4E17D00FD9C95 /* SDWebImageDownloader.m in Sources */,
 				017225D919ED20BF0087E683 /* MJIvar.m in Sources */,
 				014FCC2219C8872A0035E697 /* NSString+Password.m in Sources */,
+				019FE3B419F61BFD0065E135 /* SLMyCollectionController.m in Sources */,
 				017225B819ECFE0A0087E683 /* SLVipStatusTool.m in Sources */,
 				01732B7619D4F96C00D8A98C /* SLClientPlatesTool.m in Sources */,
 				019F693219D2B17C0072B87C /* UIViewController+REFrostedViewController.m in Sources */,
@@ -2228,6 +2352,7 @@
 				01AC95D919ED2443009AB082 /* AFURLRequestSerialization.m in Sources */,
 				019F692E19D2B17C0072B87C /* REFrostedContainerViewController.m in Sources */,
 				017225DC19ED20BF0087E683 /* MJType.m in Sources */,
+				016B5DBB19F5043F005F1CC8 /* SLMerchantHeadView.m in Sources */,
 				01732B8119D5081000D8A98C /* SLAccountInfo.m in Sources */,
 				0188749819EA489900250648 /* SLHomeStatusCacheTool.m in Sources */,
 				018DDBAC19EF8AE8004B8F73 /* SLUserOperateTool.m in Sources */,
@@ -2242,6 +2367,7 @@
 				017F27CA19C5DD8500068BC4 /* SLNavigationController.m in Sources */,
 				017225DA19ED20BF0087E683 /* MJMember.m in Sources */,
 				01B3F27319D937CB0074AC40 /* SLConsultant.m in Sources */,
+				019FE3C219F63F4D0065E135 /* SLMerchantStatusFrame.m in Sources */,
 				018EFFBC19C92F70009915DA /* SLAccountTool.m in Sources */,
 				0159211119C832A300AC091B /* MBProgressHUD+MJ.m in Sources */,
 				01982FB219D16B8700E41EE9 /* SLVipPrivilegeDetail.m in Sources */,
@@ -2260,6 +2386,7 @@
 				019D911119C72A900056B7DB /* SLSearchController.m in Sources */,
 				018EFFBF19C937F6009915DA /* SLImageVIew.m in Sources */,
 				0100A9F119EE1A1D00B9C6D5 /* SLVipChildTableHeadView.m in Sources */,
+				019FE3BF19F63E010065E135 /* SLMerchantCell.m in Sources */,
 				0185B7A919E4E17D00FD9C95 /* UIButton+WebCache.m in Sources */,
 				019D911419C72B170056B7DB /* SLSearchBar.m in Sources */,
 				01982FAC19D16AA200E41EE9 /* SLVipStatus.m in Sources */,
@@ -2283,6 +2410,7 @@
 				0100A9EE19EE0EE300B9C6D5 /* SLFinancialProductTool.m in Sources */,
 				0185B7A019E4E17D00FD9C95 /* MKAnnotationView+WebCache.m in Sources */,
 				016B5DB519F4B0FA005F1CC8 /* SLChildrenScope.m in Sources */,
+				019FE3A919F6091B0065E135 /* SLMerchantAreaCoverView.m in Sources */,
 				01732B7E19D5006600D8A98C /* SLSettingViewController.m in Sources */,
 				018DDB9319EF6B70004B8F73 /* SLIconUploadParameters.m in Sources */,
 				019F691519D25F630072B87C /* SLVipProductHeadView.m in Sources */,

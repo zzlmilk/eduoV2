@@ -209,33 +209,6 @@
     [super viewWillAppear:animated];
 }
 
-//- (void)setupInternetData
-//{
-//    SLVipChildClassParameters *parameters = [SLVipChildClassParameters parameters];
-//    
-//#warning ----- 我觉的这个数据不需要缓存,因为取数据时需要传入位置信息,而位置信息几乎不可能相同,所以即使缓存了当传入的坐标不一致时也无法获取到数据库中的信息,而且这样会增大数据库的冗余信息~
-//    
-//    // 封装请求数据
-//    parameters.plateId = @1;
-//    parameters.classId = self.classId;
-//    parameters.scale = self.scale;
-//    parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-//    parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
-//    parameters.pageSize = @20;
-//    parameters.curPage = @1;
-//    
-//    // 3.发送请求
-//    [SLVipChildClassTool vipChildStatusesWithParameters:parameters success:^(NSArray *vipChildStatusFrameArray) {
-//        
-//        self.vipStatusFrames = vipChildStatusFrameArray;
-//        
-//        [self.tableView reloadData];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-//}
-
 #pragma mark ----- CLLocationManager的代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {

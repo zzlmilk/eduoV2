@@ -1,18 +1,16 @@
 //
-//  SLVipStatusCell.m
+//  SLMerchantCell.m
 //  02-pigBank
 //
-//  Created by 陆承东 on 14-9-23.
+//  Created by 陆承东 on 14/10/21.
 //  Copyright (c) 2014年 陆承东. All rights reserved.
 //
 
-#import "SLVipStatusCell.h"
+#import "SLMerchantCell.h"
 
 #import "UIImageView+WebCache.h"
 
-#define SLVipTitleFont [UIFont systemFont]
-
-@interface SLVipStatusCell()
+@interface SLMerchantCell()
 
 /** pictureImageView */
 @property (nonatomic, weak) UIImageView *pictureImageView;
@@ -34,16 +32,16 @@
 
 @end
 
-@implementation SLVipStatusCell
+@implementation SLMerchantCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    static NSString *ID = @"vipStatusCell";
+    static NSString *ID = @"merchantCell";
     
-    SLVipStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    SLMerchantCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     if (cell == nil) {
-        cell = [[SLVipStatusCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell = [[SLMerchantCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
     return cell;
 }
@@ -72,14 +70,14 @@
     
     /** titleLabel */
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.font = SLVipStatusTitleFont;
+    titleLabel.font = SLBoldFont14;
     titleLabel.numberOfLines = 1;
     [self.contentView addSubview:titleLabel];
     self.titleLabel = titleLabel;
     
     /** adressLabel */
     UILabel *adressLabel = [[UILabel alloc] init];
-    adressLabel.font = SLVipStatusPraiseCountsFont;
+    adressLabel.font = SLFont12;
     [self.contentView addSubview:adressLabel];
     self.adressLabel = adressLabel;
     
@@ -91,23 +89,20 @@
     
     /** priseCountLabel */
     UILabel *priseCountLabel = [[UILabel alloc] init];
-    priseCountLabel.font = SLVipStatusPraiseCountsFont;
+    priseCountLabel.font = SLFont12;
     [self.contentView addSubview:priseCountLabel];
     self.priseCountLabel = priseCountLabel;
     
     /** distabceLabel */
     UILabel *distabceLabel = [[UILabel alloc] init];
-    distabceLabel.font = SLVipStatusPraiseCountsFont;
+    distabceLabel.font = SLFont12;
     [self.contentView addSubview:distabceLabel];
     self.distabceLabel = distabceLabel;
 }
 
-/**
- *  setVipStatusFrame ----- 设置内部子控件的frame
- */
-- (void)setVipStatusFrame:(SLVipStatusFrame *)vipStatusFrame
+- (void)setMerchantStatusFrame:(SLMerchantStatusFrame *)merchantStatusFrame
 {
-    _vipStatusFrame = vipStatusFrame;
+    _merchantStatusFrame = merchantStatusFrame;
     
     // 设置所有子控件的尺寸和数据
     [self setupSubviewsData];
@@ -118,58 +113,59 @@
  */
 - (void)setupSubviewsData
 {
-    SLVipStatus *vipStatus = self.vipStatusFrame.vipStatus;
+    SLVipMerchantDetail *merchantDetail = self.merchantStatusFrame.merchantDetial;
     
     /** pictureImageView */
     // frame
-    self.pictureImageView.frame = self.vipStatusFrame.pictureImageViewF;
+    self.pictureImageView.frame = self.merchantStatusFrame.pictureImageViewF;
     // image
-    [self.pictureImageView setImageWithURL:[NSURL URLWithString:vipStatus.firstMaterialInfo.privilegeDetail.pictureUrl] placeholderImage:[UIImage imageNamed:@"app_bg_default_home_img_normal"]];
+    [self.pictureImageView setImageWithURL:[NSURL URLWithString:merchantDetail.merchantUserInfo.pictureUrl] placeholderImage:[UIImage imageNamed:@"app_bg_default_home_img_normal"]];
     
     /** titleLabel */
     // frame
-    self.titleLabel.frame = self.vipStatusFrame.titleLabelF;
+    self.titleLabel.frame = self.merchantStatusFrame.titleLabelF;
     // title
-    self.titleLabel.text = vipStatus.firstMaterialInfo.title;
+    self.titleLabel.text = merchantDetail.fullName;
     
     /** adressLabel */
     // frame
-    self.adressLabel.frame = self.vipStatusFrame.adressLabelF;
+    self.adressLabel.frame = self.merchantStatusFrame.adressLabelF;
     // image
-    self.adressLabel.text = vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.address;
+    self.adressLabel.text = merchantDetail.address;
     
     /** 赞的图标 */
     // frame
-    self.likeView.frame = self.vipStatusFrame.likeViewF;
+    self.likeView.frame = self.merchantStatusFrame.likeViewF;
     // image
     self.likeView.image = [UIImage imageNamed:@"zan"];
     
     /** priseCountLabel */
     // frame
-    self.priseCountLabel.frame = self.vipStatusFrame.priseCountLabelF;
+    self.priseCountLabel.frame = self.merchantStatusFrame.priseCountLabelF;
     // praiseCounts
-    self.priseCountLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", vipStatus.firstMaterialInfo.praiseCounts];
+    self.priseCountLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", merchantDetail.praiseCounts];
     
     /** distabceLabel */
     // frame
-    self.distabceLabel.frame = self.vipStatusFrame.distanceLabelF;
+    self.distabceLabel.frame = self.merchantStatusFrame.distanceLabelF;
     // data
-    if ([self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue] == 0) {
+    if ([merchantDetail.distanceToMe doubleValue] == 0) {
         self.distabceLabel.hidden = YES;
-    } else if ([self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue] > 5.0) {
+    } else if ([merchantDetail.distanceToMe doubleValue] > 5.0) {
         self.distabceLabel.text = @">5千米";
     } else {
-    self.distabceLabel.text = [NSString stringWithFormat:@"%.2f千米", [self.vipStatusFrame.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.distanceToMe doubleValue]];
+        self.distabceLabel.text = [NSString stringWithFormat:@"%.2f千米", [merchantDetail.distanceToMe doubleValue]];
     }
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
+    // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
 
 @end

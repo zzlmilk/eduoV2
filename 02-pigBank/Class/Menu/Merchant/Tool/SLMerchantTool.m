@@ -8,6 +8,9 @@
 
 #import "SLMerchantTool.h"
 
+#import "SLVipMerchantDetail.h"
+#import "SLVipMerchantUserInfo.h"
+
 #import "SLHttpTool.h"
 
 #import "MJExtension.h"
@@ -19,17 +22,15 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/merchant/listMerchantInfo"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        SLLog(@"%@", responseObject);
         
-//        NSArray *dictArray = [responseObject[@"info"] lastObject];
-//        
-//        
-//        NSArray *outletsArray = [SLOutletsInfo objectArrayWithKeyValuesArray:dictArray];
+        NSArray *dictArray = [responseObject[@"info"] lastObject];
+        
+        NSArray *merchantArray = [SLVipMerchantDetail objectArrayWithKeyValuesArray:dictArray];
         
         
         // 传递了block
         if (success) {
-//            success(outletsArray);
+            success(merchantArray);
         }
     } failure:^(NSError *error) {
         if (failure) {
