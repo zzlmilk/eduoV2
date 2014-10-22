@@ -21,6 +21,8 @@
 #import "SLServiceItemCoverView.h"
 #import "SLServiceAreaCoverView.h"
 
+#import "SLOutletDetialController.h"
+
 #import "SLAccountTool.h"
 #import "SLHttpTool.h"
 #import "SLOutletsTool.h"
@@ -301,6 +303,14 @@
     cell.outletsListFrame = frame;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SLOutletsInfo *outletsInfo = self.outletsArray[indexPath.row];
+    SLOutletDetialController *vc = [[SLOutletDetialController alloc] init];
+    vc.outletsInfo = outletsInfo;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark ----- tableHeadView的代理方法

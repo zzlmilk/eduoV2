@@ -22,7 +22,7 @@
 /** longitude */
 @property (nonatomic, strong) NSNumber *longitude;
 
-/** serviceTypeDisp */
+/** serviceTypeDisp 服务类型 */
 @property (nonatomic, copy) NSString *serviceTypeDisp;
 
 /** telephone */

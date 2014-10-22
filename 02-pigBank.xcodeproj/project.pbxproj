@@ -194,6 +194,9 @@
 		01D0FA2019F0C3CC00C4D1EC /* SLOutletsServiceArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA1F19F0C3CC00C4D1EC /* SLOutletsServiceArea.m */; };
 		01D0FA2319F0C57400C4D1EC /* SLChildrenAreaList.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA2219F0C57400C4D1EC /* SLChildrenAreaList.m */; };
 		01D0FA2919F0DA8200C4D1EC /* SLServiceItemCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA2819F0DA8200C4D1EC /* SLServiceItemCoverView.m */; };
+		01D6079F19F75106007362CC /* SLOutletDetialController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D6079E19F75106007362CC /* SLOutletDetialController.m */; };
+		01D607A719F786BB007362CC /* SLMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D607A619F786BB007362CC /* SLMapViewController.m */; };
+		01D607AA19F78ECA007362CC /* SLAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D607A919F78ECA007362CC /* SLAnnotation.m */; };
 		01E66E3119C2F2790005C79C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E66E3019C2F2790005C79C /* Foundation.framework */; };
 		01E66E3319C2F2790005C79C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E66E3219C2F2790005C79C /* CoreGraphics.framework */; };
 		01E66E3519C2F2790005C79C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E66E3419C2F2790005C79C /* UIKit.framework */; };
@@ -596,6 +599,12 @@
 		01D0FA2219F0C57400C4D1EC /* SLChildrenAreaList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLChildrenAreaList.m; sourceTree = "<group>"; };
 		01D0FA2719F0DA8200C4D1EC /* SLServiceItemCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLServiceItemCoverView.h; sourceTree = "<group>"; };
 		01D0FA2819F0DA8200C4D1EC /* SLServiceItemCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLServiceItemCoverView.m; sourceTree = "<group>"; };
+		01D6079D19F75106007362CC /* SLOutletDetialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLOutletDetialController.h; sourceTree = "<group>"; };
+		01D6079E19F75106007362CC /* SLOutletDetialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOutletDetialController.m; sourceTree = "<group>"; };
+		01D607A519F786BB007362CC /* SLMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMapViewController.h; sourceTree = "<group>"; };
+		01D607A619F786BB007362CC /* SLMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMapViewController.m; sourceTree = "<group>"; };
+		01D607A819F78ECA007362CC /* SLAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLAnnotation.h; sourceTree = "<group>"; };
+		01D607A919F78ECA007362CC /* SLAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLAnnotation.m; sourceTree = "<group>"; };
 		01E66E2D19C2F2790005C79C /* 02-pigBank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "02-pigBank.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E66E3019C2F2790005C79C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		01E66E3219C2F2790005C79C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -676,10 +685,11 @@
 			isa = PBXGroup;
 			children = (
 				018DDB9F19EF7786004B8F73 /* Tool */,
-				0100AA0019EE57B400B9C6D5 /* Controller */,
 				0100AA0119EE57B400B9C6D5 /* Model */,
-				0100AA0219EE57B400B9C6D5 /* Other */,
 				0100AA0319EE57B500B9C6D5 /* View */,
+				0100AA0019EE57B400B9C6D5 /* Controller */,
+				0100AA0219EE57B400B9C6D5 /* Other */,
+				01D6079819F74FCB007362CC /* OutletDetial */,
 			);
 			path = Outlets;
 			sourceTree = "<group>";
@@ -1573,10 +1583,11 @@
 		019F690519D25A760072B87C /* VipProduct */ = {
 			isa = PBXGroup;
 			children = (
-				019F690619D25A760072B87C /* Controller */,
 				019F690719D25A760072B87C /* Model */,
-				019F690819D25A760072B87C /* Other */,
 				019F690919D25A760072B87C /* View */,
+				019F690619D25A760072B87C /* Controller */,
+				019F690819D25A760072B87C /* Other */,
+				01D607A019F78683007362CC /* MapView */,
 			);
 			path = VipProduct;
 			sourceTree = "<group>";
@@ -1656,10 +1667,10 @@
 		019FE3AD19F61B9F0065E135 /* MyCollection */ = {
 			isa = PBXGroup;
 			children = (
-				019FE3AE19F61B9F0065E135 /* Controller */,
 				019FE3AF19F61B9F0065E135 /* Model */,
-				019FE3B019F61B9F0065E135 /* Other */,
 				019FE3B119F61B9F0065E135 /* View */,
+				019FE3AE19F61B9F0065E135 /* Controller */,
+				019FE3B019F61B9F0065E135 /* Other */,
 			);
 			path = MyCollection;
 			sourceTree = "<group>";
@@ -1697,10 +1708,10 @@
 		019FE3B519F622A10065E135 /* MyConsultant */ = {
 			isa = PBXGroup;
 			children = (
-				019FE3B619F622A10065E135 /* Controller */,
 				019FE3B719F622A10065E135 /* Model */,
-				019FE3B819F622A10065E135 /* Other */,
 				019FE3B919F622A10065E135 /* View */,
+				019FE3B619F622A10065E135 /* Controller */,
+				019FE3B819F622A10065E135 /* Other */,
 			);
 			path = MyConsultant;
 			sourceTree = "<group>";
@@ -1794,6 +1805,90 @@
 			sourceTree = "<group>";
 		};
 		01B3F26519D8F13E0074AC40 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		01D6079819F74FCB007362CC /* OutletDetial */ = {
+			isa = PBXGroup;
+			children = (
+				01D6079A19F74FCB007362CC /* Model */,
+				01D6079C19F74FCB007362CC /* View */,
+				01D6079919F74FCB007362CC /* Controller */,
+				01D6079B19F74FCB007362CC /* Other */,
+			);
+			path = OutletDetial;
+			sourceTree = "<group>";
+		};
+		01D6079919F74FCB007362CC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				01D6079D19F75106007362CC /* SLOutletDetialController.h */,
+				01D6079E19F75106007362CC /* SLOutletDetialController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		01D6079A19F74FCB007362CC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		01D6079B19F74FCB007362CC /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		01D6079C19F74FCB007362CC /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		01D607A019F78683007362CC /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				01D607A119F78683007362CC /* Controller */,
+				01D607A219F78683007362CC /* Model */,
+				01D607A319F78683007362CC /* Other */,
+				01D607A419F78683007362CC /* View */,
+			);
+			path = MapView;
+			sourceTree = "<group>";
+		};
+		01D607A119F78683007362CC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				01D607A519F786BB007362CC /* SLMapViewController.h */,
+				01D607A619F786BB007362CC /* SLMapViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		01D607A219F78683007362CC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				01D607A819F78ECA007362CC /* SLAnnotation.h */,
+				01D607A919F78ECA007362CC /* SLAnnotation.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		01D607A319F78683007362CC /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		01D607A419F78683007362CC /* View */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -2319,6 +2414,7 @@
 				0174B5C719D40BA100D59D52 /* SLMenuGroup.m in Sources */,
 				017CF75A19CABD9700872031 /* ICSDropShadowView.m in Sources */,
 				0185B7AB19E4E17D00FD9C95 /* UIImage+MultiFormat.m in Sources */,
+				01D6079F19F75106007362CC /* SLOutletDetialController.m in Sources */,
 				0185B7A619E4E17D00FD9C95 /* SDWebImageDownloaderOperation.m in Sources */,
 				0100A9EA19EE0DDA00B9C6D5 /* SLFinancialProductParameters.m in Sources */,
 				017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */,
@@ -2377,6 +2473,7 @@
 				0185B7A319E4E17D00FD9C95 /* SDWebImageCompat.m in Sources */,
 				0102525C19E8F23000CC60CB /* SLHomeStatusResult.m in Sources */,
 				017225DF19ED20BF0087E683 /* NSObject+MJKeyValue.m in Sources */,
+				01D607A719F786BB007362CC /* SLMapViewController.m in Sources */,
 				018DDB9A19EF7613004B8F73 /* SLOutletsParameters.m in Sources */,
 				01AC95D519ED2443009AB082 /* AFHTTPSessionManager.m in Sources */,
 				01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */,
@@ -2414,6 +2511,7 @@
 				01732B7E19D5006600D8A98C /* SLSettingViewController.m in Sources */,
 				018DDB9319EF6B70004B8F73 /* SLIconUploadParameters.m in Sources */,
 				019F691519D25F630072B87C /* SLVipProductHeadView.m in Sources */,
+				01D607AA19F78ECA007362CC /* SLAnnotation.m in Sources */,
 				0137619B19EFC35300248FF3 /* SLRotateButton.m in Sources */,
 				0100AB5419E64D9800E4F1E9 /* MJRefreshBaseView.m in Sources */,
 				01D0FA2319F0C57400C4D1EC /* SLChildrenAreaList.m in Sources */,

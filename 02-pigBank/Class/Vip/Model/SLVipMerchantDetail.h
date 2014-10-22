@@ -47,4 +47,10 @@
 /** praiseCounts */
 @property (nonatomic, assign) long praiseCounts;
 
+/** latitude */
+@property (nonatomic, strong) NSNumber *latitude;
+
+/** longitude */
+@property (nonatomic, strong) NSNumber *longitude;
+
 @end

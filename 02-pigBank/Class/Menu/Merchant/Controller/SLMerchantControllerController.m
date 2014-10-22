@@ -179,6 +179,9 @@
     [self setupRefreshView];
     
     self.tableView.rowHeight = 70;
+    
+    // 开始定位
+    [self.locMgr startUpdatingLocation];
 }
 
 #pragma mark ----- 刷新数据的方法
@@ -273,9 +276,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    // 开始定位
-    [self.locMgr startUpdatingLocation];
 }
 
 #pragma mark ------ CLLocationManager的代理方法

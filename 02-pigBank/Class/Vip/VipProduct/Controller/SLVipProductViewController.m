@@ -7,13 +7,19 @@
 //
 
 #import "SLVipProductViewController.h"
+
 #import "SLVipStatus.h"
+
 #import "SLVipProductHeadView.h"
 #import "SLVipProductArrorCell.H"
 
-@interface SLVipProductViewController ()
+#import "SLMapViewController.h"
+
+@interface SLVipProductViewController () <UIWebViewDelegate>
 
 @property (nonatomic, weak) UIWebView *telWebView;
+
+@property (nonatomic, weak) UIWebView *footWebView;
 
 @end
 
@@ -40,7 +46,6 @@
     [self setupVipProductData];
 }
 
-#warning -------
 - (void)setupVipProductData
 {
     
@@ -63,13 +68,17 @@
     UITableViewHeaderFooterView *footView = [[UITableViewHeaderFooterView alloc] init];
     
     UIWebView *webView = [[UIWebView alloc] init];
-    webView.frame = CGRectMake(0, 0, 320, 320);
+    
+    webView.frame = CGRectMake(5, 5, 310, 40);
+    webView.delegate = self;
+    webView.backgroundColor = [UIColor clearColor];
+    webView.scrollView.bounces = NO;//禁止滑动
+    self.footWebView = webView;
     [webView loadHTMLString:vipStatus.firstMaterialInfo.content baseURL:nil];
     
     footView.textLabel.font = SLVipStatusTitleFont;
     footView.textLabel.textColor = [UIColor blackColor];
     footView.textLabel.text = vipStatus.firstMaterialInfo.content;
-    SLLog(@"%@", vipStatus.firstMaterialInfo.content);
     CGSize footViewS = [vipStatus.firstMaterialInfo.content sizeWithFont:SLVipStatusTitleFont constrainedToSize:CGSizeMake(300, MAXFLOAT)];
     footView.frame = (CGRect){{0, 0}, footViewS};
     
@@ -155,21 +164,48 @@
     [self.view addSubview:telWebView];
     self.telWebView = telWebView;
     
+    SLMapViewController *mvc = [[SLMapViewController alloc] init];
+    mvc.merchantDetail = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail;
+    
     if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
-        
-        // 利用创建好的uiwebview加载request
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1) {
+            [self.navigationController pushViewController:mvc animated:YES];
+        } else if (indexPath.row == 2) {// 利用创建好的uiwebview加载request
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
             [telWebView loadRequest:[NSURLRequest requestWithURL:url]];
         }
         
     } else {
-        if (indexPath.row == 3) {
+        if (indexPath.row == 2) {
+            [self.navigationController pushViewController:mvc animated:YES];
+        } else if (indexPath.row == 3) {
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
             [telWebView loadRequest:[NSURLRequest requestWithURL:url]];
         }
     }
 }
 
+#pragma mark ----- uiwebview代理方法
+#warning ----- 没有设置成功
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.footWebView sizeToFit];
+    
+    
+//    NSString *str = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] doubleValue];
+//    SLLog(@"===============%@", str);
+    
+    CGRect frame = self.tableView.tableFooterView.frame;
+    frame.size.height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] intValue];
+    self.tableView.tableFooterView.frame = frame;
+    
+    self.tableView.contentSize = CGSizeMake(0, [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] intValue]);
+    SLLog(@"%f", self.tableView.contentSize.height);
+    
+    
+//    SLLog(@"%f", webView.scrollView.contentSize.height);
+    
+    [self.tableView reloadData];
+}
 
 @end

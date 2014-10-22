@@ -22,7 +22,7 @@
 @property (nonatomic, copy) NSString *content;
 
 /** searchKey */
-//@property (nonatomic, copy) NSString *searchKey;
+@property (nonatomic, copy) NSString *searchKey;
 
 /** title */
 @property (nonatomic, copy) NSString *title;
