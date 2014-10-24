@@ -204,7 +204,6 @@
     CGFloat subscriptionTimeInfoLabelW = chartViewW - middleMargin - subscriptionTimeInfoLabelX;
     CGFloat subscriptionTimeInfoLabelH = subscriptionTimeLabelS.height;
     _subscriptionTimeInfoLabelF = CGRectMake(subscriptionTimeInfoLabelX, subscriptionTimeInfoLabelY, subscriptionTimeInfoLabelW, subscriptionTimeInfoLabelH);
-    SLLog(@"%@", NSStringFromCGRect(_earningTimeLabelF));
 //    // 转换时间
 //    NSDate *subscriptionDateStart = [NSDate dateWithTimeIntervalSince1970: self.financeProduct.financialProductsDetail.subscribeStart / 1000];
 //    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];

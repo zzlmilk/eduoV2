@@ -20,6 +20,8 @@
 #import "SLMerchantAreaCoverView.h"
 #import "SLMerchantCell.h"
 
+#import "SLMerchantDetailController.h"
+
 #import "SLMerchantTool.h"
 #import "SLHttpTool.h"
 
@@ -113,6 +115,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.tableView setSeparatorColor:[UIColor clearColor]];
     
     SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
     headView.delegate = self;
@@ -314,6 +318,15 @@
     cell.merchantStatusFrame = merchantStatusFrame;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SLVipMerchantDetail *merchantDetial = self.merchantArray[indexPath.row];
+    SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] initWithStyle:UITableViewStyleGrouped];
+    mdvc.vipMerchantDetail = merchantDetial;
+    mdvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.navigationController pushViewController:mdvc animated:YES];
 }
 
 #pragma mark ----- SLMerchantHeadView的代理方法

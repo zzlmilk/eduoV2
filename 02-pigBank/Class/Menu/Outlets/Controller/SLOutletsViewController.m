@@ -167,6 +167,9 @@
     
     // 集成刷新控件
     [self setupRefreshView];
+    
+    // 开始定位
+    [self.locMgr startUpdatingLocation];
 }
 
 #pragma mark ----- 刷新数据的方法
@@ -258,12 +261,6 @@
     // 释放内存
     [self.header free];
     [self.footer free];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    // 开始定位
-    [self.locMgr startUpdatingLocation];
 }
 
 #pragma mark ------ CLLocationManager的代理方法

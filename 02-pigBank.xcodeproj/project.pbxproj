@@ -68,6 +68,14 @@
 		0159212319C8363300AC091B /* SLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0159212219C8363300AC091B /* SLLoginViewController.m */; };
 		015FF66A19ED7CA70002C618 /* SLConsultantParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 015FF66919ED7CA70002C618 /* SLConsultantParameters.m */; };
 		01666C7B19CD35F7002AFBFC /* SLLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01666C7A19CD35F7002AFBFC /* SLLabelView.m */; };
+		0166730719F7A209004EA294 /* SLMerchantDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166730619F7A209004EA294 /* SLMerchantDetailController.m */; };
+		0166730B19F7A2C6004EA294 /* SLMerchantDetailPatameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166730A19F7A2C6004EA294 /* SLMerchantDetailPatameters.m */; };
+		0166730F19F7A365004EA294 /* SLMerchantDetailTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166730E19F7A365004EA294 /* SLMerchantDetailTool.m */; };
+		0166731219F7AB48004EA294 /* SLMerchantDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166731119F7AB48004EA294 /* SLMerchantDetail.m */; };
+		0166731519F7ABC9004EA294 /* SLMerchantUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166731419F7ABC9004EA294 /* SLMerchantUserInfo.m */; };
+		0166731E19F7B4D8004EA294 /* SLOthersComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166731D19F7B4D8004EA294 /* SLOthersComment.m */; };
+		0166732119F7B536004EA294 /* SLMerchantPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166732019F7B536004EA294 /* SLMerchantPhoto.m */; };
+		0166732419F7B560004EA294 /* SLMyComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 0166732319F7B560004EA294 /* SLMyComment.m */; };
 		016B5DB519F4B0FA005F1CC8 /* SLChildrenScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DB419F4B0FA005F1CC8 /* SLChildrenScope.m */; };
 		016B5DBB19F5043F005F1CC8 /* SLMerchantHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DBA19F5043F005F1CC8 /* SLMerchantHeadView.m */; };
 		016B5DBE19F51121005F1CC8 /* SLMerchantTypeCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 016B5DBD19F51121005F1CC8 /* SLMerchantTypeCoverView.m */; };
@@ -100,6 +108,13 @@
 		0174B5CA19D40BB900D59D52 /* SLMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0174B5C919D40BB900D59D52 /* SLMenuItem.m */; };
 		0174B5D219D412C200D59D52 /* SLFinancialProductsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0174B5D119D412C200D59D52 /* SLFinancialProductsListController.m */; };
 		0174B5D519D41B9300D59D52 /* SLClientPlate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0174B5D419D41B9300D59D52 /* SLClientPlate.m */; };
+		017BF27219F9E61000A13331 /* SLMaterialInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27119F9E61000A13331 /* SLMaterialInfo.m */; };
+		017BF27519F9E62B00A13331 /* SLPrivilegeDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27419F9E62B00A13331 /* SLPrivilegeDetail.m */; };
+		017BF27819F9E6DD00A13331 /* SLMerchantInDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27719F9E6DD00A13331 /* SLMerchantInDetail.m */; };
+		017BF27B19F9F84E00A13331 /* SLWebViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27A19F9F84E00A13331 /* SLWebViewCell.m */; };
+		017BF27E19FA235D00A13331 /* SLCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27D19FA235D00A13331 /* SLCommentCell.m */; };
+		017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF28019FA24D300A13331 /* SLMerchantCommentFrame.m */; };
+		017BF28419FA2BC900A13331 /* SLScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF28319FA2BC900A13331 /* SLScoreView.m */; };
 		017CF73019CA7B0800872031 /* SLHomeStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF72F19CA7B0800872031 /* SLHomeStatusCell.m */; };
 		017CF73319CA7E3E00872031 /* SLHomeStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF73219CA7E3E00872031 /* SLHomeStatusFrame.m */; };
 		017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF73A19CAAEEB00872031 /* SLFinanceProductController.m */; };
@@ -149,6 +164,14 @@
 		01982FB519D16BE600E41EE9 /* SLVipMerchantDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 01982FB419D16BE600E41EE9 /* SLVipMerchantDetail.m */; };
 		01982FB819D16CD100E41EE9 /* SLVipStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 01982FB719D16CD100E41EE9 /* SLVipStatusFrame.m */; };
 		01982FBB19D1719A00E41EE9 /* SLVipStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01982FBA19D1719A00E41EE9 /* SLVipStatusCell.m */; };
+		019A5FC719F897CB0052F3BA /* SLBaseArrowCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FC619F897CB0052F3BA /* SLBaseArrowCell.m */; };
+		019A5FCA19F89A1F0052F3BA /* SLMerchantHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FC919F89A1F0052F3BA /* SLMerchantHeadCell.m */; };
+		019A5FCE19F8A4A80052F3BA /* SLMerchantHeadCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FCD19F8A4A80052F3BA /* SLMerchantHeadCellFrame.m */; };
+		019A5FD119F8A61E0052F3BA /* SLMerchantDetailFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FD019F8A61E0052F3BA /* SLMerchantDetailFrame.m */; };
+		019A5FD719F8AFAB0052F3BA /* SLMerchantDetailGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FD619F8AFAB0052F3BA /* SLMerchantDetailGroup.m */; };
+		019A5FDA19F8AFF00052F3BA /* SLMerchantDetailItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FD919F8AFF00052F3BA /* SLMerchantDetailItem.m */; };
+		019A5FDD19F8F38F0052F3BA /* SLMerchantPhotosCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FDC19F8F38F0052F3BA /* SLMerchantPhotosCell.m */; };
+		019A5FE019F8F3F80052F3BA /* SLMerchantPhotosFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 019A5FDF19F8F3F80052F3BA /* SLMerchantPhotosFrame.m */; };
 		019D911119C72A900056B7DB /* SLSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019D911019C72A900056B7DB /* SLSearchController.m */; };
 		019D911419C72B170056B7DB /* SLSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 019D911319C72B170056B7DB /* SLSearchBar.m */; };
 		019F690C19D25AF40072B87C /* SLVipProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F690B19D25AF40072B87C /* SLVipProductViewController.m */; };
@@ -343,6 +366,22 @@
 		015FF66919ED7CA70002C618 /* SLConsultantParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLConsultantParameters.m; sourceTree = "<group>"; };
 		01666C7919CD35F7002AFBFC /* SLLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLLabelView.h; sourceTree = "<group>"; };
 		01666C7A19CD35F7002AFBFC /* SLLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLLabelView.m; sourceTree = "<group>"; };
+		0166730519F7A209004EA294 /* SLMerchantDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailController.h; sourceTree = "<group>"; };
+		0166730619F7A209004EA294 /* SLMerchantDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailController.m; sourceTree = "<group>"; };
+		0166730919F7A2C6004EA294 /* SLMerchantDetailPatameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailPatameters.h; sourceTree = "<group>"; };
+		0166730A19F7A2C6004EA294 /* SLMerchantDetailPatameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailPatameters.m; sourceTree = "<group>"; };
+		0166730D19F7A365004EA294 /* SLMerchantDetailTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailTool.h; sourceTree = "<group>"; };
+		0166730E19F7A365004EA294 /* SLMerchantDetailTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailTool.m; sourceTree = "<group>"; };
+		0166731019F7AB48004EA294 /* SLMerchantDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetail.h; sourceTree = "<group>"; };
+		0166731119F7AB48004EA294 /* SLMerchantDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetail.m; sourceTree = "<group>"; };
+		0166731319F7ABC9004EA294 /* SLMerchantUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantUserInfo.h; sourceTree = "<group>"; };
+		0166731419F7ABC9004EA294 /* SLMerchantUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantUserInfo.m; sourceTree = "<group>"; };
+		0166731C19F7B4D8004EA294 /* SLOthersComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLOthersComment.h; sourceTree = "<group>"; };
+		0166731D19F7B4D8004EA294 /* SLOthersComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOthersComment.m; sourceTree = "<group>"; };
+		0166731F19F7B536004EA294 /* SLMerchantPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantPhoto.h; sourceTree = "<group>"; };
+		0166732019F7B536004EA294 /* SLMerchantPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantPhoto.m; sourceTree = "<group>"; };
+		0166732219F7B560004EA294 /* SLMyComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyComment.h; sourceTree = "<group>"; };
+		0166732319F7B560004EA294 /* SLMyComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyComment.m; sourceTree = "<group>"; };
 		016B5DB319F4B0FA005F1CC8 /* SLChildrenScope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLChildrenScope.h; sourceTree = "<group>"; };
 		016B5DB419F4B0FA005F1CC8 /* SLChildrenScope.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLChildrenScope.m; sourceTree = "<group>"; };
 		016B5DB919F5043F005F1CC8 /* SLMerchantHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantHeadView.h; sourceTree = "<group>"; };
@@ -407,6 +446,20 @@
 		0174B5D119D412C200D59D52 /* SLFinancialProductsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinancialProductsListController.m; sourceTree = "<group>"; };
 		0174B5D319D41B9300D59D52 /* SLClientPlate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLClientPlate.h; sourceTree = "<group>"; };
 		0174B5D419D41B9300D59D52 /* SLClientPlate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLClientPlate.m; sourceTree = "<group>"; };
+		017BF27019F9E61000A13331 /* SLMaterialInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMaterialInfo.h; sourceTree = "<group>"; };
+		017BF27119F9E61000A13331 /* SLMaterialInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialInfo.m; sourceTree = "<group>"; };
+		017BF27319F9E62B00A13331 /* SLPrivilegeDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPrivilegeDetail.h; sourceTree = "<group>"; };
+		017BF27419F9E62B00A13331 /* SLPrivilegeDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPrivilegeDetail.m; sourceTree = "<group>"; };
+		017BF27619F9E6DD00A13331 /* SLMerchantInDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantInDetail.h; sourceTree = "<group>"; };
+		017BF27719F9E6DD00A13331 /* SLMerchantInDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantInDetail.m; sourceTree = "<group>"; };
+		017BF27919F9F84E00A13331 /* SLWebViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLWebViewCell.h; sourceTree = "<group>"; };
+		017BF27A19F9F84E00A13331 /* SLWebViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLWebViewCell.m; sourceTree = "<group>"; };
+		017BF27C19FA235D00A13331 /* SLCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCommentCell.h; sourceTree = "<group>"; };
+		017BF27D19FA235D00A13331 /* SLCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCommentCell.m; sourceTree = "<group>"; };
+		017BF27F19FA24D300A13331 /* SLMerchantCommentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantCommentFrame.h; sourceTree = "<group>"; };
+		017BF28019FA24D300A13331 /* SLMerchantCommentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantCommentFrame.m; sourceTree = "<group>"; };
+		017BF28219FA2BC900A13331 /* SLScoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLScoreView.h; sourceTree = "<group>"; };
+		017BF28319FA2BC900A13331 /* SLScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLScoreView.m; sourceTree = "<group>"; };
 		017CF72E19CA7B0800872031 /* SLHomeStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHomeStatusCell.h; sourceTree = "<group>"; };
 		017CF72F19CA7B0800872031 /* SLHomeStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLHomeStatusCell.m; sourceTree = "<group>"; };
 		017CF73119CA7E3E00872031 /* SLHomeStatusFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHomeStatusFrame.h; sourceTree = "<group>"; };
@@ -509,6 +562,22 @@
 		01982FB719D16CD100E41EE9 /* SLVipStatusFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipStatusFrame.m; sourceTree = "<group>"; };
 		01982FB919D1719A00E41EE9 /* SLVipStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLVipStatusCell.h; sourceTree = "<group>"; };
 		01982FBA19D1719A00E41EE9 /* SLVipStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipStatusCell.m; sourceTree = "<group>"; };
+		019A5FC519F897CB0052F3BA /* SLBaseArrowCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLBaseArrowCell.h; sourceTree = "<group>"; };
+		019A5FC619F897CB0052F3BA /* SLBaseArrowCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLBaseArrowCell.m; sourceTree = "<group>"; };
+		019A5FC819F89A1F0052F3BA /* SLMerchantHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantHeadCell.h; sourceTree = "<group>"; };
+		019A5FC919F89A1F0052F3BA /* SLMerchantHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantHeadCell.m; sourceTree = "<group>"; };
+		019A5FCC19F8A4A80052F3BA /* SLMerchantHeadCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantHeadCellFrame.h; sourceTree = "<group>"; };
+		019A5FCD19F8A4A80052F3BA /* SLMerchantHeadCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantHeadCellFrame.m; sourceTree = "<group>"; };
+		019A5FCF19F8A61E0052F3BA /* SLMerchantDetailFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailFrame.h; sourceTree = "<group>"; };
+		019A5FD019F8A61E0052F3BA /* SLMerchantDetailFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailFrame.m; sourceTree = "<group>"; };
+		019A5FD519F8AFAB0052F3BA /* SLMerchantDetailGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailGroup.h; sourceTree = "<group>"; };
+		019A5FD619F8AFAB0052F3BA /* SLMerchantDetailGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailGroup.m; sourceTree = "<group>"; };
+		019A5FD819F8AFF00052F3BA /* SLMerchantDetailItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantDetailItem.h; sourceTree = "<group>"; };
+		019A5FD919F8AFF00052F3BA /* SLMerchantDetailItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantDetailItem.m; sourceTree = "<group>"; };
+		019A5FDB19F8F38F0052F3BA /* SLMerchantPhotosCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantPhotosCell.h; sourceTree = "<group>"; };
+		019A5FDC19F8F38F0052F3BA /* SLMerchantPhotosCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantPhotosCell.m; sourceTree = "<group>"; };
+		019A5FDE19F8F3F80052F3BA /* SLMerchantPhotosFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantPhotosFrame.h; sourceTree = "<group>"; };
+		019A5FDF19F8F3F80052F3BA /* SLMerchantPhotosFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantPhotosFrame.m; sourceTree = "<group>"; };
 		019D910F19C72A900056B7DB /* SLSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLSearchController.h; sourceTree = "<group>"; };
 		019D911019C72A900056B7DB /* SLSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLSearchController.m; sourceTree = "<group>"; };
 		019D911219C72B170056B7DB /* SLSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLSearchBar.h; sourceTree = "<group>"; };
@@ -799,10 +868,11 @@
 			isa = PBXGroup;
 			children = (
 				014F69F719F11E6700D98E02 /* Tool */,
-				014F69EC19F11AAC00D98E02 /* Controller */,
 				014F69ED19F11AAC00D98E02 /* Model */,
-				014F69EE19F11AAC00D98E02 /* Other */,
 				014F69EF19F11AAC00D98E02 /* View */,
+				014F69EC19F11AAC00D98E02 /* Controller */,
+				014F69EE19F11AAC00D98E02 /* Other */,
+				0166730019F7A1D8004EA294 /* SLMerchantDetial */,
 			);
 			path = Merchant;
 			sourceTree = "<group>";
@@ -1036,6 +1106,100 @@
 				018DDB9219EF6B70004B8F73 /* SLIconUploadParameters.m */,
 			);
 			name = Parameters;
+			sourceTree = "<group>";
+		};
+		0166730019F7A1D8004EA294 /* SLMerchantDetial */ = {
+			isa = PBXGroup;
+			children = (
+				0166730119F7A1D8004EA294 /* Controller */,
+				0166730219F7A1D8004EA294 /* Model */,
+				0166730319F7A1D8004EA294 /* Other */,
+				0166730419F7A1D8004EA294 /* View */,
+				0166730C19F7A33E004EA294 /* Tool */,
+			);
+			path = SLMerchantDetial;
+			sourceTree = "<group>";
+		};
+		0166730119F7A1D8004EA294 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0166730519F7A209004EA294 /* SLMerchantDetailController.h */,
+				0166730619F7A209004EA294 /* SLMerchantDetailController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0166730219F7A1D8004EA294 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				019A5FCB19F8A48C0052F3BA /* Frame */,
+				0166730819F7A2A8004EA294 /* Parameters */,
+				0166731019F7AB48004EA294 /* SLMerchantDetail.h */,
+				0166731119F7AB48004EA294 /* SLMerchantDetail.m */,
+				0166731319F7ABC9004EA294 /* SLMerchantUserInfo.h */,
+				0166731419F7ABC9004EA294 /* SLMerchantUserInfo.m */,
+				0166731F19F7B536004EA294 /* SLMerchantPhoto.h */,
+				0166732019F7B536004EA294 /* SLMerchantPhoto.m */,
+				0166732219F7B560004EA294 /* SLMyComment.h */,
+				0166732319F7B560004EA294 /* SLMyComment.m */,
+				0166731C19F7B4D8004EA294 /* SLOthersComment.h */,
+				0166731D19F7B4D8004EA294 /* SLOthersComment.m */,
+				017BF27019F9E61000A13331 /* SLMaterialInfo.h */,
+				017BF27119F9E61000A13331 /* SLMaterialInfo.m */,
+				017BF27319F9E62B00A13331 /* SLPrivilegeDetail.h */,
+				017BF27419F9E62B00A13331 /* SLPrivilegeDetail.m */,
+				017BF27619F9E6DD00A13331 /* SLMerchantInDetail.h */,
+				017BF27719F9E6DD00A13331 /* SLMerchantInDetail.m */,
+				019A5FD519F8AFAB0052F3BA /* SLMerchantDetailGroup.h */,
+				019A5FD619F8AFAB0052F3BA /* SLMerchantDetailGroup.m */,
+				019A5FD819F8AFF00052F3BA /* SLMerchantDetailItem.h */,
+				019A5FD919F8AFF00052F3BA /* SLMerchantDetailItem.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0166730319F7A1D8004EA294 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		0166730419F7A1D8004EA294 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				019A5FC519F897CB0052F3BA /* SLBaseArrowCell.h */,
+				019A5FC619F897CB0052F3BA /* SLBaseArrowCell.m */,
+				019A5FC819F89A1F0052F3BA /* SLMerchantHeadCell.h */,
+				019A5FC919F89A1F0052F3BA /* SLMerchantHeadCell.m */,
+				019A5FDB19F8F38F0052F3BA /* SLMerchantPhotosCell.h */,
+				019A5FDC19F8F38F0052F3BA /* SLMerchantPhotosCell.m */,
+				017BF27919F9F84E00A13331 /* SLWebViewCell.h */,
+				017BF27A19F9F84E00A13331 /* SLWebViewCell.m */,
+				017BF27C19FA235D00A13331 /* SLCommentCell.h */,
+				017BF27D19FA235D00A13331 /* SLCommentCell.m */,
+				017BF28219FA2BC900A13331 /* SLScoreView.h */,
+				017BF28319FA2BC900A13331 /* SLScoreView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0166730819F7A2A8004EA294 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				0166730919F7A2C6004EA294 /* SLMerchantDetailPatameters.h */,
+				0166730A19F7A2C6004EA294 /* SLMerchantDetailPatameters.m */,
+			);
+			name = Parameters;
+			sourceTree = "<group>";
+		};
+		0166730C19F7A33E004EA294 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				0166730D19F7A365004EA294 /* SLMerchantDetailTool.h */,
+				0166730E19F7A365004EA294 /* SLMerchantDetailTool.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		017225AE19ECF4FB0087E683 /* Parameters */ = {
@@ -1535,6 +1699,21 @@
 				018EFFBB19C92F70009915DA /* SLAccountTool.m */,
 			);
 			path = Tool;
+			sourceTree = "<group>";
+		};
+		019A5FCB19F8A48C0052F3BA /* Frame */ = {
+			isa = PBXGroup;
+			children = (
+				019A5FCF19F8A61E0052F3BA /* SLMerchantDetailFrame.h */,
+				019A5FD019F8A61E0052F3BA /* SLMerchantDetailFrame.m */,
+				019A5FCC19F8A4A80052F3BA /* SLMerchantHeadCellFrame.h */,
+				019A5FCD19F8A4A80052F3BA /* SLMerchantHeadCellFrame.m */,
+				019A5FDE19F8F3F80052F3BA /* SLMerchantPhotosFrame.h */,
+				019A5FDF19F8F3F80052F3BA /* SLMerchantPhotosFrame.m */,
+				017BF27F19FA24D300A13331 /* SLMerchantCommentFrame.h */,
+				017BF28019FA24D300A13331 /* SLMerchantCommentFrame.m */,
+			);
+			path = Frame;
 			sourceTree = "<group>";
 		};
 		019D910A19C72A590056B7DB /* Search */ = {
@@ -2350,6 +2529,7 @@
 			files = (
 				0185B7AA19E4E17D00FD9C95 /* UIImage+GIF.m in Sources */,
 				0100A9F419EE224C00B9C6D5 /* SLVipStatusCacheTool.m in Sources */,
+				017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */,
 				018DDBAF19EF90AF004B8F73 /* SLMaterialUser.m in Sources */,
 				0143FA3819EBA675007FFC80 /* SLSettingLabelItem.m in Sources */,
 				0159212319C8363300AC091B /* SLLoginViewController.m in Sources */,
@@ -2360,6 +2540,7 @@
 				016B5DBE19F51121005F1CC8 /* SLMerchantTypeCoverView.m in Sources */,
 				017F27B819C3EA5C00068BC4 /* SLHomeViewController.m in Sources */,
 				01E66E9119C2F95C0005C79C /* SLTabBarController.m in Sources */,
+				019A5FCA19F89A1F0052F3BA /* SLMerchantHeadCell.m in Sources */,
 				017F27C419C3F2BB00068BC4 /* SLTabBarButton.m in Sources */,
 				01982FB519D16BE600E41EE9 /* SLVipMerchantDetail.m in Sources */,
 				0100AB5519E64D9800E4F1E9 /* MJRefreshConst.m in Sources */,
@@ -2372,6 +2553,7 @@
 				01732B8719D5199600D8A98C /* SLSettingItem.m in Sources */,
 				0185B7A719E4E17D00FD9C95 /* SDWebImageManager.m in Sources */,
 				01AC95D719ED2443009AB082 /* AFSecurityPolicy.m in Sources */,
+				019A5FD119F8A61E0052F3BA /* SLMerchantDetailFrame.m in Sources */,
 				019FE3AC19F6096F0065E135 /* SLChildrenArea.m in Sources */,
 				01982FBB19D1719A00E41EE9 /* SLVipStatusCell.m in Sources */,
 				017CF75919CABD9700872031 /* ICSDrawerController.m in Sources */,
@@ -2381,6 +2563,7 @@
 				015920EC19C7DCCB00AC091B /* SLNewFeaturesController.m in Sources */,
 				019FE3BC19F62EB40065E135 /* SLMyConsultantController.m in Sources */,
 				0185B7AC19E4E17D00FD9C95 /* UIImage+WebP.m in Sources */,
+				019A5FD719F8AFAB0052F3BA /* SLMerchantDetailGroup.m in Sources */,
 				0174B5BC19D3BE4200D59D52 /* SLViewController.m in Sources */,
 				01AC95D319ED2443009AB082 /* AFHTTPRequestOperation.m in Sources */,
 				0106C2E719C6CA55009CBED9 /* SLBadgeButton.m in Sources */,
@@ -2396,6 +2579,7 @@
 				019F692D19D2B17C0072B87C /* RECommonFunctions.m in Sources */,
 				01E66E9219C2F95C0005C79C /* main.m in Sources */,
 				015243CD19D68FA2001E84B4 /* SLFinancialStatusFrame.m in Sources */,
+				019A5FDD19F8F38F0052F3BA /* SLMerchantPhotosCell.m in Sources */,
 				019F691919D262230072B87C /* SLVipMerchantUserInfo.m in Sources */,
 				013BF22E19C98CC800A0281B /* SLHomeStatus.m in Sources */,
 				01B3F27019D929660074AC40 /* SLVipDetail.m in Sources */,
@@ -2417,6 +2601,7 @@
 				01D6079F19F75106007362CC /* SLOutletDetialController.m in Sources */,
 				0185B7A619E4E17D00FD9C95 /* SDWebImageDownloaderOperation.m in Sources */,
 				0100A9EA19EE0DDA00B9C6D5 /* SLFinancialProductParameters.m in Sources */,
+				017BF27819F9E6DD00A13331 /* SLMerchantInDetail.m in Sources */,
 				017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */,
 				018029CE19D5A55800A7B98B /* SLModifyPwdController.m in Sources */,
 				0193C5D919D0147300AF5A49 /* SLMoreItem.m in Sources */,
@@ -2424,6 +2609,7 @@
 				017225B419ECFD770087E683 /* SLVipParameters.m in Sources */,
 				019F691219D25E190072B87C /* SLVipProductArrorCell.m in Sources */,
 				0102526D19E907B100CC60CB /* FMDatabaseAdditions.m in Sources */,
+				017BF28419FA2BC900A13331 /* SLScoreView.m in Sources */,
 				019FA99019CC083900811211 /* SLFinanceProductFrame.m in Sources */,
 				0100AA0619EE586500B9C6D5 /* SLMyInfoCell.m in Sources */,
 				0185B7A219E4E17D00FD9C95 /* SDImageCache.m in Sources */,
@@ -2432,12 +2618,15 @@
 				0102525319E8DE5A00CC60CB /* SLHomeStatusParameters.m in Sources */,
 				0102527019E907B100CC60CB /* FMResultSet.m in Sources */,
 				0143FA3B19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m in Sources */,
+				017BF27E19FA235D00A13331 /* SLCommentCell.m in Sources */,
 				0102526F19E907B100CC60CB /* FMDatabaseQueue.m in Sources */,
 				01982FA319D115F100E41EE9 /* SLDetailGrayLabel.m in Sources */,
 				015243D619D6956B001E84B4 /* SLFinancialLabel.m in Sources */,
 				017CF76019CABE3200872031 /* SLMoreViewController.m in Sources */,
+				0166730F19F7A365004EA294 /* SLMerchantDetailTool.m in Sources */,
 				0106C2E419C6B696009CBED9 /* UIImage+S_LINE.m in Sources */,
 				0100AA0F19EE636A00B9C6D5 /* SLMenuLabelItem.m in Sources */,
+				019A5FDA19F8AFF00052F3BA /* SLMerchantDetailItem.m in Sources */,
 				018DDBA919EF8A0B004B8F73 /* SLUserOperateParameters.m in Sources */,
 				017225B119ECF5B60087E683 /* SLVipChildClassParameters.m in Sources */,
 				0185B7A119E4E17D00FD9C95 /* NSData+ImageContentType.m in Sources */,
@@ -2447,10 +2636,14 @@
 				017225DB19ED20BF0087E683 /* MJMethod.m in Sources */,
 				01AC95D919ED2443009AB082 /* AFURLRequestSerialization.m in Sources */,
 				019F692E19D2B17C0072B87C /* REFrostedContainerViewController.m in Sources */,
+				0166732419F7B560004EA294 /* SLMyComment.m in Sources */,
+				0166730B19F7A2C6004EA294 /* SLMerchantDetailPatameters.m in Sources */,
+				019A5FE019F8F3F80052F3BA /* SLMerchantPhotosFrame.m in Sources */,
 				017225DC19ED20BF0087E683 /* MJType.m in Sources */,
 				016B5DBB19F5043F005F1CC8 /* SLMerchantHeadView.m in Sources */,
 				01732B8119D5081000D8A98C /* SLAccountInfo.m in Sources */,
 				0188749819EA489900250648 /* SLHomeStatusCacheTool.m in Sources */,
+				019A5FC719F897CB0052F3BA /* SLBaseArrowCell.m in Sources */,
 				018DDBAC19EF8AE8004B8F73 /* SLUserOperateTool.m in Sources */,
 				019F690F19D25DD80072B87C /* SLVipProductNoneCell.m in Sources */,
 				0100AB5619E64D9800E4F1E9 /* MJRefreshFooterView.m in Sources */,
@@ -2465,7 +2658,9 @@
 				01B3F27319D937CB0074AC40 /* SLConsultant.m in Sources */,
 				019FE3C219F63F4D0065E135 /* SLMerchantStatusFrame.m in Sources */,
 				018EFFBC19C92F70009915DA /* SLAccountTool.m in Sources */,
+				0166730719F7A209004EA294 /* SLMerchantDetailController.m in Sources */,
 				0159211119C832A300AC091B /* MBProgressHUD+MJ.m in Sources */,
+				0166731E19F7B4D8004EA294 /* SLOthersComment.m in Sources */,
 				01982FB219D16B8700E41EE9 /* SLVipPrivilegeDetail.m in Sources */,
 				015FF66A19ED7CA70002C618 /* SLConsultantParameters.m in Sources */,
 				0157851819E7A313005EF0F3 /* SLHttpTool.m in Sources */,
@@ -2481,6 +2676,7 @@
 				017F27BE19C3EA9300068BC4 /* SLPhoneViewController.m in Sources */,
 				0102526C19E907B100CC60CB /* FMDatabase.m in Sources */,
 				019D911119C72A900056B7DB /* SLSearchController.m in Sources */,
+				017BF27B19F9F84E00A13331 /* SLWebViewCell.m in Sources */,
 				018EFFBF19C937F6009915DA /* SLImageVIew.m in Sources */,
 				0100A9F119EE1A1D00B9C6D5 /* SLVipChildTableHeadView.m in Sources */,
 				019FE3BF19F63E010065E135 /* SLMerchantCell.m in Sources */,
@@ -2490,6 +2686,8 @@
 				014F69F219F11AD100D98E02 /* SLMerchantControllerController.m in Sources */,
 				01AC95DA19ED2443009AB082 /* AFURLResponseSerialization.m in Sources */,
 				01B3F27619D93CDB0074AC40 /* SLConsultantTool.m in Sources */,
+				0166732119F7B536004EA294 /* SLMerchantPhoto.m in Sources */,
+				0166731219F7AB48004EA294 /* SLMerchantDetail.m in Sources */,
 				01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */,
 				019FA98D19CBD3A100811211 /* SLFinanceProduct.m in Sources */,
 				017225C019ED09AA0087E683 /* SLVipChildViewController.m in Sources */,
@@ -2502,12 +2700,14 @@
 				01982FAF19D16AE600E41EE9 /* SLVipStatusFirstMaterialInfo.m in Sources */,
 				018DDBA219EF77A9004B8F73 /* SLOutletsTool.m in Sources */,
 				014F69FA19F11E7900D98E02 /* SLMerchantTool.m in Sources */,
+				0166731519F7ABC9004EA294 /* SLMerchantUserInfo.m in Sources */,
 				01732B8F19D540AC00D8A98C /* SLChangeMyMobileController.m in Sources */,
 				0106C2E119C5E7A7009CBED9 /* SLTabBar.m in Sources */,
 				0100A9EE19EE0EE300B9C6D5 /* SLFinancialProductTool.m in Sources */,
 				0185B7A019E4E17D00FD9C95 /* MKAnnotationView+WebCache.m in Sources */,
 				016B5DB519F4B0FA005F1CC8 /* SLChildrenScope.m in Sources */,
 				019FE3A919F6091B0065E135 /* SLMerchantAreaCoverView.m in Sources */,
+				017BF27519F9E62B00A13331 /* SLPrivilegeDetail.m in Sources */,
 				01732B7E19D5006600D8A98C /* SLSettingViewController.m in Sources */,
 				018DDB9319EF6B70004B8F73 /* SLIconUploadParameters.m in Sources */,
 				019F691519D25F630072B87C /* SLVipProductHeadView.m in Sources */,
@@ -2525,9 +2725,11 @@
 				0185B7A819E4E17D00FD9C95 /* SDWebImagePrefetcher.m in Sources */,
 				01B3F26819D8F6D10074AC40 /* SLFinancialProductListTableHeadView.m in Sources */,
 				01C795EB19F0E41F005E2A3E /* SLMenuViewController.m in Sources */,
+				019A5FCE19F8A4A80052F3BA /* SLMerchantHeadCellFrame.m in Sources */,
 				0174B5D519D41B9300D59D52 /* SLClientPlate.m in Sources */,
 				014F69F619F11E1500D98E02 /* SLMerchantParameters.m in Sources */,
 				01D0FA2019F0C3CC00C4D1EC /* SLOutletsServiceArea.m in Sources */,
+				017BF27219F9E61000A13331 /* SLMaterialInfo.m in Sources */,
 				017F27BB19C3EA7000068BC4 /* SLMessageViewController.m in Sources */,
 				01B3F26019D8EBBE0074AC40 /* SLFinanceProductChartView.m in Sources */,
 				01BDF37619CE80D10005A07A /* SLFinancialProductsDetail.m in Sources */,

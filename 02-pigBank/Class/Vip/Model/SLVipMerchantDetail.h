@@ -53,4 +53,7 @@
 /** longitude */
 @property (nonatomic, strong) NSNumber *longitude;
 
+/** merchantId */
+@property (nonatomic, assign) long merchantId;
+
 @end
