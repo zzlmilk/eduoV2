@@ -200,8 +200,6 @@
     self.tableView.tableFooterView.frame = frame;
     
     self.tableView.contentSize = CGSizeMake(0, [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] intValue]);
-    SLLog(@"%f", self.tableView.contentSize.height);
-    
     
 //    SLLog(@"%f", webView.scrollView.contentSize.height);
     

@@ -21,6 +21,8 @@
  *  @param success 请求成功后的回调
  *  @param failure 请求失败后的回调
  */
-+ (void)merchantDetailWithParameters:(SLMerchantDetailPatameters *)parameters success:(void (^)(SLMerchantDetail *merchantDetail))success failure:(void (^)(NSError *error))failure;
+//+ (void)merchantDetailWithParameters:(SLMerchantDetailPatameters *)parameters success:(void (^)(SLMerchantDetail *merchantDetail))success failure:(void (^)(NSError *error))failure;
+
++ (void)merchantDetailWithParameters:(SLMerchantDetailPatameters *)parameters success:(void (^)(NSArray *merchantDetailAndVipStatuses))success failure:(void (^)(NSError *error))failure;
 
 @end
