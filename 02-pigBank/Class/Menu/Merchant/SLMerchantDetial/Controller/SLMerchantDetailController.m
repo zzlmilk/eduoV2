@@ -23,13 +23,14 @@
 #import "SLMerchantPhotosCell.h"
 #import "SLWebViewCell.h"
 #import "SLCommentCell.h"
+#import "SLPostCommentView.h"
 
 #import "SLMapViewController.h"
 #import "SLVipProductViewController.h"
 
 #import "SLMerchantDetailTool.h"
 
-@interface SLMerchantDetailController () <CLLocationManagerDelegate, UIWebViewDelegate>
+@interface SLMerchantDetailController () <CLLocationManagerDelegate, UIWebViewDelegate, SLPostCommentViewDelegate>
 
 /** 位置管理者 */
 @property (nonatomic, strong) CLLocationManager *locMgr;
@@ -47,6 +48,10 @@
 @property (nonatomic, weak) UIWebView *telWebView;
 
 @property (nonatomic, strong) NSArray *vipStatusArray;
+
+@property (nonatomic, assign) CGFloat webViewCellHeight;
+
+@property (nonatomic, weak) SLPostCommentView *postCommentView;
 
 @end
 
@@ -82,6 +87,24 @@
     
     // 开始定位
     [self.locMgr startUpdatingLocation];
+    
+    // 发表评论的按钮
+    CGFloat commentViewX = 0;
+    CGFloat commentViewW = screenW;
+    CGFloat commentViewH = 44;
+    CGFloat commentViewY = screenH - commentViewH - 44 - 20;
+    SLPostCommentView *postCommentView = [[SLPostCommentView alloc] initWithFrame:CGRectMake(commentViewX, commentViewY, commentViewW, commentViewH)];
+    self.postCommentView = postCommentView;
+    postCommentView.delegate = self;
+#warning ----- 工具条还没有设置好
+//    [[self.tableView superview] addSubview:postCommentView];
+//    [[self.tableView superview] bringSubviewToFront:postCommentView];
+}
+
+#pragma mark ----- postView的代理方法
+- (void)postCommentView:(SLPostCommentView *)postCommentView didClickPostCommentButton:(UIButton *)button
+{
+    SLLog(@"--------buttonClick---------");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,10 +162,10 @@
         return cell;
     } else if ([[[item.cellClass alloc] init] isKindOfClass:[SLWebViewCell class]]) {
         SLWebViewCell *cell = [SLWebViewCell cellWithTableView:tableView];
-        UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(5, 5, 310, 90)];
-//        webview.delegate = self;
+        UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, 320, self.webViewCellHeight)];
+        webview.delegate = self;
         webview.backgroundColor = [UIColor clearColor];
-//        webview.scrollView.bounces = NO;//禁止滑动
+        webview.scrollView.bounces = NO;//禁止滑动
         self.detailInfoWebView = webview;
         [webview loadHTMLString:merchantDetail.Description baseURL:nil];
         [cell.contentView addSubview:webview];
@@ -158,11 +181,6 @@
             cell.item = item;
             return cell;
         } else if (indexPath.section == 5) {
-//            for (int i = 0; i < merchantDetail.othersCommentList.count; i++) {
-//                SLMerchantCommentFrame *merchantCommentFrame = [[SLMerchantCommentFrame alloc] init];
-//                merchantCommentFrame.otherComment = merchantDetail.othersCommentList[i];
-//                cell.commentFrame = merchantCommentFrame;
-//            }
             cell.item = item;
             return cell;
         }
@@ -224,7 +242,7 @@
     } else if ([[[item.cellClass alloc] init] isKindOfClass:[SLMerchantPhotosCell class]]) {
         return merchantDetailFrame.merchantPhotoFrame.cellHeight;
     } else if ([[[item.cellClass alloc] init] isKindOfClass:[SLWebViewCell class]]) {
-        return 90;//self.detailInfoWebView.frame.size.height;
+        return self.webViewCellHeight;//self.detailInfoWebView.frame.size.height;
     } else if ([[[item.cellClass alloc] init] isKindOfClass:[SLCommentCell class]]) {
         return merchantDetailFrame.merchantCommentFrame.cellHeight;
     }
@@ -253,6 +271,12 @@
         
         self.merchantDetail = merchantDetailAndVipStatuses[0];
         self.vipStatusArray = merchantDetailAndVipStatuses[1];
+        
+        UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-320, 0, 320, 300)];
+        webview.delegate = self;
+        webview.tag = 1;
+        [webview loadHTMLString:self.merchantDetail.Description baseURL:nil];
+        [self.view addSubview:webview];
         
     } failure:^(NSError *error) {
         
@@ -356,7 +380,13 @@
 #pragma mark ----- uiwebView的代理方法
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [webView sizeToFit];
+    if (webView.tag == 1) {
+        CGSize actualSize = [webView sizeThatFits:CGSizeZero];
+        CGRect newFrame = webView.frame;
+        newFrame.size.height = actualSize.height;
+        self.webViewCellHeight = actualSize.height;
+        [self.tableView reloadData];
+    }
 }
 
 @end

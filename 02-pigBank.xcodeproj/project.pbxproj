@@ -233,6 +233,7 @@
 		01E66E9119C2F95C0005C79C /* SLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E66E7A19C2F95C0005C79C /* SLTabBarController.m */; };
 		01E66E9219C2F95C0005C79C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E66E7E19C2F95C0005C79C /* main.m */; };
 		01E66E9319C2F95C0005C79C /* SLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E66E8019C2F95C0005C79C /* SLAppDelegate.m */; };
+		01EAF9FD19FDEC9F001B651C /* SLPostCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAF9FC19FDEC9F001B651C /* SLPostCommentView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -692,6 +693,8 @@
 		01E66E7E19C2F95C0005C79C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Class/Main/Other/main.m; sourceTree = "<group>"; };
 		01E66E7F19C2F95C0005C79C /* SLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLAppDelegate.h; sourceTree = "<group>"; };
 		01E66E8019C2F95C0005C79C /* SLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLAppDelegate.m; sourceTree = "<group>"; };
+		01EAF9FB19FDEC9F001B651C /* SLPostCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPostCommentView.h; sourceTree = "<group>"; };
+		01EAF9FC19FDEC9F001B651C /* SLPostCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPostCommentView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1180,6 +1183,8 @@
 				017BF27D19FA235D00A13331 /* SLCommentCell.m */,
 				017BF28219FA2BC900A13331 /* SLScoreView.h */,
 				017BF28319FA2BC900A13331 /* SLScoreView.m */,
+				01EAF9FB19FDEC9F001B651C /* SLPostCommentView.h */,
+				01EAF9FC19FDEC9F001B651C /* SLPostCommentView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2624,6 +2629,7 @@
 				015243D619D6956B001E84B4 /* SLFinancialLabel.m in Sources */,
 				017CF76019CABE3200872031 /* SLMoreViewController.m in Sources */,
 				0166730F19F7A365004EA294 /* SLMerchantDetailTool.m in Sources */,
+				01EAF9FD19FDEC9F001B651C /* SLPostCommentView.m in Sources */,
 				0106C2E419C6B696009CBED9 /* UIImage+S_LINE.m in Sources */,
 				0100AA0F19EE636A00B9C6D5 /* SLMenuLabelItem.m in Sources */,
 				019A5FDA19F8AFF00052F3BA /* SLMerchantDetailItem.m in Sources */,
