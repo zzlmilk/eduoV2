@@ -234,6 +234,9 @@
 		01E66E9219C2F95C0005C79C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E66E7E19C2F95C0005C79C /* main.m */; };
 		01E66E9319C2F95C0005C79C /* SLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E66E8019C2F95C0005C79C /* SLAppDelegate.m */; };
 		01EAF9FD19FDEC9F001B651C /* SLPostCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAF9FC19FDEC9F001B651C /* SLPostCommentView.m */; };
+		01EAFA0019FE291D001B651C /* SLMaterialTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAF9FF19FE291D001B651C /* SLMaterialTool.m */; };
+		01EAFA0319FE298E001B651C /* SLMaterialParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0219FE298E001B651C /* SLMaterialParameters.m */; };
+		01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -695,6 +698,12 @@
 		01E66E8019C2F95C0005C79C /* SLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLAppDelegate.m; sourceTree = "<group>"; };
 		01EAF9FB19FDEC9F001B651C /* SLPostCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPostCommentView.h; sourceTree = "<group>"; };
 		01EAF9FC19FDEC9F001B651C /* SLPostCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPostCommentView.m; sourceTree = "<group>"; };
+		01EAF9FE19FE291D001B651C /* SLMaterialTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMaterialTool.h; sourceTree = "<group>"; };
+		01EAF9FF19FE291D001B651C /* SLMaterialTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialTool.m; sourceTree = "<group>"; };
+		01EAFA0119FE298E001B651C /* SLMaterialParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMaterialParameters.h; sourceTree = "<group>"; };
+		01EAFA0219FE298E001B651C /* SLMaterialParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialParameters.m; sourceTree = "<group>"; };
+		01EAFA0419FE4347001B651C /* SLMenuNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMenuNavgationController.h; sourceTree = "<group>"; };
+		01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMenuNavgationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1098,6 +1107,8 @@
 				015FF66919ED7CA70002C618 /* SLConsultantParameters.m */,
 				0137618719EF9DF700248FF3 /* SLPlateParameters.h */,
 				0137618819EF9DF700248FF3 /* SLPlateParameters.m */,
+				01EAFA0119FE298E001B651C /* SLMaterialParameters.h */,
+				01EAFA0219FE298E001B651C /* SLMaterialParameters.m */,
 			);
 			name = Patameters;
 			sourceTree = "<group>";
@@ -1844,6 +1855,8 @@
 				0188749719EA489900250648 /* SLHomeStatusCacheTool.m */,
 				0143FA3919EBB1A7007FFC80 /* SLFinanceProductCacheTool.h */,
 				0143FA3A19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m */,
+				01EAF9FE19FE291D001B651C /* SLMaterialTool.h */,
+				01EAF9FF19FE291D001B651C /* SLMaterialTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2245,6 +2258,8 @@
 				017CF75F19CABE3200872031 /* SLMoreViewController.m */,
 				0174B5BA19D3BE4200D59D52 /* SLViewController.h */,
 				0174B5BB19D3BE4200D59D52 /* SLViewController.m */,
+				01EAFA0419FE4347001B651C /* SLMenuNavgationController.h */,
+				01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2603,6 +2618,7 @@
 				0174B5C719D40BA100D59D52 /* SLMenuGroup.m in Sources */,
 				017CF75A19CABD9700872031 /* ICSDropShadowView.m in Sources */,
 				0185B7AB19E4E17D00FD9C95 /* UIImage+MultiFormat.m in Sources */,
+				01EAFA0319FE298E001B651C /* SLMaterialParameters.m in Sources */,
 				01D6079F19F75106007362CC /* SLOutletDetialController.m in Sources */,
 				0185B7A619E4E17D00FD9C95 /* SDWebImageDownloaderOperation.m in Sources */,
 				0100A9EA19EE0DDA00B9C6D5 /* SLFinancialProductParameters.m in Sources */,
@@ -2677,6 +2693,7 @@
 				01D607A719F786BB007362CC /* SLMapViewController.m in Sources */,
 				018DDB9A19EF7613004B8F73 /* SLOutletsParameters.m in Sources */,
 				01AC95D519ED2443009AB082 /* AFHTTPSessionManager.m in Sources */,
+				01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */,
 				01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */,
 				014F69EA19F1073D00D98E02 /* SLServiceAreaCoverView.m in Sources */,
 				017F27BE19C3EA9300068BC4 /* SLPhoneViewController.m in Sources */,
@@ -2705,6 +2722,7 @@
 				017CF73319CA7E3E00872031 /* SLHomeStatusFrame.m in Sources */,
 				01982FAF19D16AE600E41EE9 /* SLVipStatusFirstMaterialInfo.m in Sources */,
 				018DDBA219EF77A9004B8F73 /* SLOutletsTool.m in Sources */,
+				01EAFA0019FE291D001B651C /* SLMaterialTool.m in Sources */,
 				014F69FA19F11E7900D98E02 /* SLMerchantTool.m in Sources */,
 				0166731519F7ABC9004EA294 /* SLMerchantUserInfo.m in Sources */,
 				01732B8F19D540AC00D8A98C /* SLChangeMyMobileController.m in Sources */,

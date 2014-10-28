@@ -25,6 +25,8 @@
 #import "SLHttpTool.h"
 #import "SLVipStatusTool.h"
 #import "UIBarButtonItem+SL.h"
+#import "SLConsultantTool.h"
+#import "SLAccountTool.h"
 
 #import "UIButton+WebCache.h"
 #import "MJExtension.h"
@@ -32,7 +34,7 @@
 
 #define ButtonW 64;
 
-@interface SLVipViewController () 
+@interface SLVipViewController () <UIActionSheetDelegate>
 
 @property (nonatomic, weak) SLVipHeadViewButton *foodHeadButton;
 @property (nonatomic, weak) SLVipHeadViewButton *journeyHeadButton;
@@ -43,9 +45,19 @@
 /** vipStatusFrame */
 @property (nonatomic, strong) NSArray *vipStatusFrames;
 
+@property (nonatomic, strong) SLConsultant *consultant;
+
 @end
 
 @implementation SLVipViewController
+
+- (SLConsultant *)consultant
+{
+    if (_consultant == nil) {
+        _consultant = [SLConsultantTool getConsultantAccount];
+    }
+    return _consultant;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -62,8 +74,8 @@
     
     self.tableView.rowHeight = 70;
     
-    // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
+    // 设置导航栏
+    [self setupNavBar];
     
     /**
      *  设置tableHeadView
@@ -71,6 +83,38 @@
     [self setupTableHeadView];
     
     [self setupVipViewData];
+}
+
+/**
+ *  设置导航栏
+ */
+- (void)setupNavBar
+{
+    // 设置右上角的barButton
+    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+    self.navigationItem.rightBarButtonItem = callItem;
+    
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
+}
+
+#pragma mark ----- 设置打电话的item
+- (void)call
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.consultant.mobile], nil];
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIWebView *callWebView = [[UIWebView alloc] init];
+    [self.view addSubview:callWebView];
+    
+    if (buttonIndex == 0) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.consultant.mobile]];
+        [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+    } else if (buttonIndex == 1) {
+    }
 }
 
 /**
@@ -131,7 +175,6 @@
     
     [self.navigationController pushViewController:vcvc animated:YES];
 }
-
 
 /**
  *  点击更多按钮弹出侧滑菜单

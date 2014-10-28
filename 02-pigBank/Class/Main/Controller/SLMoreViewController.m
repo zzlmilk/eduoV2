@@ -15,10 +15,13 @@
 #import "SLTabBarController.h"
 #import "SLFinancialProductsListController.h"
 #import "SLNavigationController.h"
+#import "SLMenuNavgationController.h"
 
 @interface SLMoreViewController ()<SLFinancialProductsListControllerDelegate>
 
 @property (nonatomic, strong) NSArray *moreGroups;
+
+@property (nonatomic, assign) long financialProductMark;
 
 @end
 
@@ -153,8 +156,7 @@
         SLFinancialProductsListController *financial = [[SLFinancialProductsListController alloc] init];
         financial.tag = 1;
         
-        SLNavigationController *nav = [[SLNavigationController alloc] initWithRootViewController:financial];
-        financial.delegate = nav;
+        SLMenuNavgationController *nav = [[SLMenuNavgationController alloc] initWithRootViewController:financial];
         nav.title = @"尊享理财";
         
         [self.drawer replaceCenterViewControllerWithViewController:nav];
@@ -163,7 +165,7 @@
 
 - (void)financialProductListController:(SLFinancialProductsListController *)financialProductListController didClickMoreButton:(UIBarButtonItem *)more
 {
-    [self.drawer open];
+    
 }
 
 - (void)setupChildController:(UIViewController *)controller title:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName
@@ -179,6 +181,18 @@
     SLNavigationController *nav = [[SLNavigationController alloc] initWithRootViewController:controller];
     // 添加子控制器
     [self addChildViewController:nav];
+}
+
+#pragma mark - ICSDrawerControllerPresenting
+
+- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = YES;
+}
+
+- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
+{
+    self.view.userInteractionEnabled = NO;
 }
 
 @end

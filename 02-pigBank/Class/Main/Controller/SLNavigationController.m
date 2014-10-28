@@ -23,7 +23,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        // Custom initialization
     }
     return self;
 }
@@ -35,8 +34,6 @@
 {
     // 设置导航栏主题
     [self setupNavBarTheme];
-    
-    
 }
 
 + (void)setupNavBarTheme
@@ -52,8 +49,6 @@
     attri[UITextAttributeFont] = [UIFont boldSystemFontOfSize:18];
     attri[UITextAttributeTextShadowOffset] = [NSValue valueWithUIOffset:UIOffsetZero];
     [navBar setTitleTextAttributes:attri];
-    
-    
 }
 
 - (void)viewDidLoad

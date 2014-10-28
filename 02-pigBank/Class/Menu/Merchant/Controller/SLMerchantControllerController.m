@@ -116,7 +116,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView setSeparatorColor:[UIColor clearColor]];
+//    [self.tableView setSeparatorColor:[UIColor clearColor]];
     
     SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
     headView.delegate = self;

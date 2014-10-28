@@ -20,6 +20,7 @@
 #import "SLOutletsTableHeadView.h"
 #import "SLServiceItemCoverView.h"
 #import "SLServiceAreaCoverView.h"
+#import "SLMerchantHeadView.h"
 
 #import "SLOutletDetialController.h"
 
@@ -31,7 +32,7 @@
 #import "MJRefresh.h"
 
 
-@interface SLOutletsViewController () <CLLocationManagerDelegate, SLOutletsTableHeadViewDelegate, SLServiceItemCoverViewDelegate, SLServiceAreaCoverViewDelegate, MJRefreshBaseViewDelegate>
+@interface SLOutletsViewController () <CLLocationManagerDelegate, SLOutletsTableHeadViewDelegate, SLServiceItemCoverViewDelegate, SLServiceAreaCoverViewDelegate, MJRefreshBaseViewDelegate, SLMerchantHeadViewDelegate>
 
 /** 位置管理者 */
 @property (nonatomic, strong) CLLocationManager *locMgr;
@@ -56,6 +57,8 @@
 @property (nonatomic, assign) long currentPage;
 
 @property (nonatomic, strong) UIScrollView *scrollView;
+
+@property (nonatomic, strong) SLMerchantHeadView *headView;
 
 @end
 
@@ -115,8 +118,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    SLOutletsTableHeadView *headView = [[SLOutletsTableHeadView alloc] init];
+    SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
     headView.delegate = self;
+    self.headView = headView;
+    [headView setLeftButtonWithTitle:@"服务项目" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
+    [headView setRightButtonWithTitle:@"服务区域" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
     self.tableView.tableHeaderView = headView;
     
     SLServiceItemCoverView *serviceItemView = [[SLServiceItemCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 40)];
@@ -310,20 +316,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark ----- tableHeadView的代理方法
-- (void)outletsTableHeadView:(SLOutletsTableHeadView *)vipChildTableHeadView didClickServiceAreaButton:(UIButton *)serviceAreaButton
-{
-    if (self.serviceAreaCoverView.hidden == YES) {
-        self.serviceAreaCoverView.hidden = NO;
-        self.serviceItemCoverView.hidden = YES;
-        self.tableView.scrollEnabled = NO;
-    } else {
-        self.serviceAreaCoverView.hidden = YES;
-        self.tableView.scrollEnabled = YES;
-    }
-}
-
-- (void)outletsTableHeadView:(SLOutletsTableHeadView *)vipChildTableHeadView didClickServiceItemButton:(UIButton *)serviceItemButton
+#pragma mark ----- SLMerchantHeadView的代理方法
+- (void)merchantHeadView:(SLMerchantHeadView *)merchantHeadView didClickLeftButton:(SLRotateButton *)leftButton
 {
     if (self.serviceItemCoverView.hidden == YES) {
         self.serviceItemCoverView.hidden = NO;
@@ -331,17 +325,29 @@
         self.tableView.scrollEnabled = NO;
     } else {
         self.serviceItemCoverView.hidden = YES;
-        self.tableView.scrollEnabled = YES;
+    }
+}
+- (void)merchantHeadView:(SLMerchantHeadView *)merchantHeadView didClickRightButton:(SLRotateButton *)rightButton
+{
+    if (self.serviceAreaCoverView.hidden == YES) {
+        self.serviceAreaCoverView.hidden = NO;
+        self.serviceItemCoverView.hidden = YES;
+        self.tableView.scrollEnabled = NO;
+    } else {
+        self.serviceAreaCoverView.hidden = YES;
     }
 }
 
 #pragma mark ----- cover的代理方法
 - (void)serviceItemCoverView:(SLServiceItemCoverView *)serviceItemCoverView didSelectedServiceItem:(SLOutletsServiceItem *)serviceItem
 {
+    [self.headView setLeftButtonStatusNormal];
     if (serviceItem == nil) {
         self.serviceType = @"";
+        [self.headView setLeftButtonWithTitle:@"所有项目"];
     } else {
         self.serviceType = [NSString stringWithFormat:@"%@", serviceItem.dataValue];
+        [self.headView setLeftButtonWithTitle:serviceItem.dataText];
     }
     
     self.serviceItemCoverView.hidden = YES;
@@ -352,10 +358,13 @@
 
 - (void)serviceAreaCoverView:(SLServiceAreaCoverView *)serviceAreaCoverView didSelectedChildrenArea:(SLChildrenAreaList *)childrenArea
 {
+    [self.headView setRightButtonStatusNormal];
     if (childrenArea == nil) {
         self.outletsArea = nil;
+        [self.headView setRightButtonWithTitle:@"所有区域"];
     } else {
         self.outletsArea = childrenArea.areaId;
+        [self.headView setRightButtonWithTitle:childrenArea.areaName];
     }
     
     self.serviceAreaCoverView.hidden = YES;

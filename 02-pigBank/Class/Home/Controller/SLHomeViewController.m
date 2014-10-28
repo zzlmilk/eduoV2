@@ -19,6 +19,8 @@
 #import "SLPlateParameters.h"
 #import "SLHomeStatus.h"
 #import "SLHomeStatusFrame.h"
+#import "SLMaterialParameters.h"
+#import "SLVipStatus.h"
 
 #import "SLHomeStatusCell.h"
 #import "SLSearchBar.h"
@@ -28,6 +30,7 @@
 #import "SLSearchController.h"
 #import "SLNavigationController.h"
 #import "ICSDrawerController.h"
+#import "SLVipProductViewController.h"
 
 #import "SLFinanceProductCacheTool.h"
 #import "SLHttpTool.h"
@@ -35,6 +38,7 @@
 #import "SLConsultantTool.h"
 #import "UIBarButtonItem+SL.h"
 #import "SLAccountTool.h"
+#import "SLMaterialTool.h"
 
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
@@ -131,9 +135,6 @@
     footer.scrollView = self.tableView;
     footer.delegate = self;
     self.footer = footer;
-    //    footer.beginRefreshingBlock = ^(MJRefreshBaseView *refreshView){
-    //        IWLog(@"refreshing.....");
-    //    };
 }
 
 #pragma mark ----- 代理方法,mj刷新包的代理方法
@@ -195,7 +196,8 @@
 
     [SLHomeStatusTool homeStatusesWithParameters:parameters success:^(NSArray *homeStatusArray) {
         NSMutableArray *homeStatusFrameArray = [NSMutableArray array];
-        for (SLHomeStatus *homeStatus in homeStatusArray) {
+        NSArray *homeStatuses = homeStatusArray;
+        for (SLHomeStatus *homeStatus in homeStatuses) {
             SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
             homeStatusFrame.homeStatus = homeStatus;
             [homeStatusFrameArray addObject:homeStatusFrame];
@@ -262,14 +264,8 @@
     self.navigationItem.rightBarButtonItems = self.rightBarButtonItems;
     
     // 设置左上角的barButton
-    UIImage *iconMore = [UIImage imageNamed:@"iconMore"];
-    NSParameterAssert(iconMore);
-//    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
-    
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
 }
-
-
 
 - (void)more:(id)sender
 {
@@ -305,7 +301,6 @@
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.consultant.mobile]];
         [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
     } else if (buttonIndex == 1) {
-//        SLLog(@"1111");
     }
 }
 
@@ -318,7 +313,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -365,10 +359,20 @@
         financeProductController.financeProductFrame = fpf;
         
         [self.navigationController pushViewController:financeProductController animated:YES];
-
-        //        self.titleLabel.text = [NSString stringWithFormat:@"【尊享理财】%@", homeStatus.title];
-    } else {
-        //        self.titleLabel.text = [NSString stringWithFormat:@"【VIP特权】%@", homeStatus.title];
+    } else if (homeStatus.templetType == 2) {
+        SLMaterialParameters *parameters = [SLMaterialParameters parameters]
+        ;
+        parameters.materialId = [NSNumber numberWithLong:homeStatus.materialId];
+        
+        [SLMaterialTool materialWithParameters:parameters success:^(NSArray *materialObject) {
+            SLVipStatus *vipStatus = [materialObject lastObject];
+            
+            SLVipProductViewController *vpvc = [[SLVipProductViewController alloc] init];
+            vpvc.vipStatus = vipStatus;
+            [self.navigationController pushViewController:vpvc animated:YES];
+        } failure:^(NSError *error) {
+            
+        }];
     }
 }
 

@@ -47,8 +47,6 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/listIndexMaterialInfo"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        
-        SLLog(@"%@", responseObject);
     
         NSArray *dictArray = [responseObject[@"info"] lastObject];
 

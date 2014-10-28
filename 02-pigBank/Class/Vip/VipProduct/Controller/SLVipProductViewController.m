@@ -21,6 +21,8 @@
 
 @property (nonatomic, weak) UIWebView *footWebView;
 
+@property (nonatomic, assign) CGFloat footHeight;
+
 @end
 
 @implementation SLVipProductViewController
@@ -38,17 +40,23 @@
 {
     [super viewDidLoad];
     
-    /**
-     *  设置tableHeadView
-     */
-    [self setupTableHeadFootView];
+    // 计算foot的高度
+    [self calculateFootHeight];
     
     [self setupVipProductData];
 }
 
 - (void)setupVipProductData
 {
-    
+}
+
+- (void)calculateFootHeight
+{
+    UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-320, 0, 320, 300)];
+    webview.delegate = self;
+    webview.tag = 1;
+    [webview loadHTMLString:self.vipStatus.firstMaterialInfo.content baseURL:nil];
+    [self.view addSubview:webview];
 }
 
 - (void)setupTableHeadFootView
@@ -69,7 +77,7 @@
     
     UIWebView *webView = [[UIWebView alloc] init];
     
-    webView.frame = CGRectMake(5, 5, 310, 40);
+    webView.frame = CGRectMake(0, 0, 320, self.footHeight);
     webView.delegate = self;
     webView.backgroundColor = [UIColor clearColor];
     webView.scrollView.bounces = NO;//禁止滑动
@@ -186,24 +194,20 @@
 }
 
 #pragma mark ----- uiwebview代理方法
-#warning ----- 没有设置成功
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.footWebView sizeToFit];
-    
-    
-//    NSString *str = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] doubleValue];
-//    SLLog(@"===============%@", str);
-    
-    CGRect frame = self.tableView.tableFooterView.frame;
-    frame.size.height = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] intValue];
-    self.tableView.tableFooterView.frame = frame;
-    
-    self.tableView.contentSize = CGSizeMake(0, [[webView stringByEvaluatingJavaScriptFromString:@"document.body.scrollHeight"] intValue]);
-    
-//    SLLog(@"%f", webView.scrollView.contentSize.height);
-    
-    [self.tableView reloadData];
+    if (webView.tag == 1) {
+        CGSize actualSize = [webView sizeThatFits:CGSizeZero];
+        CGRect newFrame = webView.frame;
+        newFrame.size.height = actualSize.height;
+        self.footHeight = actualSize.height;
+        [self.tableView.tableFooterView reloadInputViews];
+        
+        /**
+         *  设置tableHeadView
+         */
+        [self setupTableHeadFootView];
+    }
 }
 
 @end

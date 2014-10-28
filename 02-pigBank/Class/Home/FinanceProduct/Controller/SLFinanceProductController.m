@@ -27,7 +27,7 @@
 
 #define SLFont13 [UIFont systemFontOfSize:13]
 
-@interface SLFinanceProductController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface SLFinanceProductController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIWebViewDelegate>
 
 @property (nonatomic, weak) UIButton *testView;
 
@@ -155,9 +155,7 @@
 {
     SLFinancialProductsDetail *financialProductDetain = self.financeProductFrame.financeProduct.financialProductsDetail;
     
-    SLLog(@"%ld", self.financeProductFrame.financeProduct.praiseCounts);
-    
-    CGFloat contentH = CGRectGetMaxY(self.financeProductFrame.chartViewF) + 64 + 10;
+    CGFloat contentH = CGRectGetMaxY(self.financeProductFrame.chartViewF) + 20;
     self.scrollView.contentSize = CGSizeMake(0, contentH);
 //    // 增加额外的滚动区域(在顶部增加64的区域,在底部增加44的区域)
 //    self.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
@@ -183,7 +181,6 @@
     // 获取当前时间
     NSDate *now = [NSDate date];
     NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
-    SLLog(@"%f", nowTimeInterval);
     long long leftTime = (long long)(self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd / 1000 - nowTimeInterval) / 60 / 60 / 24;
     self.leftTimeLabel.text = [NSString stringWithFormat:@"剩余时间:%lld天", leftTime];
     
@@ -346,9 +343,12 @@
     self.detailInfoLabel.frame = self.financeProductFrame.detailInfoLabelF;
     
     /** detailInfoContentLabel */
-    self.detailInfoContentLabel.frame = self.financeProductFrame.detailInfoContentLabelF;
-//    NSString *str = [NSString]
-    self.detailInfoContentLabel.text = self.financeProductFrame.financeProduct.content;
+//    self.detailInfoContentLabel.frame = self.financeProductFrame.detailInfoContentLabelF;
+////    NSString *str = [NSString]
+//    self.detailInfoContentLabel.text = self.financeProductFrame.financeProduct.content;
+    
+    self.detailInfoContentWebView.frame = self.financeProductFrame.detailInfoContentWebViewF;
+    [self.detailInfoContentWebView loadHTMLString:self.financeProductFrame.financeProduct.content baseURL:nil];
 }
 
 /**
@@ -649,7 +649,8 @@
     self.detailInfoContentLabel = detailInfoContentLabel;
     
     UIWebView *detailInfoContentWebView = [[UIWebView alloc] init];
-    [detailInfoContentWebView stringByEvaluatingJavaScriptFromString:self.financeProductFrame.financeProduct.content];
+    detailInfoContentWebView.delegate = self;
+    detailInfoContentWebView.scrollView.bounces = NO;
     [self.chartView addSubview:detailInfoContentWebView];
     self.detailInfoContentWebView = detailInfoContentWebView;
 }
@@ -831,8 +832,6 @@
         CGPoint center = self.scrollView.center;
         center.y = center.y - (keyboardFrame1.origin.y - keyboardFrame.origin.y) * 0.55;
         self.scrollView.center = center;
-        
-//        self.scrollView.transform = CGAffineTransformMakeTranslation(0, transformY);
     }];
 }
 
@@ -870,6 +869,23 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.view endEditing:YES];
+}
+
+#pragma mark ----- uiwebview代理方法
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    CGSize actualSize = [webView sizeThatFits:CGSizeZero];
+    CGRect newFrame = webView.frame;
+    newFrame.size.height = actualSize.height;
+    webView.frame = newFrame;
+    
+    CGRect chartViewFrame = self.chartView.frame;
+    chartViewFrame.size.height += actualSize.height;
+    self.chartView.frame = chartViewFrame;
+    
+    CGSize contentSize = self.scrollView.contentSize;
+    contentSize.height += actualSize.height;
+    self.scrollView.contentSize = contentSize;
 }
 
 @end

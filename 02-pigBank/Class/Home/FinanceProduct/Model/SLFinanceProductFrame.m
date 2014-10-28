@@ -327,11 +327,12 @@
     /** detailInfoContentWebViewF */
     CGFloat detailInfoContentWebViewX = 0;
     CGFloat detailInfoContentWebViewY = detailInfoContentLabelY;
-    CGFloat detailInfoContentWebViewW = 0;
-    CGFloat detailInfoContentWebViewH = 0;
+    CGFloat detailInfoContentWebViewW = 310;
+    CGFloat detailInfoContentWebViewH = 30;
+    _detailInfoContentWebViewF = CGRectMake(detailInfoContentWebViewX, detailInfoContentWebViewY, detailInfoContentWebViewW, detailInfoContentWebViewH);
     
     /** 图标区域整体的view */
-    CGFloat chartViewH = CGRectGetMaxY(_detailInfoContentLabelF);
+    CGFloat chartViewH = CGRectGetMaxY(_detailInfoContentWebViewF);
     _chartViewF = CGRectMake(chartViewX, chartViewY, chartViewW, chartViewH);
 }
 

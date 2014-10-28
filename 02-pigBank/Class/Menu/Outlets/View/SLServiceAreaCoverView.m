@@ -67,7 +67,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *ID = @"cell";
+    static NSString *ID = @"SLServiceAreaCoverView";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
@@ -106,12 +106,12 @@
             self.childrenAreaListArray = childAreaListArray;
         }
     } else {
-        if (indexPath.row == 0) {
+        if (self.childrenAreaListArray == nil) {
             if ([self.delegate respondsToSelector:@selector(serviceAreaCoverView:didSelectedChildrenArea:)]) {
                 [self.delegate serviceAreaCoverView:self didSelectedChildrenArea:nil];
             }
-        } else if (tableView.tag == 2) {
-            SLChildrenAreaList *childrenArea = self.childrenAreaListArray[(indexPath.row - 1)];
+        } else {
+            SLChildrenAreaList *childrenArea = self.childrenAreaListArray[(indexPath.row)];
             if ([self.delegate respondsToSelector:@selector(serviceAreaCoverView:didSelectedChildrenArea:)]) {
                 [self.delegate serviceAreaCoverView:self didSelectedChildrenArea:childrenArea];
             }

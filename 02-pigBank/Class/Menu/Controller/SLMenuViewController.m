@@ -30,6 +30,8 @@
 #import "SLClientPlate.h"
 #import "SLClientPlatesTool.h"
 #import "SLHttpTool.h"
+#import "SLConsultantTool.h"
+#import "UIBarButtonItem+SL.h"
 
 
 @interface SLMenuViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
@@ -49,9 +51,19 @@
 /** 账号信息 */
 @property (nonatomic, strong) UIImage *iconImage;
 
+@property (nonatomic, strong) SLConsultant *consultant;
+
 @end
 
 @implementation SLMenuViewController
+
+- (SLConsultant *)consultant
+{
+    if (_consultant == nil) {
+        _consultant = [SLConsultantTool getConsultantAccount];
+    }
+    return _consultant;
+}
 
 - (NSMutableArray *)menuGroups
 {
@@ -75,6 +87,9 @@
 {
     [super viewDidLoad];
     
+    // 设置导航栏
+    [self setupNavBar];
+    
     self.tableView.sectionFooterHeight = 0;
     self.tableView.sectionHeaderHeight = 10;
     self.tableView.contentInset = UIEdgeInsetsMake(-30, 0, 0, 0);
@@ -82,6 +97,38 @@
     [self setupGroup0];
     [self setupGroup1];
     [self setupGroup2];
+}
+
+/**
+ *  设置导航栏
+ */
+- (void)setupNavBar
+{
+    // 设置右上角的barButton
+    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+    self.navigationItem.rightBarButtonItem = callItem;
+    
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
+}
+
+#pragma mark ----- 设置打电话的item
+- (void)call
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.consultant.mobile], nil];
+    actionSheet.tag = 10;
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+
+/**
+ *  点击更多按钮弹出侧滑菜单
+ */
+- (void)more
+{
+    if ([self.delegate respondsToSelector:@selector(menuViewController:didClickMoreButton:)]) {
+        [self.delegate menuViewController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -130,27 +177,38 @@
 - (void)iconImageTaped:(UIImageView *)imageView
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从手机相册选择", nil];
-    
+    actionSheet.tag = 1;
     [actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
+    if (actionSheet.tag == 1) {
+        if (buttonIndex == 0) {
+            
+            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+            ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+            ipc.delegate = self;
+            ipc.allowsEditing = YES;
+            [self presentViewController:ipc animated:YES completion:nil];
+            
+        } else if (buttonIndex == 1) {
+            
+            UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+            ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            ipc.delegate = self;
+            ipc.allowsEditing = YES;
+            [self presentViewController:ipc animated:YES completion:nil];
+        }
+    } else if (actionSheet.tag == 10) {
+        UIWebView *callWebView = [[UIWebView alloc] init];
+        [self.view addSubview:callWebView];
         
-        UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-        ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
-        ipc.delegate = self;
-        ipc.allowsEditing = YES;
-        [self presentViewController:ipc animated:YES completion:nil];
-        
-    } else if (buttonIndex == 1) {
-        
-        UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-        ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        ipc.delegate = self;
-        ipc.allowsEditing = YES;
-        [self presentViewController:ipc animated:YES completion:nil];
+        if (buttonIndex == 0) {
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.consultant.mobile]];
+            [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+        } else if (buttonIndex == 1) {
+        }
     }
 }
 
@@ -202,20 +260,10 @@
         SLMenuArrowItem *arrowItem = (SLMenuArrowItem *)menuItem;
         if (arrowItem.destVcClass) {
             UIViewController *vc = [[arrowItem.destVcClass alloc] init];
+            vc.navigationController.title = menuItem.title;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
-    
-//    if (indexPath.section == 0) {
-//        SLSettingViewController *settingVC = [[SLSettingViewController alloc] init];
-//        
-//        [self.navigationController pushViewController:settingVC animated:YES];
-//    } else if (indexPath.section == 1) {
-//        if (indexPath.row == 0) {
-//            SLFinancialProductsListController *financialProductListC = [[SLFinancialProductsListController alloc] init];
-//            [self.navigationController pushViewController:financialProductListC animated:YES];
-//        }
-//    }
 }
 
 
@@ -312,7 +360,9 @@
     
     mg3.menuItems = @[mi31, mi32, mi33];
     
-    self.menuGroups = @[mg1, mg2, mg3];
+    [self.menuGroups addObject:mg1];
+    [self.menuGroups addObject:mg2];
+    [self.menuGroups addObject:mg3];
 }
 
 - (void)loadClientPlateData

@@ -65,7 +65,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *ID = @"cell";
+    static NSString *ID = @"SLMerchantAreaCoverView";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
@@ -100,7 +100,7 @@
         }
         
         if (self.childrenAreaListArray == nil) {
-            cell.textLabel.text = @"区域";
+            cell.textLabel.text = @"所有区域";
         } else {
             SLChildrenArea *childrenArea = self.childrenAreaListArray[indexPath.row];
             cell.textLabel.text = childrenArea.areaName;

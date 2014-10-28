@@ -89,9 +89,6 @@
     
     if (self.tag == 1) {
         // 设置左上角的barButton
-        UIImage *iconMore = [UIImage imageNamed:@"iconMore"];
-        NSParameterAssert(iconMore);
-        
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
     }
     
@@ -105,7 +102,7 @@
     if ([self.delegate respondsToSelector:@selector(financialProductListController:didClickMoreButton:)]) {
         [self.delegate financialProductListController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
     }
-    [self.drawer open];
+    
 }
 /**
  *  集成刷新控件

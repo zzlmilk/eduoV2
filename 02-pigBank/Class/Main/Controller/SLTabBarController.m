@@ -21,7 +21,7 @@
 #import "SLMenuViewController.h"
 
 
-@interface SLTabBarController () <SLTabBarDelegate, SLHomeViewControllerDelegate, SLVipViewControllerDelegate>
+@interface SLTabBarController () <SLTabBarDelegate, SLHomeViewControllerDelegate, SLVipViewControllerDelegate, SLMenuViewControllerDelegate>
 
 @property (nonatomic, weak) SLTabBar *custom;
 
@@ -108,6 +108,7 @@
     
     // menu
     SLMenuViewController *menu = [[SLMenuViewController alloc] init];
+    menu.delegate = self;
     [self setupChildController:menu title:@"电联" imageName:@"iconPhone" selectedImageName:@"iconPhonePress"];
     
 }
@@ -157,6 +158,15 @@
  *  点击了vip页面的more按钮
  */
 - (void)vipViewController:(SLVipViewController *)vipViewController didClickMoreButton:(UIBarButtonItem *)more
+{
+    [self.drawer open];
+}
+
+#pragma mark - vipViewController的代理方法
+/**
+ *  点击了menu页面的more按钮
+ */
+- (void)menuViewController:(SLMenuViewController *)menuViewController didClickMoreButton:(UIBarButtonItem *)more
 {
     [self.drawer open];
 }

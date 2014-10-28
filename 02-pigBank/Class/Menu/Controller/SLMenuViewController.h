@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ICSDrawerController.h"
+
+@class SLMenuViewController;
+
+@protocol SLMenuViewControllerDelegate <NSObject>
+
+@optional
+- (void)menuViewController:(SLMenuViewController *)menuViewController didClickMoreButton:(UIBarButtonItem *)more;
+
+@end
 
 @interface SLMenuViewController : UITableViewController
+
+@property (nonatomic, weak) id<SLMenuViewControllerDelegate> delegate;
 
 @end
