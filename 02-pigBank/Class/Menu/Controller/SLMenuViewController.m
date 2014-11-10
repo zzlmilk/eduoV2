@@ -230,8 +230,8 @@
     SLFormData *formData = [[SLFormData alloc] init];
     formData.data = UIImageJPEGRepresentation(image, 0.000001);
     formData.name = @"photo";
-    formData.mimeType = @"image/jpeg";
-    formData.filename = @"";
+    formData.mimeType = @"image/png";
+    formData.filename = @"currentImage.png";
     [formDataArray addObject:formData];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues formDataArray:formDataArray success:^(id responseObject) {

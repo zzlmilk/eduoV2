@@ -88,6 +88,9 @@
     // 开始定位
     [self.locMgr startUpdatingLocation];
     
+    self.tableView.sectionFooterHeight = 0;
+    self.tableView.sectionHeaderHeight = 20;
+    
     // 发表评论的按钮
     CGFloat commentViewX = 0;
     CGFloat commentViewW = screenW;

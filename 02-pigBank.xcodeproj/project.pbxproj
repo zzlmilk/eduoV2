@@ -62,9 +62,6 @@
 		0157851819E7A313005EF0F3 /* SLHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0157851719E7A313005EF0F3 /* SLHttpTool.m */; };
 		015920E419C7D3E900AC091B /* SLTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 015920E319C7D3E900AC091B /* SLTitleButton.m */; };
 		015920EC19C7DCCB00AC091B /* SLNewFeaturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 015920EB19C7DCCB00AC091B /* SLNewFeaturesController.m */; };
-		0159211119C832A300AC091B /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 0159210D19C832A300AC091B /* MBProgressHUD+MJ.m */; };
-		0159211219C832A300AC091B /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0159210E19C832A300AC091B /* MBProgressHUD.bundle */; };
-		0159211319C832A300AC091B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0159211019C832A300AC091B /* MBProgressHUD.m */; };
 		0159212319C8363300AC091B /* SLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0159212219C8363300AC091B /* SLLoginViewController.m */; };
 		015FF66A19ED7CA70002C618 /* SLConsultantParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 015FF66919ED7CA70002C618 /* SLConsultantParameters.m */; };
 		01666C7B19CD35F7002AFBFC /* SLLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01666C7A19CD35F7002AFBFC /* SLLabelView.m */; };
@@ -212,6 +209,10 @@
 		01BDF37619CE80D10005A07A /* SLFinancialProductsDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BDF37519CE80D10005A07A /* SLFinancialProductsDetail.m */; };
 		01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BDF37819CEAB280005A07A /* SLVipHeadViewButton.m */; };
 		01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C010AC19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m */; };
+		01C5060B1A00DC47009D0395 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C506051A00DC47009D0395 /* MBProgressHUD+Add.m */; };
+		01C5060C1A00DC47009D0395 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C506071A00DC47009D0395 /* MBProgressHUD+MJ.m */; };
+		01C5060D1A00DC47009D0395 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01C506081A00DC47009D0395 /* MBProgressHUD.bundle */; };
+		01C5060E1A00DC47009D0395 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C5060A1A00DC47009D0395 /* MBProgressHUD.m */; };
 		01C795EB19F0E41F005E2A3E /* SLMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C795EA19F0E41F005E2A3E /* SLMenuViewController.m */; };
 		01D0FA1D19F0C18100C4D1EC /* SLOutletsServiceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA1C19F0C18100C4D1EC /* SLOutletsServiceItem.m */; };
 		01D0FA2019F0C3CC00C4D1EC /* SLOutletsServiceArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA1F19F0C3CC00C4D1EC /* SLOutletsServiceArea.m */; };
@@ -237,6 +238,15 @@
 		01EAFA0019FE291D001B651C /* SLMaterialTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAF9FF19FE291D001B651C /* SLMaterialTool.m */; };
 		01EAFA0319FE298E001B651C /* SLMaterialParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0219FE298E001B651C /* SLMaterialParameters.m */; };
 		01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */; };
+		01FE654F1A00DCB700AAC1EF /* MJPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE653F1A00DCB700AAC1EF /* MJPhoto.m */; };
+		01FE65501A00DCB700AAC1EF /* MJPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01FE65401A00DCB700AAC1EF /* MJPhotoBrowser.bundle */; };
+		01FE65511A00DCB700AAC1EF /* MJPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE65421A00DCB700AAC1EF /* MJPhotoBrowser.m */; };
+		01FE65521A00DCB700AAC1EF /* MJPhotoLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE65441A00DCB700AAC1EF /* MJPhotoLoadingView.m */; };
+		01FE65531A00DCB700AAC1EF /* MJPhotoProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE65461A00DCB700AAC1EF /* MJPhotoProgressView.m */; };
+		01FE65541A00DCB700AAC1EF /* MJPhotoToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE65481A00DCB700AAC1EF /* MJPhotoToolbar.m */; };
+		01FE65551A00DCB700AAC1EF /* MJPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE654A1A00DCB700AAC1EF /* MJPhotoView.m */; };
+		01FE65561A00DCB700AAC1EF /* SDWebImageManager+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE654C1A00DCB700AAC1EF /* SDWebImageManager+MJ.m */; };
+		01FE65571A00DCB700AAC1EF /* UIImageView+MJWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE654E1A00DCB700AAC1EF /* UIImageView+MJWebCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -359,11 +369,6 @@
 		015920E319C7D3E900AC091B /* SLTitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLTitleButton.m; sourceTree = "<group>"; };
 		015920EA19C7DCCB00AC091B /* SLNewFeaturesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLNewFeaturesController.h; sourceTree = "<group>"; };
 		015920EB19C7DCCB00AC091B /* SLNewFeaturesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLNewFeaturesController.m; sourceTree = "<group>"; };
-		0159210C19C832A300AC091B /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
-		0159210D19C832A300AC091B /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
-		0159210E19C832A300AC091B /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
-		0159210F19C832A300AC091B /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		0159211019C832A300AC091B /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		0159212119C8363300AC091B /* SLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLLoginViewController.h; sourceTree = "<group>"; };
 		0159212219C8363300AC091B /* SLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLLoginViewController.m; sourceTree = "<group>"; };
 		015FF66819ED7CA70002C618 /* SLConsultantParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLConsultantParameters.h; sourceTree = "<group>"; };
@@ -663,6 +668,13 @@
 		01BDF37819CEAB280005A07A /* SLVipHeadViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipHeadViewButton.m; sourceTree = "<group>"; };
 		01C010AB19CFC43C00FDE05E /* SLFinanceComparisonViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinanceComparisonViewCell.h; sourceTree = "<group>"; };
 		01C010AC19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceComparisonViewCell.m; sourceTree = "<group>"; };
+		01C506041A00DC47009D0395 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
+		01C506051A00DC47009D0395 /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
+		01C506061A00DC47009D0395 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
+		01C506071A00DC47009D0395 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
+		01C506081A00DC47009D0395 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
+		01C506091A00DC47009D0395 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		01C5060A1A00DC47009D0395 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		01C795EA19F0E41F005E2A3E /* SLMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMenuViewController.m; sourceTree = "<group>"; };
 		01D0FA1B19F0C18100C4D1EC /* SLOutletsServiceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLOutletsServiceItem.h; sourceTree = "<group>"; };
 		01D0FA1C19F0C18100C4D1EC /* SLOutletsServiceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOutletsServiceItem.m; sourceTree = "<group>"; };
@@ -704,6 +716,23 @@
 		01EAFA0219FE298E001B651C /* SLMaterialParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialParameters.m; sourceTree = "<group>"; };
 		01EAFA0419FE4347001B651C /* SLMenuNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMenuNavgationController.h; sourceTree = "<group>"; };
 		01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMenuNavgationController.m; sourceTree = "<group>"; };
+		01FE653E1A00DCB700AAC1EF /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
+		01FE653F1A00DCB700AAC1EF /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
+		01FE65401A00DCB700AAC1EF /* MJPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJPhotoBrowser.bundle; sourceTree = "<group>"; };
+		01FE65411A00DCB700AAC1EF /* MJPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoBrowser.h; sourceTree = "<group>"; };
+		01FE65421A00DCB700AAC1EF /* MJPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoBrowser.m; sourceTree = "<group>"; };
+		01FE65431A00DCB700AAC1EF /* MJPhotoLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoLoadingView.h; sourceTree = "<group>"; };
+		01FE65441A00DCB700AAC1EF /* MJPhotoLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoLoadingView.m; sourceTree = "<group>"; };
+		01FE65451A00DCB700AAC1EF /* MJPhotoProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoProgressView.h; sourceTree = "<group>"; };
+		01FE65461A00DCB700AAC1EF /* MJPhotoProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoProgressView.m; sourceTree = "<group>"; };
+		01FE65471A00DCB700AAC1EF /* MJPhotoToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoToolbar.h; sourceTree = "<group>"; };
+		01FE65481A00DCB700AAC1EF /* MJPhotoToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoToolbar.m; sourceTree = "<group>"; };
+		01FE65491A00DCB700AAC1EF /* MJPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoView.h; sourceTree = "<group>"; };
+		01FE654A1A00DCB700AAC1EF /* MJPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoView.m; sourceTree = "<group>"; };
+		01FE654B1A00DCB700AAC1EF /* SDWebImageManager+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SDWebImageManager+MJ.h"; sourceTree = "<group>"; };
+		01FE654C1A00DCB700AAC1EF /* SDWebImageManager+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SDWebImageManager+MJ.m"; sourceTree = "<group>"; };
+		01FE654D1A00DCB700AAC1EF /* UIImageView+MJWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+MJWebCache.h"; sourceTree = "<group>"; };
+		01FE654E1A00DCB700AAC1EF /* UIImageView+MJWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+MJWebCache.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1017,6 +1046,8 @@
 		015920ED19C8328E00AC091B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				01FE653D1A00DCB700AAC1EF /* MJPhotoBrowser */,
+				01C506031A00DC47009D0395 /* MBProgressHUD */,
 				01AC95BF19ED2443009AB082 /* AFNetworking */,
 				017225C419ED20BF0087E683 /* MJExtension */,
 				0102526019E907B100CC60CB /* fmdb */,
@@ -1024,21 +1055,8 @@
 				0185B78219E4E17D00FD9C95 /* SDWebImage */,
 				019F692019D2B17C0072B87C /* REFrostedViewController */,
 				017CF74D19CABD9700872031 /* ICSDrawerController */,
-				0159210B19C832A300AC091B /* MBProgressHUD */,
 			);
 			name = Lib;
-			sourceTree = "<group>";
-		};
-		0159210B19C832A300AC091B /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				0159210C19C832A300AC091B /* MBProgressHUD+MJ.h */,
-				0159210D19C832A300AC091B /* MBProgressHUD+MJ.m */,
-				0159210E19C832A300AC091B /* MBProgressHUD.bundle */,
-				0159210F19C832A300AC091B /* MBProgressHUD.h */,
-				0159211019C832A300AC091B /* MBProgressHUD.m */,
-			);
-			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		0159211419C8335D00AC091B /* Login */ = {
@@ -2008,6 +2026,20 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		01C506031A00DC47009D0395 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				01C506041A00DC47009D0395 /* MBProgressHUD+Add.h */,
+				01C506051A00DC47009D0395 /* MBProgressHUD+Add.m */,
+				01C506061A00DC47009D0395 /* MBProgressHUD+MJ.h */,
+				01C506071A00DC47009D0395 /* MBProgressHUD+MJ.m */,
+				01C506081A00DC47009D0395 /* MBProgressHUD.bundle */,
+				01C506091A00DC47009D0395 /* MBProgressHUD.h */,
+				01C5060A1A00DC47009D0395 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		01D6079819F74FCB007362CC /* OutletDetial */ = {
 			isa = PBXGroup;
 			children = (
@@ -2448,6 +2480,30 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		01FE653D1A00DCB700AAC1EF /* MJPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				01FE653E1A00DCB700AAC1EF /* MJPhoto.h */,
+				01FE653F1A00DCB700AAC1EF /* MJPhoto.m */,
+				01FE65401A00DCB700AAC1EF /* MJPhotoBrowser.bundle */,
+				01FE65411A00DCB700AAC1EF /* MJPhotoBrowser.h */,
+				01FE65421A00DCB700AAC1EF /* MJPhotoBrowser.m */,
+				01FE65431A00DCB700AAC1EF /* MJPhotoLoadingView.h */,
+				01FE65441A00DCB700AAC1EF /* MJPhotoLoadingView.m */,
+				01FE65451A00DCB700AAC1EF /* MJPhotoProgressView.h */,
+				01FE65461A00DCB700AAC1EF /* MJPhotoProgressView.m */,
+				01FE65471A00DCB700AAC1EF /* MJPhotoToolbar.h */,
+				01FE65481A00DCB700AAC1EF /* MJPhotoToolbar.m */,
+				01FE65491A00DCB700AAC1EF /* MJPhotoView.h */,
+				01FE654A1A00DCB700AAC1EF /* MJPhotoView.m */,
+				01FE654B1A00DCB700AAC1EF /* SDWebImageManager+MJ.h */,
+				01FE654C1A00DCB700AAC1EF /* SDWebImageManager+MJ.m */,
+				01FE654D1A00DCB700AAC1EF /* UIImageView+MJWebCache.h */,
+				01FE654E1A00DCB700AAC1EF /* UIImageView+MJWebCache.m */,
+			);
+			path = MJPhotoBrowser;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2527,8 +2583,9 @@
 			files = (
 				01E66E3B19C2F2790005C79C /* InfoPlist.strings in Resources */,
 				01E66E4319C2F2790005C79C /* Images.xcassets in Resources */,
+				01C5060D1A00DC47009D0395 /* MBProgressHUD.bundle in Resources */,
 				0100AB5319E64D9800E4F1E9 /* MJRefresh.bundle in Resources */,
-				0159211219C832A300AC091B /* MBProgressHUD.bundle in Resources */,
+				01FE65501A00DCB700AAC1EF /* MJPhotoBrowser.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2551,6 +2608,7 @@
 				0100A9F419EE224C00B9C6D5 /* SLVipStatusCacheTool.m in Sources */,
 				017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */,
 				018DDBAF19EF90AF004B8F73 /* SLMaterialUser.m in Sources */,
+				01FE65521A00DCB700AAC1EF /* MJPhotoLoadingView.m in Sources */,
 				0143FA3819EBA675007FFC80 /* SLSettingLabelItem.m in Sources */,
 				0159212319C8363300AC091B /* SLLoginViewController.m in Sources */,
 				0185B7AD19E4E17D00FD9C95 /* UIImageView+WebCache.m in Sources */,
@@ -2562,6 +2620,7 @@
 				01E66E9119C2F95C0005C79C /* SLTabBarController.m in Sources */,
 				019A5FCA19F89A1F0052F3BA /* SLMerchantHeadCell.m in Sources */,
 				017F27C419C3F2BB00068BC4 /* SLTabBarButton.m in Sources */,
+				01FE65561A00DCB700AAC1EF /* SDWebImageManager+MJ.m in Sources */,
 				01982FB519D16BE600E41EE9 /* SLVipMerchantDetail.m in Sources */,
 				0100AB5519E64D9800E4F1E9 /* MJRefreshConst.m in Sources */,
 				0106C2EB19C6E87D009CBED9 /* UIBarButtonItem+SL.m in Sources */,
@@ -2599,6 +2658,7 @@
 				019F692D19D2B17C0072B87C /* RECommonFunctions.m in Sources */,
 				01E66E9219C2F95C0005C79C /* main.m in Sources */,
 				015243CD19D68FA2001E84B4 /* SLFinancialStatusFrame.m in Sources */,
+				01FE65531A00DCB700AAC1EF /* MJPhotoProgressView.m in Sources */,
 				019A5FDD19F8F38F0052F3BA /* SLMerchantPhotosCell.m in Sources */,
 				019F691919D262230072B87C /* SLVipMerchantUserInfo.m in Sources */,
 				013BF22E19C98CC800A0281B /* SLHomeStatus.m in Sources */,
@@ -2672,16 +2732,18 @@
 				01AC95D819ED2443009AB082 /* AFURLConnectionOperation.m in Sources */,
 				014F69E719F0E5CC00D98E02 /* SLOutletsViewController.m in Sources */,
 				015243D319D691A5001E84B4 /* SLFinancialProductListCell.m in Sources */,
+				01C5060B1A00DC47009D0395 /* MBProgressHUD+Add.m in Sources */,
 				0100AA0C19EE62EB00B9C6D5 /* SLMenuArrowItem.m in Sources */,
 				01982FA619D1192600E41EE9 /* SLDetailBlackLabel.m in Sources */,
 				014FCC2519C892D80035E697 /* SLAccount.m in Sources */,
 				017F27CA19C5DD8500068BC4 /* SLNavigationController.m in Sources */,
 				017225DA19ED20BF0087E683 /* MJMember.m in Sources */,
+				01C5060E1A00DC47009D0395 /* MBProgressHUD.m in Sources */,
 				01B3F27319D937CB0074AC40 /* SLConsultant.m in Sources */,
 				019FE3C219F63F4D0065E135 /* SLMerchantStatusFrame.m in Sources */,
+				01FE654F1A00DCB700AAC1EF /* MJPhoto.m in Sources */,
 				018EFFBC19C92F70009915DA /* SLAccountTool.m in Sources */,
 				0166730719F7A209004EA294 /* SLMerchantDetailController.m in Sources */,
-				0159211119C832A300AC091B /* MBProgressHUD+MJ.m in Sources */,
 				0166731E19F7B4D8004EA294 /* SLOthersComment.m in Sources */,
 				01982FB219D16B8700E41EE9 /* SLVipPrivilegeDetail.m in Sources */,
 				015FF66A19ED7CA70002C618 /* SLConsultantParameters.m in Sources */,
@@ -2705,6 +2767,8 @@
 				019FE3BF19F63E010065E135 /* SLMerchantCell.m in Sources */,
 				0185B7A919E4E17D00FD9C95 /* UIButton+WebCache.m in Sources */,
 				019D911419C72B170056B7DB /* SLSearchBar.m in Sources */,
+				01FE65571A00DCB700AAC1EF /* UIImageView+MJWebCache.m in Sources */,
+				01C5060C1A00DC47009D0395 /* MBProgressHUD+MJ.m in Sources */,
 				01982FAC19D16AA200E41EE9 /* SLVipStatus.m in Sources */,
 				014F69F219F11AD100D98E02 /* SLMerchantControllerController.m in Sources */,
 				01AC95DA19ED2443009AB082 /* AFURLResponseSerialization.m in Sources */,
@@ -2714,6 +2778,7 @@
 				01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */,
 				019FA98D19CBD3A100811211 /* SLFinanceProduct.m in Sources */,
 				017225C019ED09AA0087E683 /* SLVipChildViewController.m in Sources */,
+				01FE65551A00DCB700AAC1EF /* MJPhotoView.m in Sources */,
 				017F27C119C3EAA400068BC4 /* SLVipViewController.m in Sources */,
 				0100AA0919EE5F0000B9C6D5 /* SLMenuBaseController.m in Sources */,
 				0100AB5719E64D9800E4F1E9 /* MJRefreshHeaderView.m in Sources */,
@@ -2726,6 +2791,7 @@
 				014F69FA19F11E7900D98E02 /* SLMerchantTool.m in Sources */,
 				0166731519F7ABC9004EA294 /* SLMerchantUserInfo.m in Sources */,
 				01732B8F19D540AC00D8A98C /* SLChangeMyMobileController.m in Sources */,
+				01FE65511A00DCB700AAC1EF /* MJPhotoBrowser.m in Sources */,
 				0106C2E119C5E7A7009CBED9 /* SLTabBar.m in Sources */,
 				0100A9EE19EE0EE300B9C6D5 /* SLFinancialProductTool.m in Sources */,
 				0185B7A019E4E17D00FD9C95 /* MKAnnotationView+WebCache.m in Sources */,
@@ -2757,10 +2823,10 @@
 				017F27BB19C3EA7000068BC4 /* SLMessageViewController.m in Sources */,
 				01B3F26019D8EBBE0074AC40 /* SLFinanceProductChartView.m in Sources */,
 				01BDF37619CE80D10005A07A /* SLFinancialProductsDetail.m in Sources */,
-				0159211319C832A300AC091B /* MBProgressHUD.m in Sources */,
 				01AC95D419ED2443009AB082 /* AFHTTPRequestOperationManager.m in Sources */,
 				0137618C19EFA00500248FF3 /* SLOutletsInfo.m in Sources */,
 				0100A9FB19EE498200B9C6D5 /* SLLoginParameters.m in Sources */,
+				01FE65541A00DCB700AAC1EF /* MJPhotoToolbar.m in Sources */,
 				019F693019D2B17C0072B87C /* UIImage+REFrostedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

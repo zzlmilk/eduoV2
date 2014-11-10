@@ -334,20 +334,42 @@
 {
     if (self.typeCover.hidden == YES) {
         self.typeCover.hidden = NO;
-        self.areaCover.hidden = YES;
-        self.tableView.scrollEnabled = NO;
+        self.typeCover.alpha = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.areaCover.alpha = 0;
+            self.typeCover.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.areaCover.hidden = YES;
+            self.tableView.scrollEnabled = NO;
+        }];
     } else {
-        self.typeCover.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.typeCover.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.typeCover.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+        }];
     }
 }
 - (void)merchantHeadView:(SLMerchantHeadView *)merchantHeadView didClickRightButton:(SLRotateButton *)rightButton
 {
     if (self.areaCover.hidden == YES) {
         self.areaCover.hidden = NO;
-        self.typeCover.hidden = YES;
-        self.tableView.scrollEnabled = NO;
+        self.areaCover.alpha = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.typeCover.alpha = 0;
+            self.areaCover.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.typeCover.hidden = YES;
+            self.tableView.scrollEnabled = NO;
+        }];
     } else {
-        self.areaCover.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.areaCover.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.areaCover.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+        }];
     }
 }
 

@@ -321,20 +321,42 @@
 {
     if (self.serviceItemCoverView.hidden == YES) {
         self.serviceItemCoverView.hidden = NO;
-        self.serviceAreaCoverView.hidden = YES;
-        self.tableView.scrollEnabled = NO;
+        self.serviceItemCoverView.alpha = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.serviceAreaCoverView.alpha = 0;
+            self.serviceItemCoverView.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.serviceAreaCoverView.hidden = YES;
+            self.tableView.scrollEnabled = NO;
+        }];
     } else {
-        self.serviceItemCoverView.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.serviceItemCoverView.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.tableView.scrollEnabled = YES;
+            self.serviceItemCoverView.hidden = YES;
+        }];
     }
 }
 - (void)merchantHeadView:(SLMerchantHeadView *)merchantHeadView didClickRightButton:(SLRotateButton *)rightButton
 {
     if (self.serviceAreaCoverView.hidden == YES) {
         self.serviceAreaCoverView.hidden = NO;
-        self.serviceItemCoverView.hidden = YES;
-        self.tableView.scrollEnabled = NO;
+        self.serviceAreaCoverView.alpha = 0;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.serviceItemCoverView.alpha = 0;
+            self.serviceAreaCoverView.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.serviceItemCoverView.hidden = YES;
+            self.tableView.scrollEnabled = NO;
+        }];
     } else {
-        self.serviceAreaCoverView.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.serviceAreaCoverView.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.serviceAreaCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+        }];
     }
 }
 

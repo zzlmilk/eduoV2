@@ -12,6 +12,9 @@
 
 #import "SLMerchantPhoto.h"
 
+#import "MJPhotoBrowser.h"
+#import "MJPhoto.h"
+
 @interface SLMerchantPhotosCell ()
 
 @property (nonatomic, weak) UIScrollView *scrollView;
@@ -64,7 +67,6 @@
     SLMerchantDetail *merchantDetail = item.merchantDetailFrame.merchantDetail;
     
     CGFloat imageW = (screenW - 4 * middleMargin) / 3;
-#warning ----- scrollView的contentSize设置成功,但是scrollView无法滚动
     if (merchantDetail.merchantPhotoList.count <= 3) {
         self.scrollView.contentSize = CGSizeZero;
     } else {
@@ -76,9 +78,39 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i * (imageW + middleMargin) + middleMargin, middleMargin, imageW, 70)];
         imageView.userInteractionEnabled = YES;
         [imageView setImageWithURL:[NSURL URLWithString:merchantPhoto.pictureUrl] placeholderImage:[UIImage imageNamed:@"app_bg_default_home_img_normal"]];
+        imageView.userInteractionEnabled = YES;
+        imageView.tag = i;
+        [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTap:)]];
         [self.scrollView addSubview:imageView];
     }
     
+}
+
+- (void)imageTap:(UITapGestureRecognizer *)recognizer
+{
+    SLMerchantDetail *merchantDetail = self.item.merchantDetailFrame.merchantDetail;
+    
+    int count = (int)merchantDetail.merchantPhotoList.count;
+    
+    // 1.封装图片数据
+    NSMutableArray *myphotos = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i<count; i++) {
+        // 一个MJPhoto对应一张显示的图片
+        MJPhoto *mjphoto = [[MJPhoto alloc] init];
+        
+        mjphoto.srcImageView = self.scrollView.subviews[i]; // 来源于哪个UIImageView
+        SLMerchantPhoto *merchantPhoto = merchantDetail.merchantPhotoList[i];
+        NSString *photoUrl = merchantPhoto.pictureUrl;
+        mjphoto.url = [NSURL URLWithString:photoUrl]; // 图片路径
+        
+        [myphotos addObject:mjphoto];
+    }
+    
+    // 2.显示相册
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = recognizer.view.tag; // 弹出相册时显示的第一张图片是？
+    browser.photos = myphotos; // 设置所有的图片
+    [browser show];
 }
 
 - (void)awakeFromNib {
