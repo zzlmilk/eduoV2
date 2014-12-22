@@ -24,9 +24,11 @@
 
 #import "SLMerchantTool.h"
 #import "SLHttpTool.h"
+#import "UIBarButtonItem+SL.h"
 
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "UIViewController+REXSideMenu.h"
 
 @interface SLMerchantControllerController ()<CLLocationManagerDelegate, SLMerchantHeadViewDelegate, SLMerchantTypeCoverViewDelegate, SLMerchantAreaCoverViewDelegate, MJRefreshBaseViewDelegate>
 
@@ -136,6 +138,11 @@
     self.areaCover = areaCover;
     areaCover.hidden = YES;
     [self.view addSubview:areaCover];
+    
+    if (self.tag == 1) {
+        // 设置左上角的barButton
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
+    }
     
     // 获取商户业务范围（行业类型）二级列表接口
     NSString *serviceTypeUrl = [SLHttpUrl stringByAppendingString:@"/merchant/listMerchantBusinessScope"];
@@ -323,9 +330,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SLVipMerchantDetail *merchantDetial = self.merchantArray[indexPath.row];
-    SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] initWithStyle:UITableViewStyleGrouped];
+//    SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] initWithStyle:UITableViewStyleGrouped];
+//    mdvc.vipMerchantDetail = merchantDetial;
+//    mdvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] init];
     mdvc.vipMerchantDetail = merchantDetial;
-    mdvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.navigationController pushViewController:mdvc animated:YES];
 }
 

@@ -76,19 +76,21 @@
     CGRect detailLabelFrame = self.detailTextLabel.frame;
     detailLabelFrame.size.width = 200;
     self.detailTextLabel.frame = detailLabelFrame;
+    
+    CGRect distanceLabelFrame = self.detailTextLabel.frame;
+    distanceLabelFrame.origin.x = 220;
+    distanceLabelFrame.size.width = 90;
+    self.distanceLabel.frame = distanceLabelFrame;
 }
 
 - (void)setupSubviewsData
 {
     double distance = [self.outletsListFrame.outletsInfo.outletsDetail.distanceToMe doubleValue] / 1000;
     self.textLabel.text = self.outletsListFrame.outletsInfo.title;
+    self.textLabel.font = SLBoldFont14;
     self.detailTextLabel.text = self.outletsListFrame.outletsInfo.outletsDetail.address;
     
     /** distanceLabel */
-    CGRect distanceLabelFrame = self.detailTextLabel.frame;
-    distanceLabelFrame.origin.x = 220;
-    distanceLabelFrame.size.width = 90;
-    self.distanceLabel.frame = distanceLabelFrame;
     self.distanceLabel.font = SLFont12;
     self.distanceLabel.textAlignment = NSTextAlignmentRight;
     self.distanceLabel.textColor = [UIColor darkGrayColor];

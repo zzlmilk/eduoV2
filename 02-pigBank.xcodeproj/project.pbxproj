@@ -48,6 +48,7 @@
 		0143FA3B19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0143FA3A19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m */; };
 		0143FA4119EBB6ED007FFC80 /* SLFinanceProductParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 0143FA4019EBB6ED007FFC80 /* SLFinanceProductParameters.m */; };
 		0143FA4419EBB744007FFC80 /* SLFinanceProductResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 0143FA4319EBB744007FFC80 /* SLFinanceProductResult.m */; };
+		014A9F861A45AC8C00345E72 /* SLMyCommentSectionFootView.m in Sources */ = {isa = PBXBuildFile; fileRef = 014A9F851A45AC8C00345E72 /* SLMyCommentSectionFootView.m */; };
 		014F69E719F0E5CC00D98E02 /* SLOutletsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 014F69E619F0E5CC00D98E02 /* SLOutletsViewController.m */; };
 		014F69EA19F1073D00D98E02 /* SLServiceAreaCoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 014F69E919F1073D00D98E02 /* SLServiceAreaCoverView.m */; };
 		014F69F219F11AD100D98E02 /* SLMerchantControllerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 014F69F119F11AD100D98E02 /* SLMerchantControllerController.m */; };
@@ -59,6 +60,10 @@
 		015243D319D691A5001E84B4 /* SLFinancialProductListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 015243D219D691A5001E84B4 /* SLFinancialProductListCell.m */; };
 		015243D619D6956B001E84B4 /* SLFinancialLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 015243D519D6956B001E84B4 /* SLFinancialLabel.m */; };
 		015243D919D80FFF001E84B4 /* SLFinanceProductHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 015243D819D80FFF001E84B4 /* SLFinanceProductHeadView.m */; };
+		0155B9A81A387BD500E3A446 /* REXCommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155B9A31A387BD500E3A446 /* REXCommonFunctions.m */; };
+		0155B9A91A387BD500E3A446 /* REXSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155B9A51A387BD500E3A446 /* REXSideMenu.m */; };
+		0155B9AA1A387BD500E3A446 /* UIViewController+REXSideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155B9A71A387BD500E3A446 /* UIViewController+REXSideMenu.m */; };
+		0155B9B21A387FDA00E3A446 /* SLSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155B9B11A387FDA00E3A446 /* SLSideViewController.m */; };
 		0157851819E7A313005EF0F3 /* SLHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0157851719E7A313005EF0F3 /* SLHttpTool.m */; };
 		015920E419C7D3E900AC091B /* SLTitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 015920E319C7D3E900AC091B /* SLTitleButton.m */; };
 		015920EC19C7DCCB00AC091B /* SLNewFeaturesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 015920EB19C7DCCB00AC091B /* SLNewFeaturesController.m */; };
@@ -112,6 +117,8 @@
 		017BF27E19FA235D00A13331 /* SLCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF27D19FA235D00A13331 /* SLCommentCell.m */; };
 		017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF28019FA24D300A13331 /* SLMerchantCommentFrame.m */; };
 		017BF28419FA2BC900A13331 /* SLScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 017BF28319FA2BC900A13331 /* SLScoreView.m */; };
+		017C2B321A3BF7C100A5C51F /* SLMyCommentStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 017C2B311A3BF7C100A5C51F /* SLMyCommentStatusFrame.m */; };
+		017C2B351A3BF8CA00A5C51F /* SLMyCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017C2B341A3BF8CA00A5C51F /* SLMyCommentCell.m */; };
 		017CF73019CA7B0800872031 /* SLHomeStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF72F19CA7B0800872031 /* SLHomeStatusCell.m */; };
 		017CF73319CA7E3E00872031 /* SLHomeStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF73219CA7E3E00872031 /* SLHomeStatusFrame.m */; };
 		017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */ = {isa = PBXBuildFile; fileRef = 017CF73A19CAAEEB00872031 /* SLFinanceProductController.m */; };
@@ -214,6 +221,13 @@
 		01C5060D1A00DC47009D0395 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01C506081A00DC47009D0395 /* MBProgressHUD.bundle */; };
 		01C5060E1A00DC47009D0395 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C5060A1A00DC47009D0395 /* MBProgressHUD.m */; };
 		01C795EB19F0E41F005E2A3E /* SLMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C795EA19F0E41F005E2A3E /* SLMenuViewController.m */; };
+		01C8B6381A3A8F2900F28104 /* SLCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B6371A3A8F2900F28104 /* SLCommentViewController.m */; };
+		01C8B63C1A3AC7B200F28104 /* SLCommitCommentParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B63B1A3AC7B200F28104 /* SLCommitCommentParameters.m */; };
+		01C8B63F1A3AC9A600F28104 /* SLCommitCommentTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B63E1A3AC9A600F28104 /* SLCommitCommentTool.m */; };
+		01C8B64B1A3AEB8400F28104 /* SLMyCommentParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B64A1A3AEB8400F28104 /* SLMyCommentParameters.m */; };
+		01C8B64E1A3AEBEC00F28104 /* SLMyCommentTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B64D1A3AEBEC00F28104 /* SLMyCommentTool.m */; };
+		01C8B6511A3AEC5200F28104 /* SLMyCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B6501A3AEC5200F28104 /* SLMyCommentViewController.m */; };
+		01C8B6541A3AEFD500F28104 /* SLMyCommentStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C8B6531A3AEFD500F28104 /* SLMyCommentStatus.m */; };
 		01D0FA1D19F0C18100C4D1EC /* SLOutletsServiceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA1C19F0C18100C4D1EC /* SLOutletsServiceItem.m */; };
 		01D0FA2019F0C3CC00C4D1EC /* SLOutletsServiceArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA1F19F0C3CC00C4D1EC /* SLOutletsServiceArea.m */; };
 		01D0FA2319F0C57400C4D1EC /* SLChildrenAreaList.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D0FA2219F0C57400C4D1EC /* SLChildrenAreaList.m */; };
@@ -342,6 +356,8 @@
 		0143FA4019EBB6ED007FFC80 /* SLFinanceProductParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceProductParameters.m; sourceTree = "<group>"; };
 		0143FA4219EBB744007FFC80 /* SLFinanceProductResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinanceProductResult.h; sourceTree = "<group>"; };
 		0143FA4319EBB744007FFC80 /* SLFinanceProductResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceProductResult.m; sourceTree = "<group>"; };
+		014A9F841A45AC8C00345E72 /* SLMyCommentSectionFootView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentSectionFootView.h; sourceTree = "<group>"; };
+		014A9F851A45AC8C00345E72 /* SLMyCommentSectionFootView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentSectionFootView.m; sourceTree = "<group>"; };
 		014F69E619F0E5CC00D98E02 /* SLOutletsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOutletsViewController.m; sourceTree = "<group>"; };
 		014F69E819F1073D00D98E02 /* SLServiceAreaCoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLServiceAreaCoverView.h; sourceTree = "<group>"; };
 		014F69E919F1073D00D98E02 /* SLServiceAreaCoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLServiceAreaCoverView.m; sourceTree = "<group>"; };
@@ -363,6 +379,14 @@
 		015243D519D6956B001E84B4 /* SLFinancialLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinancialLabel.m; sourceTree = "<group>"; };
 		015243D719D80FFF001E84B4 /* SLFinanceProductHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinanceProductHeadView.h; sourceTree = "<group>"; };
 		015243D819D80FFF001E84B4 /* SLFinanceProductHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceProductHeadView.m; sourceTree = "<group>"; };
+		0155B9A21A387BD500E3A446 /* REXCommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REXCommonFunctions.h; sourceTree = "<group>"; };
+		0155B9A31A387BD500E3A446 /* REXCommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REXCommonFunctions.m; sourceTree = "<group>"; };
+		0155B9A41A387BD500E3A446 /* REXSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REXSideMenu.h; sourceTree = "<group>"; };
+		0155B9A51A387BD500E3A446 /* REXSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REXSideMenu.m; sourceTree = "<group>"; };
+		0155B9A61A387BD500E3A446 /* UIViewController+REXSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+REXSideMenu.h"; sourceTree = "<group>"; };
+		0155B9A71A387BD500E3A446 /* UIViewController+REXSideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+REXSideMenu.m"; sourceTree = "<group>"; };
+		0155B9B01A387FDA00E3A446 /* SLSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLSideViewController.h; sourceTree = "<group>"; };
+		0155B9B11A387FDA00E3A446 /* SLSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLSideViewController.m; sourceTree = "<group>"; };
 		0157851619E7A313005EF0F3 /* SLHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHttpTool.h; sourceTree = "<group>"; };
 		0157851719E7A313005EF0F3 /* SLHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLHttpTool.m; sourceTree = "<group>"; };
 		015920E219C7D3E900AC091B /* SLTitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLTitleButton.h; sourceTree = "<group>"; };
@@ -469,6 +493,10 @@
 		017BF28019FA24D300A13331 /* SLMerchantCommentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantCommentFrame.m; sourceTree = "<group>"; };
 		017BF28219FA2BC900A13331 /* SLScoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLScoreView.h; sourceTree = "<group>"; };
 		017BF28319FA2BC900A13331 /* SLScoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLScoreView.m; sourceTree = "<group>"; };
+		017C2B301A3BF7C100A5C51F /* SLMyCommentStatusFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentStatusFrame.h; sourceTree = "<group>"; };
+		017C2B311A3BF7C100A5C51F /* SLMyCommentStatusFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentStatusFrame.m; sourceTree = "<group>"; };
+		017C2B331A3BF8CA00A5C51F /* SLMyCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentCell.h; sourceTree = "<group>"; };
+		017C2B341A3BF8CA00A5C51F /* SLMyCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentCell.m; sourceTree = "<group>"; };
 		017CF72E19CA7B0800872031 /* SLHomeStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHomeStatusCell.h; sourceTree = "<group>"; };
 		017CF72F19CA7B0800872031 /* SLHomeStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLHomeStatusCell.m; sourceTree = "<group>"; };
 		017CF73119CA7E3E00872031 /* SLHomeStatusFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLHomeStatusFrame.h; sourceTree = "<group>"; };
@@ -676,6 +704,20 @@
 		01C506091A00DC47009D0395 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		01C5060A1A00DC47009D0395 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		01C795EA19F0E41F005E2A3E /* SLMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMenuViewController.m; sourceTree = "<group>"; };
+		01C8B6361A3A8F2900F28104 /* SLCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCommentViewController.h; sourceTree = "<group>"; };
+		01C8B6371A3A8F2900F28104 /* SLCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCommentViewController.m; sourceTree = "<group>"; };
+		01C8B63A1A3AC7B200F28104 /* SLCommitCommentParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCommitCommentParameters.h; sourceTree = "<group>"; };
+		01C8B63B1A3AC7B200F28104 /* SLCommitCommentParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCommitCommentParameters.m; sourceTree = "<group>"; };
+		01C8B63D1A3AC9A600F28104 /* SLCommitCommentTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCommitCommentTool.h; sourceTree = "<group>"; };
+		01C8B63E1A3AC9A600F28104 /* SLCommitCommentTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCommitCommentTool.m; sourceTree = "<group>"; };
+		01C8B6491A3AEB8400F28104 /* SLMyCommentParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentParameters.h; sourceTree = "<group>"; };
+		01C8B64A1A3AEB8400F28104 /* SLMyCommentParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentParameters.m; sourceTree = "<group>"; };
+		01C8B64C1A3AEBEC00F28104 /* SLMyCommentTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentTool.h; sourceTree = "<group>"; };
+		01C8B64D1A3AEBEC00F28104 /* SLMyCommentTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentTool.m; sourceTree = "<group>"; };
+		01C8B64F1A3AEC5200F28104 /* SLMyCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentViewController.h; sourceTree = "<group>"; };
+		01C8B6501A3AEC5200F28104 /* SLMyCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentViewController.m; sourceTree = "<group>"; };
+		01C8B6521A3AEFD500F28104 /* SLMyCommentStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCommentStatus.h; sourceTree = "<group>"; };
+		01C8B6531A3AEFD500F28104 /* SLMyCommentStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCommentStatus.m; sourceTree = "<group>"; };
 		01D0FA1B19F0C18100C4D1EC /* SLOutletsServiceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLOutletsServiceItem.h; sourceTree = "<group>"; };
 		01D0FA1C19F0C18100C4D1EC /* SLOutletsServiceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOutletsServiceItem.m; sourceTree = "<group>"; };
 		01D0FA1E19F0C3CC00C4D1EC /* SLOutletsServiceArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLOutletsServiceArea.h; sourceTree = "<group>"; };
@@ -991,6 +1033,60 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		0155B9A11A387BD500E3A446 /* REXSideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				0155B9A21A387BD500E3A446 /* REXCommonFunctions.h */,
+				0155B9A31A387BD500E3A446 /* REXCommonFunctions.m */,
+				0155B9A41A387BD500E3A446 /* REXSideMenu.h */,
+				0155B9A51A387BD500E3A446 /* REXSideMenu.m */,
+				0155B9A61A387BD500E3A446 /* UIViewController+REXSideMenu.h */,
+				0155B9A71A387BD500E3A446 /* UIViewController+REXSideMenu.m */,
+			);
+			path = REXSideMenu;
+			sourceTree = "<group>";
+		};
+		0155B9AB1A387FB800E3A446 /* Side */ = {
+			isa = PBXGroup;
+			children = (
+				0155B9AD1A387FB800E3A446 /* Model */,
+				0155B9AF1A387FB800E3A446 /* View */,
+				0155B9AC1A387FB800E3A446 /* Controller */,
+				0155B9AE1A387FB800E3A446 /* Tool */,
+			);
+			path = Side;
+			sourceTree = "<group>";
+		};
+		0155B9AC1A387FB800E3A446 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0155B9B01A387FDA00E3A446 /* SLSideViewController.h */,
+				0155B9B11A387FDA00E3A446 /* SLSideViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0155B9AD1A387FB800E3A446 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0155B9AE1A387FB800E3A446 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		0155B9AF1A387FB800E3A446 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0157851519E7A303005EF0F3 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -1046,6 +1142,7 @@
 		015920ED19C8328E00AC091B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				0155B9A11A387BD500E3A446 /* REXSideMenu */,
 				01FE653D1A00DCB700AAC1EF /* MJPhotoBrowser */,
 				01C506031A00DC47009D0395 /* MBProgressHUD */,
 				01AC95BF19ED2443009AB082 /* AFNetworking */,
@@ -1143,6 +1240,7 @@
 		0166730019F7A1D8004EA294 /* SLMerchantDetial */ = {
 			isa = PBXGroup;
 			children = (
+				01C8B6311A3A8E6F00F28104 /* Comment */,
 				0166730119F7A1D8004EA294 /* Controller */,
 				0166730219F7A1D8004EA294 /* Model */,
 				0166730319F7A1D8004EA294 /* Other */,
@@ -1435,6 +1533,7 @@
 		0174B5BD19D40A5C00D59D52 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				01C8B6401A3AD1F500F28104 /* MyComment */,
 				019FE3B519F622A10065E135 /* MyConsultant */,
 				019FE3AD19F61B9F0065E135 /* MyCollection */,
 				014F69EB19F11AAC00D98E02 /* Merchant */,
@@ -2040,6 +2139,121 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		01C8B6311A3A8E6F00F28104 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6331A3A8E6F00F28104 /* Model */,
+				01C8B6351A3A8E6F00F28104 /* View */,
+				01C8B6321A3A8E6F00F28104 /* Controller */,
+				01C8B6341A3A8E6F00F28104 /* Tool */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		01C8B6321A3A8E6F00F28104 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6361A3A8F2900F28104 /* SLCommentViewController.h */,
+				01C8B6371A3A8F2900F28104 /* SLCommentViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		01C8B6331A3A8E6F00F28104 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6391A3AC78A00F28104 /* Parameters */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		01C8B6341A3A8E6F00F28104 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B63D1A3AC9A600F28104 /* SLCommitCommentTool.h */,
+				01C8B63E1A3AC9A600F28104 /* SLCommitCommentTool.m */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		01C8B6351A3A8E6F00F28104 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		01C8B6391A3AC78A00F28104 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B63A1A3AC7B200F28104 /* SLCommitCommentParameters.h */,
+				01C8B63B1A3AC7B200F28104 /* SLCommitCommentParameters.m */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
+		01C8B6401A3AD1F500F28104 /* MyComment */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6421A3AD1F500F28104 /* Model */,
+				01C8B6441A3AD1F500F28104 /* View */,
+				01C8B6411A3AD1F500F28104 /* Controller */,
+				01C8B6431A3AD1F500F28104 /* Tool */,
+			);
+			path = MyComment;
+			sourceTree = "<group>";
+		};
+		01C8B6411A3AD1F500F28104 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B64F1A3AEC5200F28104 /* SLMyCommentViewController.h */,
+				01C8B6501A3AEC5200F28104 /* SLMyCommentViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		01C8B6421A3AD1F500F28104 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6481A3AEB6300F28104 /* Parameters */,
+				01C8B6521A3AEFD500F28104 /* SLMyCommentStatus.h */,
+				01C8B6531A3AEFD500F28104 /* SLMyCommentStatus.m */,
+				017C2B301A3BF7C100A5C51F /* SLMyCommentStatusFrame.h */,
+				017C2B311A3BF7C100A5C51F /* SLMyCommentStatusFrame.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		01C8B6431A3AD1F500F28104 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B64C1A3AEBEC00F28104 /* SLMyCommentTool.h */,
+				01C8B64D1A3AEBEC00F28104 /* SLMyCommentTool.m */,
+			);
+			name = Tool;
+			path = Other;
+			sourceTree = "<group>";
+		};
+		01C8B6441A3AD1F500F28104 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				017C2B331A3BF8CA00A5C51F /* SLMyCommentCell.h */,
+				017C2B341A3BF8CA00A5C51F /* SLMyCommentCell.m */,
+				014A9F841A45AC8C00345E72 /* SLMyCommentSectionFootView.h */,
+				014A9F851A45AC8C00345E72 /* SLMyCommentSectionFootView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		01C8B6481A3AEB6300F28104 /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				01C8B6491A3AEB8400F28104 /* SLMyCommentParameters.h */,
+				01C8B64A1A3AEB8400F28104 /* SLMyCommentParameters.m */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
 		01D6079819F74FCB007362CC /* OutletDetial */ = {
 			isa = PBXGroup;
 			children = (
@@ -2198,6 +2412,7 @@
 		01E66E7119C2F95C0005C79C /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				0155B9AB1A387FB800E3A446 /* Side */,
 				0174B5BD19D40A5C00D59D52 /* Menu */,
 				0159211419C8335D00AC091B /* Login */,
 				015920E519C7DC9900AC091B /* NewFeatures */,
@@ -2607,6 +2822,7 @@
 				0185B7AA19E4E17D00FD9C95 /* UIImage+GIF.m in Sources */,
 				0100A9F419EE224C00B9C6D5 /* SLVipStatusCacheTool.m in Sources */,
 				017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */,
+				0155B9A81A387BD500E3A446 /* REXCommonFunctions.m in Sources */,
 				018DDBAF19EF90AF004B8F73 /* SLMaterialUser.m in Sources */,
 				01FE65521A00DCB700AAC1EF /* MJPhotoLoadingView.m in Sources */,
 				0143FA3819EBA675007FFC80 /* SLSettingLabelItem.m in Sources */,
@@ -2623,6 +2839,8 @@
 				01FE65561A00DCB700AAC1EF /* SDWebImageManager+MJ.m in Sources */,
 				01982FB519D16BE600E41EE9 /* SLVipMerchantDetail.m in Sources */,
 				0100AB5519E64D9800E4F1E9 /* MJRefreshConst.m in Sources */,
+				01C8B64E1A3AEBEC00F28104 /* SLMyCommentTool.m in Sources */,
+				01C8B6541A3AEFD500F28104 /* SLMyCommentStatus.m in Sources */,
 				0106C2EB19C6E87D009CBED9 /* UIBarButtonItem+SL.m in Sources */,
 				01E66E9319C2F95C0005C79C /* SLAppDelegate.m in Sources */,
 				01732B9219D545CB00D8A98C /* SLChangeMyMobileFrame.m in Sources */,
@@ -2646,12 +2864,14 @@
 				0174B5BC19D3BE4200D59D52 /* SLViewController.m in Sources */,
 				01AC95D319ED2443009AB082 /* AFHTTPRequestOperation.m in Sources */,
 				0106C2E719C6CA55009CBED9 /* SLBadgeButton.m in Sources */,
+				014A9F861A45AC8C00345E72 /* SLMyCommentSectionFootView.m in Sources */,
 				0174B5D219D412C200D59D52 /* SLFinancialProductsListController.m in Sources */,
 				017225D819ED20BF0087E683 /* MJArgument.m in Sources */,
 				019F691C19D2652F0072B87C /* SLVipProduct.m in Sources */,
 				0143FA4119EBB6ED007FFC80 /* SLFinanceProductParameters.m in Sources */,
 				017CF73019CA7B0800872031 /* SLHomeStatusCell.m in Sources */,
 				017225DD19ED20BF0087E683 /* MJTypeEncoding.m in Sources */,
+				01C8B63F1A3AC9A600F28104 /* SLCommitCommentTool.m in Sources */,
 				0137619219EFA77200248FF3 /* SLOutletsListFrame.m in Sources */,
 				01AC95DB19ED2443009AB082 /* AFURLSessionManager.m in Sources */,
 				0137618F19EFA1BE00248FF3 /* SLOutletsDetail.m in Sources */,
@@ -2668,6 +2888,7 @@
 				017225D919ED20BF0087E683 /* MJIvar.m in Sources */,
 				014FCC2219C8872A0035E697 /* NSString+Password.m in Sources */,
 				019FE3B419F61BFD0065E135 /* SLMyCollectionController.m in Sources */,
+				0155B9A91A387BD500E3A446 /* REXSideMenu.m in Sources */,
 				017225B819ECFE0A0087E683 /* SLVipStatusTool.m in Sources */,
 				01732B7619D4F96C00D8A98C /* SLClientPlatesTool.m in Sources */,
 				019F693219D2B17C0072B87C /* UIViewController+REFrostedViewController.m in Sources */,
@@ -2684,9 +2905,11 @@
 				0100A9EA19EE0DDA00B9C6D5 /* SLFinancialProductParameters.m in Sources */,
 				017BF27819F9E6DD00A13331 /* SLMerchantInDetail.m in Sources */,
 				017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */,
+				0155B9AA1A387BD500E3A446 /* UIViewController+REXSideMenu.m in Sources */,
 				018029CE19D5A55800A7B98B /* SLModifyPwdController.m in Sources */,
 				0193C5D919D0147300AF5A49 /* SLMoreItem.m in Sources */,
 				0137619519EFAAF200248FF3 /* SLOutletsListCell.m in Sources */,
+				01C8B64B1A3AEB8400F28104 /* SLMyCommentParameters.m in Sources */,
 				017225B419ECFD770087E683 /* SLVipParameters.m in Sources */,
 				019F691219D25E190072B87C /* SLVipProductArrorCell.m in Sources */,
 				0102526D19E907B100CC60CB /* FMDatabaseAdditions.m in Sources */,
@@ -2725,8 +2948,10 @@
 				016B5DBB19F5043F005F1CC8 /* SLMerchantHeadView.m in Sources */,
 				01732B8119D5081000D8A98C /* SLAccountInfo.m in Sources */,
 				0188749819EA489900250648 /* SLHomeStatusCacheTool.m in Sources */,
+				0155B9B21A387FDA00E3A446 /* SLSideViewController.m in Sources */,
 				019A5FC719F897CB0052F3BA /* SLBaseArrowCell.m in Sources */,
 				018DDBAC19EF8AE8004B8F73 /* SLUserOperateTool.m in Sources */,
+				017C2B351A3BF8CA00A5C51F /* SLMyCommentCell.m in Sources */,
 				019F690F19D25DD80072B87C /* SLVipProductNoneCell.m in Sources */,
 				0100AB5619E64D9800E4F1E9 /* MJRefreshFooterView.m in Sources */,
 				01AC95D819ED2443009AB082 /* AFURLConnectionOperation.m in Sources */,
@@ -2758,6 +2983,7 @@
 				01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */,
 				01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */,
 				014F69EA19F1073D00D98E02 /* SLServiceAreaCoverView.m in Sources */,
+				01C8B6511A3AEC5200F28104 /* SLMyCommentViewController.m in Sources */,
 				017F27BE19C3EA9300068BC4 /* SLPhoneViewController.m in Sources */,
 				0102526C19E907B100CC60CB /* FMDatabase.m in Sources */,
 				019D911119C72A900056B7DB /* SLSearchController.m in Sources */,
@@ -2776,6 +3002,7 @@
 				0166732119F7B536004EA294 /* SLMerchantPhoto.m in Sources */,
 				0166731219F7AB48004EA294 /* SLMerchantDetail.m in Sources */,
 				01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */,
+				01C8B6381A3A8F2900F28104 /* SLCommentViewController.m in Sources */,
 				019FA98D19CBD3A100811211 /* SLFinanceProduct.m in Sources */,
 				017225C019ED09AA0087E683 /* SLVipChildViewController.m in Sources */,
 				01FE65551A00DCB700AAC1EF /* MJPhotoView.m in Sources */,
@@ -2794,6 +3021,7 @@
 				01FE65511A00DCB700AAC1EF /* MJPhotoBrowser.m in Sources */,
 				0106C2E119C5E7A7009CBED9 /* SLTabBar.m in Sources */,
 				0100A9EE19EE0EE300B9C6D5 /* SLFinancialProductTool.m in Sources */,
+				01C8B63C1A3AC7B200F28104 /* SLCommitCommentParameters.m in Sources */,
 				0185B7A019E4E17D00FD9C95 /* MKAnnotationView+WebCache.m in Sources */,
 				016B5DB519F4B0FA005F1CC8 /* SLChildrenScope.m in Sources */,
 				019FE3A919F6091B0065E135 /* SLMerchantAreaCoverView.m in Sources */,
@@ -2811,6 +3039,7 @@
 				018EFFC219C93A42009915DA /* SLLoginButton.m in Sources */,
 				0100A9F719EE3B8500B9C6D5 /* SLFinancialProductFrameCacheTool.m in Sources */,
 				015243D919D80FFF001E84B4 /* SLFinanceProductHeadView.m in Sources */,
+				017C2B321A3BF7C100A5C51F /* SLMyCommentStatusFrame.m in Sources */,
 				017225DE19ED20BF0087E683 /* NSObject+MJCoding.m in Sources */,
 				0185B7A819E4E17D00FD9C95 /* SDWebImagePrefetcher.m in Sources */,
 				01B3F26819D8F6D10074AC40 /* SLFinancialProductListTableHeadView.m in Sources */,

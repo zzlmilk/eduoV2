@@ -27,9 +27,11 @@
 #import "SLAccountTool.h"
 #import "SLHttpTool.h"
 #import "SLOutletsTool.h"
+#import "UIBarButtonItem+SL.h"
 
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "UIViewController+REXSideMenu.h"
 
 
 @interface SLOutletsViewController () <CLLocationManagerDelegate, SLOutletsTableHeadViewDelegate, SLServiceItemCoverViewDelegate, SLServiceAreaCoverViewDelegate, MJRefreshBaseViewDelegate, SLMerchantHeadViewDelegate>
@@ -136,6 +138,11 @@
     serviceAreaView.delegate = self;
     self.serviceAreaCoverView = serviceAreaView;
     serviceAreaView.hidden = YES;
+    
+    if (self.tag == 1) {
+        // 设置左上角的barButton
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
+    }
     
     // 获取网点服务类型列表数据
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/listOutletsServiceType"];

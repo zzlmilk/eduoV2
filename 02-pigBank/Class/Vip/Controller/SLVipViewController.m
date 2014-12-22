@@ -31,6 +31,7 @@
 #import "UIButton+WebCache.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "UIViewController+REXSideMenu.h"
 
 #define ButtonW 64;
 
@@ -95,7 +96,7 @@
     self.navigationItem.rightBarButtonItem = callItem;
     
     // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 #pragma mark ----- 设置打电话的item
@@ -105,6 +106,7 @@
     
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UIWebView *callWebView = [[UIWebView alloc] init];
@@ -150,6 +152,7 @@
     }
     
     for (int i = 0; i < self.vipStatusFrames.count; i++) {
+        
         SLVipStatusFrame *vsf = self.vipStatusFrames[i];
         
         CGFloat headButtonX = i * ButtonW;
@@ -171,7 +174,7 @@
 - (void)headBtnClick:(SLVipHeadViewButton *)headButton
 {
     SLVipChildViewController *vcvc = [[SLVipChildViewController alloc] init];
-    vcvc.classId = [NSNumber numberWithInt:headButton.tag];
+    vcvc.classId = [NSNumber numberWithInteger:headButton.tag];
     
     [self.navigationController pushViewController:vcvc animated:YES];
 }

@@ -30,7 +30,6 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/merchant/catchMerchantInfoById"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        SLLog(@"%@", responseObject);
         
         NSMutableArray *merchantDetailAndVipStatuses = [NSMutableArray array];
         NSMutableArray *vipStatusArray = [NSMutableArray array];

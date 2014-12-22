@@ -19,7 +19,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor clearColor];
-    [self.window makeKeyAndVisible];
     
     NSString *key = @"CFBundleVersion";
     
@@ -37,6 +36,8 @@
         [defaults setObject:currentVersion forKey:key];
         [defaults synchronize];
     }
+    
+    [self.window makeKeyAndVisible];
     
     return YES;
 }

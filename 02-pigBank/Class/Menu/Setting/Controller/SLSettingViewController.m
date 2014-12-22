@@ -230,6 +230,7 @@
     if (si.operation) {
         si.operation();
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

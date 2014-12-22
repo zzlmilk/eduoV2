@@ -10,4 +10,6 @@
 
 @interface SLOutletsViewController : UITableViewController
 
+@property (nonatomic, assign) NSInteger tag;
+
 @end

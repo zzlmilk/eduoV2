@@ -43,6 +43,7 @@
 #import "UIImageView+WebCache.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
+#import "UIViewController+REXSideMenu.h"
 
 
 @interface SLHomeViewController ()<UIActionSheetDelegate, MJRefreshBaseViewDelegate>
@@ -246,9 +247,6 @@
  */
 - (void)setupNavBar
 {
-    //    // 取出appearance
-    //    UINavigationBar *navBar = [UINavigationBar appearance];
-    
     UINavigationBar *navBar = self.navigationController.navigationBar;
     // 设置背景
     [navBar setBackgroundImage:[UIImage imageNamed:@"bjNavigationBarPurple"] forBarMetrics:UIBarMetricsDefault];
@@ -264,14 +262,7 @@
     self.navigationItem.rightBarButtonItems = self.rightBarButtonItems;
     
     // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
-}
-
-- (void)more:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(homeViewController:didClickMoreButton:)]) {
-        [self.delegate homeViewController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
-    }
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 - (void)find

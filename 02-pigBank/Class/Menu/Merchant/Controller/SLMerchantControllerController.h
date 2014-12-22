@@ -10,4 +10,6 @@
 
 @interface SLMerchantControllerController : UITableViewController
 
+@property (nonatomic, assign) NSInteger tag;
+
 @end

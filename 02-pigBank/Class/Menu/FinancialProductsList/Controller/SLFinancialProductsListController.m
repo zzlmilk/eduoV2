@@ -26,6 +26,7 @@
 
 #import "MJRefresh.h"
 #import "MJExtension.h"
+#import "UIViewController+REXSideMenu.h"
 
 @interface SLFinancialProductsListController ()<SLFinancialProductListTableHeadViewDelegate, MJRefreshBaseViewDelegate>
 
@@ -89,20 +90,13 @@
     
     if (self.tag == 1) {
         // 设置左上角的barButton
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more:)];
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
     }
     
     // 集成刷新控件
     [self setupRefreshView];
     
     self.tableView.rowHeight = 85;
-}
-- (void)more:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(financialProductListController:didClickMoreButton:)]) {
-        [self.delegate financialProductListController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
-    }
-    
 }
 /**
  *  集成刷新控件

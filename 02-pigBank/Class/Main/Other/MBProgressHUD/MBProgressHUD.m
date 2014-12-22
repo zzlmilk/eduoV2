@@ -972,7 +972,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark - KVO
-
 - (void)registerForKVO {
 	for (NSString *keyPath in [self observableKeypaths]) {
 		[self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];

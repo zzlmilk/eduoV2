@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+
+#import "REXSideMenu.h"
 #import "ICSDrawerController.h"
 
 @interface SLMoreViewController : UITableViewController 

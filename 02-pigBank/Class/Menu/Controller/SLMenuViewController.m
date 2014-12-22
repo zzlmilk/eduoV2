@@ -24,6 +24,7 @@
 #import "SLMerchantControllerController.h"
 #import "SLMyCollectionController.h"
 #import "SLMyConsultantController.h"
+#import "SLMyCommentViewController.h"
 
 #import "SLAccount.h"
 #import "SLAccountTool.h"
@@ -32,6 +33,8 @@
 #import "SLHttpTool.h"
 #import "SLConsultantTool.h"
 #import "UIBarButtonItem+SL.h"
+
+#import "UIViewController+REXSideMenu.h"
 
 
 @interface SLMenuViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
@@ -109,7 +112,7 @@
     self.navigationItem.rightBarButtonItem = callItem;
     
     // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 #pragma mark ----- 设置打电话的item
@@ -230,8 +233,8 @@
     SLFormData *formData = [[SLFormData alloc] init];
     formData.data = UIImageJPEGRepresentation(image, 0.000001);
     formData.name = @"photo";
-    formData.mimeType = @"image/png";
-    formData.filename = @"currentImage.png";
+    formData.mimeType = @"image/jpeg";
+    formData.filename = @"jpeg";
     [formDataArray addObject:formData];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues formDataArray:formDataArray success:^(id responseObject) {
@@ -296,16 +299,14 @@
 {
     SLMenuGroup *menuGroup = [self addGroup];
     
-    SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"dianPing" title:@"我的点评" destVcClass:nil];
+    SLMenuArrowItem *mai1 = [SLMenuArrowItem itemWithIcon:@"dianPing" title:@"我的点评" destVcClass:[SLMyCommentViewController class]];
     SLMenuArrowItem *mai2 = [SLMenuArrowItem itemWithIcon:@"MoreShouCang" title:@"我的收藏" destVcClass:[SLMyCollectionController class]];
     SLMenuArrowItem *mai3 = [SLMenuArrowItem itemWithIcon:@"guWen" title:@"我的顾问" destVcClass:[SLMyConsultantController class]];
     
     menuGroup.menuItems = @[mai1, mai2, mai3];
 }
 
-/**
- *  设置tableView的模型数据
- */
+#pragma mark ----- setupMenuGroupsData设置tableView的模型数据
 - (void)setupMenuGroupsData
 {
     // 获取当前用户信息

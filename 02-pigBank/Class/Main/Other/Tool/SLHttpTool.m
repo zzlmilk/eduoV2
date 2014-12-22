@@ -47,6 +47,8 @@
 {
     // 1.创建请求管理者对象
     AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    mgr.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/html",@"text/json",@"text/javascript",@"binary/octet-stream", nil];
     
     // 2.发送请求
     [mgr POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> totalFormData) {
@@ -55,10 +57,12 @@
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (success) {
+            SLLog(@"%@", responseObject);
             success(responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failure) {
+            SLLog(@"%@", error);
             failure(error);
         }
     }];

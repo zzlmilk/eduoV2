@@ -10,7 +10,7 @@
 
 #import "SLVipMerchantDetail.h"
 
-@interface SLMerchantDetailController : UITableViewController
+@interface SLMerchantDetailController : UIViewController
 
 @property (nonatomic, strong) SLVipMerchantDetail *vipMerchantDetail;
 

@@ -12,8 +12,7 @@
 
 #import "MBProgressHUD+MJ.h"
 #import "MJExtension.h"
-#import "REFrostedViewController.h"
-#import "ICSDrawerController.h"
+#import "SLSideViewController.h"
 
 #import "SLAccount.h"
 #import "SLAccountInfo.h"
@@ -36,6 +35,8 @@
 
 @property (nonatomic, weak) UITextField *accountTextField;
 @property (nonatomic, weak) UITextField *pwdTextField;
+
+@property (nonatomic, strong) SLSideViewController *sideViewController;
 
 @end
 
@@ -147,8 +148,8 @@
         if ([account.msg isEqualToString:@"登陆成功"]) {
             SLMoreViewController *more = [[SLMoreViewController alloc] init];
             SLTabBarController *tabbar = [[SLTabBarController alloc] init];
-            ICSDrawerController *drawer = [[ICSDrawerController alloc] initWithLeftViewController:more centerViewController:tabbar];
-            self.view.window.rootViewController = drawer;
+            SLSideViewController *sideVC = [[SLSideViewController alloc] initWithContentViewController:tabbar leftMenuViewController:more rightMenuViewController:nil];
+            self.view.window.rootViewController = sideVC;
         } else {
             [MBProgressHUD showError:@"账号或密码错误"];
         }

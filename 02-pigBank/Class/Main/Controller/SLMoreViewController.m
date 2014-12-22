@@ -14,10 +14,14 @@
 
 #import "SLTabBarController.h"
 #import "SLFinancialProductsListController.h"
+#import "SLOutletsViewController.h"
+#import "SLMerchantControllerController.h"
 #import "SLNavigationController.h"
 #import "SLMenuNavgationController.h"
 
-@interface SLMoreViewController ()<SLFinancialProductsListControllerDelegate>
+#import "UIViewController+REXSideMenu.h"
+
+@interface SLMoreViewController ()<SLFinancialProductsListControllerDelegate, REXSideMenuDelegate>
 
 @property (nonatomic, strong) NSArray *moreGroups;
 
@@ -147,10 +151,11 @@
     if ([mi.title isEqualToString:@"首页"]) {
         
         SLTabBarController *tabbar = [[SLTabBarController alloc] init];
+        [self.sideMenuViewController setContentViewController:tabbar animated:YES];
         
         tabbar.selectedIndexPath = 1;
         
-        [self.drawer replaceCenterViewControllerWithViewController:tabbar];
+        [self.sideMenuViewController hideMenuViewController];
         
     } else if ([mi.title isEqualToString:@"尊享理财"]) {
         SLFinancialProductsListController *financial = [[SLFinancialProductsListController alloc] init];
@@ -158,8 +163,28 @@
         
         SLMenuNavgationController *nav = [[SLMenuNavgationController alloc] initWithRootViewController:financial];
         nav.title = @"尊享理财";
+        [self.sideMenuViewController setContentViewController:nav animated:YES];
         
-        [self.drawer replaceCenterViewControllerWithViewController:nav];
+        [self.sideMenuViewController hideMenuViewController];
+        
+    } else if ([mi.title isEqualToString:@"网点信息"]) {
+        SLOutletsViewController *outlets = [[SLOutletsViewController alloc] init];
+        outlets.tag = 1;
+        
+        SLMenuNavgationController *nav = [[SLMenuNavgationController alloc] initWithRootViewController:outlets];
+        nav.title = @"尊享理财";
+        [self.sideMenuViewController setContentViewController:nav animated:YES];
+        
+        [self.sideMenuViewController hideMenuViewController];
+    } else if ([mi.title isEqualToString:@"商户信息"]) {
+        SLMerchantControllerController *merchant = [[SLMerchantControllerController alloc] init];
+        merchant.tag = 1;
+        
+        SLMenuNavgationController *nav = [[SLMenuNavgationController alloc] initWithRootViewController:merchant];
+        nav.title = @"尊享理财";
+        [self.sideMenuViewController setContentViewController:nav animated:YES];
+        
+        [self.sideMenuViewController hideMenuViewController];
     }
 }
 

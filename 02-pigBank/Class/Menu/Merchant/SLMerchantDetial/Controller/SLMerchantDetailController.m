@@ -27,10 +27,11 @@
 
 #import "SLMapViewController.h"
 #import "SLVipProductViewController.h"
+#import "SLCommentViewController.h"
 
 #import "SLMerchantDetailTool.h"
 
-@interface SLMerchantDetailController () <CLLocationManagerDelegate, UIWebViewDelegate, SLPostCommentViewDelegate>
+@interface SLMerchantDetailController () <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UIWebViewDelegate, SLPostCommentViewDelegate>
 
 /** 位置管理者 */
 @property (nonatomic, strong) CLLocationManager *locMgr;
@@ -52,6 +53,8 @@
 @property (nonatomic, assign) CGFloat webViewCellHeight;
 
 @property (nonatomic, weak) SLPostCommentView *postCommentView;
+
+@property (nonatomic, weak) UITableView *tableView;
 
 @end
 
@@ -82,11 +85,26 @@
     return _sectionArray;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     // 开始定位
     [self.locMgr startUpdatingLocation];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    CGRect newFrame = CGRectMake(0, 0, screenW, screenH - 44);
+    UITableView *tableView = [[UITableView alloc] initWithFrame:newFrame style:UITableViewStyleGrouped];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
+    
+    SLLog(@"%@", NSStringFromCGRect(self.tableView.frame));
     
     self.tableView.sectionFooterHeight = 0;
     self.tableView.sectionHeaderHeight = 20;
@@ -95,19 +113,19 @@
     CGFloat commentViewX = 0;
     CGFloat commentViewW = screenW;
     CGFloat commentViewH = 44;
-    CGFloat commentViewY = screenH - commentViewH - 44 - 20;
+    CGFloat commentViewY = screenH - 44;
     SLPostCommentView *postCommentView = [[SLPostCommentView alloc] initWithFrame:CGRectMake(commentViewX, commentViewY, commentViewW, commentViewH)];
     self.postCommentView = postCommentView;
     postCommentView.delegate = self;
-#warning ----- 工具条还没有设置好
-//    [[self.tableView superview] addSubview:postCommentView];
-//    [[self.tableView superview] bringSubviewToFront:postCommentView];
+    [self.view addSubview:postCommentView];
 }
 
 #pragma mark ----- postView的代理方法
 - (void)postCommentView:(SLPostCommentView *)postCommentView didClickPostCommentButton:(UIButton *)button
 {
-    SLLog(@"--------buttonClick---------");
+    SLCommentViewController *vc = [[SLCommentViewController alloc] init];
+    vc.vipMerchantDetail = self.vipMerchantDetail;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -264,6 +282,7 @@
     [self.locMgr stopUpdatingLocation];
 }
 
+#pragma mark ----- loadInternetData加载网络数据
 - (void)loadInternetData
 {
     self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
@@ -275,7 +294,7 @@
         self.merchantDetail = merchantDetailAndVipStatuses[0];
         self.vipStatusArray = merchantDetailAndVipStatuses[1];
         
-        UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-320, 0, 320, 300)];
+        UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-3200, 0, screenW, 300)];
         webview.delegate = self;
         webview.tag = 1;
         [webview loadHTMLString:self.merchantDetail.Description baseURL:nil];

@@ -20,6 +20,13 @@
     if (self) {
         self.backgroundColor = SLColor(242, 242, 242);
         
+        // 顶部分隔线
+        UIView *separator = [[UIView alloc] init];
+        separator.frame = CGRectMake(0, 0, frame.size.width, 0.5);
+        separator.backgroundColor = [UIColor darkGrayColor];
+        [self addSubview:separator];
+        
+        // 评论按钮
         UIButton *postCommentButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [postCommentButton setBackgroundImage:[UIImage imageNamed:@"pinLunAnNiu"] forState:UIControlStateNormal];
         [postCommentButton setTitle:@"发表评论" forState:UIControlStateNormal];

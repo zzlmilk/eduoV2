@@ -77,7 +77,6 @@
 {
     SLTabBar *custom = [[SLTabBar alloc] init];
     custom.frame = self.tabBar.bounds;
-//    custom.backgroundColor = [UIColor redColor];
     [self.tabBar addSubview:custom];
     custom.delegate = self;
     
