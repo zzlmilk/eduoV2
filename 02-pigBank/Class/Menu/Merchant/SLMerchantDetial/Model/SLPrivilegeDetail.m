@@ -8,6 +8,10 @@
 
 #import "SLPrivilegeDetail.h"
 
+#import "MJExtension.h"
+
 @implementation SLPrivilegeDetail
+
+MJCodingImplementation
 
 @end

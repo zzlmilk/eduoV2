@@ -56,9 +56,7 @@
     return self;
 }
 
-/**
- *  setupStatusSubviews ----- 添加status内部所有的子控件
- */
+#pragma mark ----- setupStatusSubviews ----- 添加status内部所有的子控件
 - (void)setupStatusSubviews
 {
     /** pictureImageView */
@@ -137,7 +135,7 @@
     // frame
     self.likeView.frame = self.merchantStatusFrame.likeViewF;
     // image
-    self.likeView.image = [UIImage imageNamed:@"zan"];
+    self.likeView.image = [UIImage imageNamed:@"xiaoZan"];
     
     /** priseCountLabel */
     // frame

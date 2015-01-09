@@ -92,7 +92,7 @@
     /** mi32 */
     SLMoreItem *mi32 = [[SLMoreItem alloc] init];
     mi32.title = @"我的收藏";
-    mi32.iconImage = [UIImage imageNamed:@"shouCang"];
+    mi32.iconImage = [UIImage imageNamed:@"MoreShouCang"];
     
     /** mi33 */
     SLMoreItem *mi33 = [[SLMoreItem alloc] init];

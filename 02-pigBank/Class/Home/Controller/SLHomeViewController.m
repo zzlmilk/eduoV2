@@ -193,7 +193,6 @@
     parameters.search = @"";
     parameters.pageSize = @20;
     parameters.curPage = [NSNumber numberWithLong:self.currentPage];
-    parameters.uid = @147;
 
     [SLHomeStatusTool homeStatusesWithParameters:parameters success:^(NSArray *homeStatusArray) {
         NSMutableArray *homeStatusFrameArray = [NSMutableArray array];
@@ -225,6 +224,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self setupNavBar];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 /**
@@ -336,34 +337,15 @@
     SLHomeStatusFrame *homeStatusFrame = self.homeStatusFrames[indexPath.row];
     SLHomeStatus *homeStatus = homeStatusFrame.homeStatus;
     
-    if (homeStatus.templetType == 3) {
+    if ([homeStatus.templetType intValue] == 3) {
         SLFinanceProductController *financeProductController = [[SLFinanceProductController alloc] init];
-        
-        SLFinanceProductParameters *parameters = [SLFinanceProductParameters parameters];
-        
-        parameters.materialId = [NSNumber numberWithLong:homeStatus.materialId];
-        
-        // 1.先从缓存里面加载
-        SLFinanceProductFrame *fpf = [SLFinanceProductCacheTool statuesWithParameters:parameters];
-        
-        // 传递了block
-        financeProductController.financeProductFrame = fpf;
+        financeProductController.materialId = homeStatus.materialId;
         
         [self.navigationController pushViewController:financeProductController animated:YES];
-    } else if (homeStatus.templetType == 2) {
-        SLMaterialParameters *parameters = [SLMaterialParameters parameters]
-        ;
-        parameters.materialId = [NSNumber numberWithLong:homeStatus.materialId];
-        
-        [SLMaterialTool materialWithParameters:parameters success:^(NSArray *materialObject) {
-            SLVipStatus *vipStatus = [materialObject lastObject];
-            
-            SLVipProductViewController *vpvc = [[SLVipProductViewController alloc] init];
-            vpvc.vipStatus = vipStatus;
-            [self.navigationController pushViewController:vpvc animated:YES];
-        } failure:^(NSError *error) {
-            
-        }];
+    } else if ([homeStatus.templetType intValue] == 2) {
+        SLVipProductViewController *vpvc = [[SLVipProductViewController alloc] init];
+        vpvc.materialId = homeStatus.materialId;
+        [self.navigationController pushViewController:vpvc animated:YES];
     }
 }
 

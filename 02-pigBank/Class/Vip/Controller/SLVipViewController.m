@@ -78,17 +78,13 @@
     // 设置导航栏
     [self setupNavBar];
     
-    /**
-     *  设置tableHeadView
-     */
+    // 设置tableHeadView
     [self setupTableHeadView];
     
     [self setupVipViewData];
 }
 
-/**
- *  设置导航栏
- */
+#pragma mark ----- setupNavBar设置导航栏
 - (void)setupNavBar
 {
     // 设置右上角的barButton
@@ -99,7 +95,7 @@
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
-#pragma mark ----- 设置打电话的item
+#pragma mark ----- call设置打电话的item
 - (void)call
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.consultant.mobile], nil];
@@ -107,6 +103,7 @@
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 
+#pragma mark ----- 点击了call按钮后弹出的actionSheet
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UIWebView *callWebView = [[UIWebView alloc] init];
@@ -171,22 +168,13 @@
     self.tableView.tableHeaderView = tableHeadScrollView;
 }
 
+#pragma mark ----- headBtnClick:tableHeadView按钮点击事件
 - (void)headBtnClick:(SLVipHeadViewButton *)headButton
 {
     SLVipChildViewController *vcvc = [[SLVipChildViewController alloc] init];
     vcvc.classId = [NSNumber numberWithInteger:headButton.tag];
     
     [self.navigationController pushViewController:vcvc animated:YES];
-}
-
-/**
- *  点击更多按钮弹出侧滑菜单
- */
-- (void)more
-{
-    if ([self.delegate respondsToSelector:@selector(vipViewController:didClickMoreButton:)]) {
-        [self.delegate vipViewController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -219,15 +207,14 @@
     SLVipStatusFrame *vipStatusFrame = self.vipStatusFrames[indexPath.row];
     SLVipStatus *vipStatus = vipStatusFrame.vipStatus;
     
-    if (vipStatus.firstMaterialInfo.templetType == 2) {
+    if ([vipStatus.firstMaterialInfo.templetType intValue] == 2) {
         SLVipProductViewController *vipProductController = [[SLVipProductViewController alloc] init];
         
-        vipProductController.vipStatus = vipStatus;
+        vipProductController.materialId = vipStatus.firstMaterialInfo.materialId;
         
         [self.navigationController pushViewController:vipProductController animated:YES];
         
     } else {
-        //        self.titleLabel.text = [NSString stringWithFormat:@"【VIP特权】%@", homeStatus.title];
     }
 }
 

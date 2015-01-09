@@ -73,13 +73,9 @@
     self.scoreValueLabel = scoreValueLabel;
 }
 
-
-/**
- *  vipStatus的set方法(设置子控件的所有属性)
- */
-- (void)setVipStatus:(SLVipStatus *)vipStatus
+- (void)setPrivilegeProduct:(SLPrivilegeProduct *)privilegeProduct
 {
-    _vipStatus = vipStatus;
+    _privilegeProduct = privilegeProduct;
     
     [self setupAllSubviews];
 }
@@ -97,7 +93,7 @@
     CGFloat topImageViewH = 200;
     self.topImageView.frame = CGRectMake(topImageViewX, topImageViewY, topImageViewW, topImageViewH);
     // data
-    [self.topImageView setImageWithURL:[NSURL URLWithString:self.vipStatus.firstMaterialInfo.privilegeDetail.pictureUrl] placeholderImage:[UIImage imageNamed:@"app_bg_default_home_img_normal"]];
+    [self.topImageView setImageWithURL:[NSURL URLWithString:self.privilegeProduct.privilegeDetail.pictureUrl] placeholderImage:[UIImage imageNamed:@"app_bg_default_home_img_normal"]];
     
     /** coverView */
     // frame
@@ -118,9 +114,9 @@
     self.titleLabel.frame = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
     // data
     self.titleLabel.numberOfLines = 1;
-    self.titleLabel.font = SLVipStatusTitleFont;
+    self.titleLabel.font = SLBoldFont14;
     self.titleLabel.textColor = [UIColor whiteColor];
-    self.titleLabel.text = self.vipStatus.firstMaterialInfo.title;
+    self.titleLabel.text = self.privilegeProduct.title;
     
     /** scoreLabel */
     CGFloat scoreLabelX = CGRectGetMaxX(self.titleLabel.frame) + margin;
@@ -131,7 +127,7 @@
     // data
     self.scoreLabel.numberOfLines = 1;
     self.scoreLabel.textColor = [UIColor whiteColor];
-    self.scoreLabel.font = SLVipStatusTitleFont;
+    self.scoreLabel.font = SLBoldFont14;
     self.scoreLabel.text = @"评分:";
     
     /** scoreValueLabel */
@@ -143,8 +139,8 @@
     // data
     self.scoreValueLabel.numberOfLines = 1;
     self.scoreValueLabel.textColor = [UIColor orangeColor];
-    self.scoreValueLabel.font = SLVipStatusTitleFont;
-    NSString *greadScore = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.gradeScore;
+    self.scoreValueLabel.font = SLBoldFont14;
+    NSNumber *greadScore = self.privilegeProduct.privilegeDetail.merchantDetail.gradeScore;
     self.scoreValueLabel.text = [NSString stringWithFormat:@"%.1f", [greadScore doubleValue]];
 }
 

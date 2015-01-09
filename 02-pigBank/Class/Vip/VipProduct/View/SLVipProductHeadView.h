@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SLVipStatus.h"
 
-
+#import "SLPrivilegeProduct.h"
 
 @interface SLVipProductHeadView : UIView
 
 
-@property (nonatomic, strong) SLVipStatus *vipStatus;
+@property (nonatomic, strong) SLPrivilegeProduct *privilegeProduct;
 
 
 @end

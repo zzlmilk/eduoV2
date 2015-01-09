@@ -17,10 +17,10 @@
 @property (nonatomic, copy) NSString *title;
 
 /** collectCounts 素材被收藏次数 */
-@property (nonatomic, assign) long collectCounts;
+@property (nonatomic, strong) NSNumber *collectCounts;
 
 /** praiseCounts 素材被赞次数 */
-@property (nonatomic, assign) long praiseCounts;
+@property (nonatomic, strong) NSNumber *praiseCounts;
 
 /** financialProductsDetail */
 @property (nonatomic, strong) SLFinancialProductsDetail *financialProductsDetail;
@@ -32,7 +32,7 @@
 @property (nonatomic, copy) NSString *content;
 
 /** verifyTime 开始时间 */
-@property (nonatomic, assign) long long verifyTime;
+@property (nonatomic, strong) NSNumber *verifyTime;
 
 /** plateId */
 @property (nonatomic, strong) NSNumber *plateId;

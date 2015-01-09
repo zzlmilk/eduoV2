@@ -19,9 +19,12 @@
 #import "UIImage+S_LINE.h"
 #import "SLDetailGrayLabel.h"
 #import "SLDetailBlackLabel.h"
+#import "SLPraiseButton.h"
+#import "SLCollectButton.h"
 
 #import "SLUserOperateParameters.h"
 #import "SLUserOperateTool.h"
+#import "SLMeterialDetialTool.h"
 
 #import "MBProgressHUD+MJ.h"
 
@@ -128,10 +131,10 @@
 /** valueDateTo 到息日 */
 @property (nonatomic, assign) long long valueDateTo;
 
-@property (nonatomic, strong) NSArray *rightBarButtonItems;
-
 @property (nonatomic, copy) NSString *priseOperateValue;
 @property (nonatomic, copy) NSString *collectOperateValue;
+
+@property (nonatomic, strong) SLFinanceProductFrame *financeProductFrame;
 
 @end
 
@@ -147,10 +150,7 @@
     return self;
 }
 
-#pragma mark setupSubviewsData
-/**
- *  设置所有子控件的frame属性和Data
- */
+#pragma mark ----- setupSubviewsData设置所有子控件的frame属性和Data
 - (void)setupSubviewsData
 {
     SLFinancialProductsDetail *financialProductDetain = self.financeProductFrame.financeProduct.financialProductsDetail;
@@ -170,7 +170,7 @@
     /** dateLabel */
     self.dateLabel.frame = self.financeProductFrame.dateLabelF;
     // 转换时间
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.verifyTime/1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.verifyTime longLongValue]/1000];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy/MM/dd"];
     NSString *dateStr = [dateFormat stringFromDate: date];
@@ -181,7 +181,7 @@
     // 获取当前时间
     NSDate *now = [NSDate date];
     NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
-    long long leftTime = (long long)(self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd / 1000 - nowTimeInterval) / 60 / 60 / 24;
+    long long leftTime = ([self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000 - nowTimeInterval) / 60 / 60 / 24;
     self.leftTimeLabel.text = [NSString stringWithFormat:@"剩余时间:%lld天", leftTime];
     
     /** 图表区域整体的view */
@@ -217,8 +217,8 @@
     
     /** 期限数据按钮 */
     self.deadlineDataButton.frame = self.financeProductFrame.deadlineDataButtonF;
-    self.valueDateFrom = financialProductDetain.valueDateFrom;
-    self.valueDateTo = financialProductDetain.valueDateTo;
+    self.valueDateFrom = [financialProductDetain.valueDateFrom longLongValue];
+    self.valueDateTo = [financialProductDetain.valueDateTo longLongValue];
     long long deadline = (self.valueDateTo - self.valueDateFrom) / 1000 / 60 / 60 / 24;
     [self.deadlineDataButton setTitle:[NSString stringWithFormat:@"%lld", deadline] forState:UIControlStateNormal];
     
@@ -237,7 +237,7 @@
     
     /** 起购额数据按钮 */
     self.minBuyLimitDataButton.frame = self.financeProductFrame.minBuyLimitDataButtonF;
-    [self.minBuyLimitDataButton setTitle:[NSString stringWithFormat:@"%ld元", financialProductDetain.minAmount] forState:UIControlStateNormal];
+    [self.minBuyLimitDataButton setTitle:[NSString stringWithFormat:@"%@元", financialProductDetain.minAmount] forState:UIControlStateNormal];
     
     /** 手续费按钮 */
     self.feeButton.frame = self.financeProductFrame.feeButtonF;
@@ -245,7 +245,7 @@
     
     /** 手续费数据按钮 */
     self.feeDataButton.frame = self.financeProductFrame.feeDataButtonF;
-    [self.feeDataButton setTitle:[NSString stringWithFormat:@"%.2f%%", financialProductDetain.managerRite] forState:UIControlStateNormal];
+    [self.feeDataButton setTitle:[NSString stringWithFormat:@"%.2f%%", [financialProductDetain.managerRite doubleValue]] forState:UIControlStateNormal];
     
     /** basicInfoButton */
     self.basicInfoButton.frame = self.financeProductFrame.basicInfoButtonF;
@@ -274,10 +274,10 @@
     /** subscriptionTimeInfoLabel */
     self.subscriptionTimeInfoLabel.frame = self.financeProductFrame.subscriptionTimeInfoLabelF;
     // 转换时间
-    NSDate *subscriptionDateStart = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.financialProductsDetail.subscribeStart / 1000];
+    NSDate *subscriptionDateStart = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.financialProductsDetail.subscribeStart longLongValue] / 1000];
     NSString *subscribeStart = [dateFormat stringFromDate: subscriptionDateStart];
     // 转换时间
-    NSDate *subscriptionDateEnd = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd / 1000];
+    NSDate *subscriptionDateEnd = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000];
     NSString *subscribeEnd = [dateFormat stringFromDate: subscriptionDateEnd];
     NSString *subscriptionTime = [NSString stringWithFormat:@"%@ 至 %@", subscribeStart, subscribeEnd];
     self.subscriptionTimeInfoLabel.text = subscriptionTime;
@@ -288,10 +288,10 @@
     /** earningTimeInfoLabel */
     self.earningTimeInfoLabel.frame = self.financeProductFrame.earningTimeInfoLabelF;
     // 转换时间
-    NSDate *earnDateStart = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.financialProductsDetail.valueDateFrom / 1000];
+    NSDate *earnDateStart = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.financialProductsDetail.valueDateFrom longLongValue] / 1000];
     NSString *earnStart = [dateFormat stringFromDate: earnDateStart];
     // 转换时间
-    NSDate *earnDateEnd = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.financialProductsDetail.valueDateTo / 1000];
+    NSDate *earnDateEnd = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.financialProductsDetail.valueDateTo longLongValue] / 1000];
     NSString *earnEnd = [dateFormat stringFromDate: earnDateEnd];
     NSString *earningTime = [NSString stringWithFormat:@"%@ 至 %@", earnStart, earnEnd];
     self.earningTimeInfoLabel.text = earningTime;
@@ -314,7 +314,7 @@
     
     /** middleLabel */
     self.middleLabel.frame = self.financeProductFrame.middleLabelF;
-    long long days = (self.financeProductFrame.financeProduct.financialProductsDetail.valueDateTo - self.financeProductFrame.financeProduct.financialProductsDetail.valueDateFrom) / 1000 / 60 / 60 / 24;
+    long long days = ([self.financeProductFrame.financeProduct.financialProductsDetail.valueDateTo longLongValue] - [self.financeProductFrame.financeProduct.financialProductsDetail.valueDateFrom longLongValue]) / 1000 / 60 / 60 / 24;
     self.middleLabel.text = [NSString stringWithFormat:@"%lld天", days];
     
     /** equalLabel */
@@ -385,10 +385,7 @@
     return cell;
 }
 
-#pragma mark addAllSubviews
-/**
- *  添加所有子控件
- */
+#pragma mark ----- addAllSubviews添加所有子控件
 - (void)addAllSubviews
 {
     /** scrollView */
@@ -680,19 +677,20 @@
     [self.basicInfoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 }
 
-
+#pragma mark ----- viewDidLoad
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.view.window.backgroundColor = [UIColor whiteColor];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [MBProgressHUD showMessage:@"数据加载中"];
+    
+    [self loadInternetData];
     
     // 添加所有的子控件
     [self addAllSubviews];
-    
-    [self setupSubviewsData];
     
     [self basicInfoButtonClick:self.basicInfoButton];
     
@@ -700,10 +698,31 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
-/**
- *  设置导航栏
- */
-- (void)setupNavBar
+#pragma mark ----- 加载网络数据
+- (void)loadInternetData
+{
+    SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
+    parameters.materialId = self.materialId;
+    
+    [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
+        
+        NSDictionary *dict = [result.info lastObject];
+        SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
+        SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
+        financeProductFrame.financeProduct = financeProduct;
+        self.financeProductFrame = financeProductFrame;
+        
+        [self setNavBar];
+        
+        [MBProgressHUD hideHUD];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
 {
     UINavigationBar *navBar = self.navigationController.navigationBar;
     // 设置背景
@@ -713,104 +732,18 @@
 //    attri[UITextAttributeTextColor] = [UIColor whiteColor];
 //    [navBar setTitleTextAttributes:attri];
     
-#warning ----- 可以封装
     // 设置右上角的barButton
-    UIButton *zanButton = [[UIButton alloc] init];
-    zanButton.bounds = CGRectMake(0, 0, 40, 42);
-    [zanButton setImage:[UIImage imageNamed:@"zan"] forState:UIControlStateNormal];
-    [zanButton setImage:[UIImage imageNamed:@"zanPress@2x"] forState:UIControlStateSelected];
-    [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts] forState:UIControlStateNormal];
-    [zanButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    zanButton.titleLabel.font = SLFont14;
-    zanButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-    [zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    int praiseFlag = self.financeProductFrame.financeProduct.materialUser.praiseFlag;
-    if (praiseFlag == 1) {
-        zanButton.selected = YES;
-    } else {
-        zanButton.selected = NO;
-    }
-    UIBarButtonItem *zanItem = [[UIBarButtonItem alloc] initWithCustomView:zanButton];
+    SLPraiseButton *priseButton = [SLPraiseButton button];
+    [priseButton setMaterialId:self.financeProductFrame.financeProduct.financialProductsDetail.materialId praiseCounts:self.financeProductFrame.financeProduct.praiseCounts praiseFlag:self.financeProductFrame.financeProduct.materialUser.praiseFlag];
+    UIBarButtonItem *priseItem = [[UIBarButtonItem alloc] initWithCustomView:priseButton];
     
-    UIButton *shoucangButton = [[UIButton alloc] init];
-    shoucangButton.bounds = CGRectMake(0, 0, 40, 42);
-    [shoucangButton setImage:[UIImage imageNamed:@"shouCang"] forState:UIControlStateNormal];
-    [shoucangButton setImage:[UIImage imageNamed:@"shouCangJiaoHu"] forState:UIControlStateSelected];
-    [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts] forState:UIControlStateNormal];
-    [shoucangButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    shoucangButton.titleLabel.font = SLFont14;
-    shoucangButton.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-    [shoucangButton addTarget:self action:@selector(shoucangButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    int collectFlag = self.financeProductFrame.financeProduct.materialUser.collectFlag;
-    if (collectFlag == 1) {
-        shoucangButton.selected = YES;
-    } else {
-        shoucangButton.selected = NO;
-    }
-    UIBarButtonItem *shoucangItem = [[UIBarButtonItem alloc] initWithCustomView:shoucangButton];
+    SLCollectButton *collectButton = [SLCollectButton button];
+    [collectButton setMaterialId:self.financeProductFrame.financeProduct.financialProductsDetail.materialId collectFlag:self.financeProductFrame.financeProduct.materialUser.collectFlag];
+    UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
 //    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
-    self.rightBarButtonItems = @[shoucangItem, zanItem];
-    self.navigationItem.rightBarButtonItems = self.rightBarButtonItems;
-}
-
-
-- (void)shoucangButtonClick:(UIButton *)shoucangButton
-{
-    // 创建网络参数
-    SLUserOperateParameters *parameters = [SLUserOperateParameters parameters];
-    parameters.operateType = @"collect";
-    parameters.materialId = self.financeProductFrame.financeProduct.financialProductsDetail.materialId;
-
-    if (shoucangButton.selected == YES) {
-        shoucangButton.selected = NO;
-        [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts] forState:UIControlStateNormal];
-        
-        parameters.operateValue = @"0";
-        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
-            [MBProgressHUD showSuccess:@"取消收藏成功"];
-        } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"取消收藏失败"];
-        }];
-        
-    } else {
-        shoucangButton.selected = YES;
-        [shoucangButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.collectCounts + 1] forState:UIControlStateSelected];
-        
-        parameters.operateValue = @"1";
-        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
-            [MBProgressHUD showSuccess:@"收藏成功"];
-        } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"收藏失败"];
-        }];
-    }
-}
-- (void)zanButtonClick:(UIButton *)zanButton
-{
-    // 创建网络参数
-    SLUserOperateParameters *parameters = [SLUserOperateParameters parameters];
-    parameters.operateType = @"praise";
-
-    if (zanButton.selected == YES) {
-        zanButton.selected = NO;
-        [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts] forState:UIControlStateNormal];
-        
-        parameters.operateValue = @"0";
-        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
-            [MBProgressHUD showSuccess:@"取消赞成功"];
-        } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"取消赞失败"];
-        }];
-    } else {
-        zanButton.selected = YES;
-        [zanButton setTitle:[NSString stringWithFormat:@"%ld", self.financeProductFrame.financeProduct.praiseCounts + 1] forState:UIControlStateSelected];
-        
-        parameters.operateValue = @"1";
-        [SLUserOperateTool userOperateWithParameters:parameters success:^(NSArray *vipStatusFrameArray) {
-            [MBProgressHUD showSuccess:@"赞成功"];
-        } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"赞失败"];
-        }];
-    }
+    
+    NSArray *rightBarButtonItems = @[priseItem, collectItem];
+    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
 }
 
 
@@ -841,14 +774,6 @@
     _financeProductFrame = financeProductFrame;
     
     [self setupSubviewsData];
-    
-    [self setupNavBar];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark ---- textField代理方法
@@ -886,6 +811,12 @@
     CGSize contentSize = self.scrollView.contentSize;
     contentSize.height += actualSize.height;
     self.scrollView.contentSize = contentSize;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

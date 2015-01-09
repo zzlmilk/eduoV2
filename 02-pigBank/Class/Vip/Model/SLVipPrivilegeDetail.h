@@ -20,8 +20,4 @@
 /** saleDescript 促销描述 */
 @property (nonatomic, copy) NSString *saleDescript;
 
-
-
-
-
 @end

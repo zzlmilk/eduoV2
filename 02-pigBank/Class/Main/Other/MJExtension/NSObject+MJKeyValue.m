@@ -21,7 +21,6 @@
 {
     if (![keyValues isKindOfClass:[NSDictionary class]]) {
         [NSException raise:@"keyValues is not a NSDictionary" format:nil];
-#warning ----- keyValues is not a NSDictionary
     }
     
     id model = [[self alloc] init];

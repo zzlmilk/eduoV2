@@ -11,6 +11,6 @@
 
 @interface SLVipProductViewController : UITableViewController
 
-@property (nonatomic, strong) SLVipStatus *vipStatus;
+@property (nonatomic, strong) NSNumber *materialId;
 
 @end

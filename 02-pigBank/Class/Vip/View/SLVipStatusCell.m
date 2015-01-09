@@ -142,7 +142,7 @@
     // frame
     self.likeView.frame = self.vipStatusFrame.likeViewF;
     // image
-    self.likeView.image = [UIImage imageNamed:@"zan"];
+    self.likeView.image = [UIImage imageNamed:@"xiaoZan"];
     
     /** priseCountLabel */
     // frame

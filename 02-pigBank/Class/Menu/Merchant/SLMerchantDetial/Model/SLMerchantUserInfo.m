@@ -8,6 +8,10 @@
 
 #import "SLMerchantUserInfo.h"
 
+#import "MJExtension.h"
+
 @implementation SLMerchantUserInfo
+
+MJCodingImplementation
 
 @end

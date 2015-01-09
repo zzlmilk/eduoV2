@@ -45,7 +45,7 @@
 @property (nonatomic, copy) NSString *distanceToMe;
 
 /** praiseCounts */
-@property (nonatomic, assign) long praiseCounts;
+@property (nonatomic, strong) NSNumber *praiseCounts;
 
 /** latitude */
 @property (nonatomic, strong) NSNumber *latitude;
@@ -54,6 +54,6 @@
 @property (nonatomic, strong) NSNumber *longitude;
 
 /** merchantId */
-@property (nonatomic, assign) long merchantId;
+@property (nonatomic, strong) NSNumber *merchantId;
 
 @end

@@ -330,11 +330,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SLVipMerchantDetail *merchantDetial = self.merchantArray[indexPath.row];
-//    SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] initWithStyle:UITableViewStyleGrouped];
-//    mdvc.vipMerchantDetail = merchantDetial;
-//    mdvc.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] init];
-    mdvc.vipMerchantDetail = merchantDetial;
+    mdvc.merchantId = merchantDetial.merchantId;
     [self.navigationController pushViewController:mdvc animated:YES];
 }
 

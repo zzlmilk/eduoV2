@@ -265,7 +265,7 @@
     // vercode:String/验证码（新手机号码的验证码）
     paraments[@"vercode"] = self.captchaTextField.text;
     // uid:Long/当前登录用户UID
-    paraments[@"uid"] = [NSNumber numberWithInteger:account.uid];
+    paraments[@"uid"] = account.uid;
     // token:String/当前登录用户身份识别码（登陆、注册接口返回该值）
     paraments[@"token"] = account.token;
     

@@ -319,7 +319,7 @@
 {
     SLOutletsInfo *outletsInfo = self.outletsArray[indexPath.row];
     SLOutletDetialController *vc = [[SLOutletDetialController alloc] init];
-    vc.outletsInfo = outletsInfo;
+    vc.materialId = outletsInfo.materialId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

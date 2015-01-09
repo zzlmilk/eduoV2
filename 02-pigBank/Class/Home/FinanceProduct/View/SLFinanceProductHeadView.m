@@ -72,7 +72,7 @@
     /** dateLabel */
     self.dateLabel.frame = self.financeProductFrame.dateLabelF;
     // 转换时间
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970: self.financeProductFrame.financeProduct.verifyTime / 1000];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970: [self.financeProductFrame.financeProduct.verifyTime longLongValue] / 1000];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy/MM/dd"];
     NSString *dateStr = [dateFormat stringFromDate: date];

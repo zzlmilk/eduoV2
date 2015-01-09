@@ -39,6 +39,7 @@
     [self setupPageControl];
 }
 
+#pragma mark ----- setupPageControl设置控制页
 - (void)setupPageControl
 {
     // 创建pageControl
@@ -61,6 +62,7 @@
 //    pageControl.pageIndicatorTintColor = SLColor(189, 189, 189);
 }
 
+#pragma mark ----- scrollViewDidScroll:scrollView的代理方法,当scrollView被拖动时调用
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     // 取出当前offset的x值
@@ -71,6 +73,7 @@
     self.pageControl.currentPage = page;
 }
 
+#pragma mark ----- setupNewFeature设置新特性页面
 - (void)setupNewFeature
 {
     UIScrollView *newFeature = [[UIScrollView alloc] init];
@@ -110,6 +113,8 @@
     newFeature.pagingEnabled = YES;
     newFeature.bounces = NO;
 }
+
+#pragma mark ----- setupLastImageView设置最后一张图片,就是进入程序的按钮
 - (void)setupLastImageView:(UIImageView *)imageView
 {
     // 1.使当前的imageVIew可以和用户交互
@@ -131,6 +136,7 @@
     [imageView addSubview:startButton];
 }
 
+#pragma mark ----- startButtonClick开始按钮点击事件
 - (void)startButtonClick
 {
     // 隐藏状态栏

@@ -135,7 +135,6 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/user/login"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        SLLog(@"%@", responseObject);
         NSDictionary *infoDict = [responseObject[@"info"] lastObject];
         SLAccountInfo *accountInfo = [SLAccountInfo objectWithKeyValues:infoDict];
         

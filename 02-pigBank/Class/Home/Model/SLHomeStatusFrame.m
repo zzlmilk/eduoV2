@@ -42,7 +42,7 @@
     CGFloat titleLabelY = extPictureViewY;
     CGFloat titleLabelMaxW = cellW - titleLabelX - margin;
     CGSize titleLabelS;
-    if (homeStatus.templetType == 3) {
+    if ([homeStatus.templetType intValue] == 3) {
         titleLabelS = [[NSString stringWithFormat:@"【尊享理财】%@", homeStatus.title] sizeWithFont:SLHomeStatusTitleFont constrainedToSize:CGSizeMake(titleLabelMaxW, CGFLOAT_MAX)];
     } else {
         titleLabelS = [[NSString stringWithFormat:@"【VIP特权】%@", homeStatus.title] sizeWithFont:SLHomeStatusTitleFont constrainedToSize:CGSizeMake(titleLabelMaxW, CGFLOAT_MAX)];
@@ -59,7 +59,7 @@
     /** praiseCounts */
     CGFloat praiseCountsLabelX = CGRectGetMaxX(_likeViewF) + marginSmall;
     CGFloat praiseCountsLabelY = likeViewY;
-    CGSize praiseCountsLabelS = [[NSString stringWithFormat:@"%ld人很喜欢",homeStatus.praiseCounts] sizeWithFont:SLHomeStatusPraiseCountsFont];
+    CGSize praiseCountsLabelS = [[NSString stringWithFormat:@"%@人很喜欢",homeStatus.praiseCounts] sizeWithFont:SLHomeStatusPraiseCountsFont];
     _praiseCountsLabelF = (CGRect){{praiseCountsLabelX, praiseCountsLabelY}, praiseCountsLabelS};
     
     /** cellHeight */

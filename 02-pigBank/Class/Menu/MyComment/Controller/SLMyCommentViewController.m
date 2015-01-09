@@ -116,7 +116,7 @@
     SLVipMerchantDetail *merchantDetail = frame.myCommentStatus.merchantDetail;
     
     SLMerchantDetailController *vc = [[SLMerchantDetailController alloc] init];
-    vc.vipMerchantDetail = merchantDetail;
+//    vc.vipMerchantDetail = merchantDetail;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

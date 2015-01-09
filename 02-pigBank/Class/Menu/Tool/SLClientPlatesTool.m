@@ -24,8 +24,6 @@
         // 取出状态字典数组
         NSArray *dictArray = [responseObject[@"info"] lastObject];
         
-        SLLog(@"%@", dictArray);
-        
         NSArray *clientPlateArray = [SLClientPlate objectArrayWithKeyValuesArray:dictArray];
         
         // 归档

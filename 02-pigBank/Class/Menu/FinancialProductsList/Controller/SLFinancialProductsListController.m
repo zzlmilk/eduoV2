@@ -274,7 +274,7 @@
     
     SLFinanceProductController *financeProductController = [[SLFinanceProductController alloc] init];
     
-    financeProductController.financeProductFrame = financeProductFrame;
+    financeProductController.materialId = financeProductFrame.financeProduct.financialProductsDetail.materialId;
     
     [self.navigationController pushViewController:financeProductController animated:YES];
 }

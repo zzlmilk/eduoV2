@@ -55,7 +55,6 @@
             SLVipStatusFrame *vipStatusFrame = [[SLVipStatusFrame alloc] init];
             vipStatusFrame.vipStatus = vipStatus;
             [vipStatusFrameArray addObject:vipStatusFrame];
-            
         }
         
         [SLVipStatusCacheTool clearStatuses];

@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SLVipMerchantDetail.h"
-
 @interface SLMerchantDetailController : UIViewController
 
-@property (nonatomic, strong) SLVipMerchantDetail *vipMerchantDetail;
+@property (nonatomic, strong) NSNumber *merchantId;
 
 @end

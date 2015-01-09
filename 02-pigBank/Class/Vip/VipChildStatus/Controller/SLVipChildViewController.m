@@ -249,10 +249,10 @@
 
     SLVipStatus *vipStatus = vsf.vipStatus;
     
-    if (vipStatus.firstMaterialInfo.templetType == 2) {
+    if ([vipStatus.firstMaterialInfo.templetType intValue] == 2) {
         SLVipProductViewController *vipProductController = [[SLVipProductViewController alloc] init];
         
-        vipProductController.vipStatus = vipStatus;
+        vipProductController.materialId = vipStatus.firstMaterialInfo.materialId;
         
         [self.navigationController pushViewController:vipProductController animated:YES];
         

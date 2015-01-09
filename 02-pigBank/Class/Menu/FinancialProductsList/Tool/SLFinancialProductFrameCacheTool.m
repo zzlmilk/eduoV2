@@ -51,7 +51,7 @@ static FMDatabaseQueue *_queue;
         
         NSDate *now = [NSDate date];
         NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
-        long long leftTimeLong = (long long)(financialStatusFrame.financeProduct.financialProductsDetail.subscribeEnd / 1000 - nowTimeInterval) / 60 / 60 / 24;
+        long long leftTimeLong = (long long)([financialStatusFrame.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000 - nowTimeInterval) / 60 / 60 / 24;
         NSNumber *leftTime = [NSNumber numberWithLongLong:leftTimeLong];
         
         NSInteger expectedYieldInteger = [financialStatusFrame.financeProduct.financialProductsDetail.expectedYield integerValue];

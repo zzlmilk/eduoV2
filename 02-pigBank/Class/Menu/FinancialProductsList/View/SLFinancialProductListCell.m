@@ -173,7 +173,7 @@
     // frame
     self.deadlineDataLabel.frame = self.financialStatusFrame.deadlineDataLabelF;
     // title
-    long long deadline = (self.financeProduct.financialProductsDetail.valueDateTo - self.financeProduct.financialProductsDetail.valueDateFrom) / 1000 / 60 / 60 / 24;
+    long long deadline = ([self.financeProduct.financialProductsDetail.valueDateTo longLongValue] - [self.financeProduct.financialProductsDetail.valueDateFrom longLongValue]) / 1000 / 60 / 60 / 24;
     self.deadlineDataLabel.text = [NSString stringWithFormat:@"%lld天", deadline];
     self.deadlineDataLabel.textColor = [UIColor grayColor];
     
@@ -192,8 +192,7 @@
     // 获取当前时间
     NSDate *now = [NSDate date];
     NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
-    SLLog(@"%f", nowTimeInterval);
-    long long leftTime = (long long)(self.financeProduct.financialProductsDetail.subscribeEnd / 1000 - nowTimeInterval) / 60 / 60 / 24;
+    long long leftTime = ([self.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000 - nowTimeInterval) / 60 / 60 / 24;
     self.leftTimeDataLabel.text = [NSString stringWithFormat:@"%lld天", leftTime];
     self.leftTimeDataLabel.textColor = [UIColor grayColor];
     

@@ -7,35 +7,21 @@
 //
 
 /*
- address = "\U4e0a\U6d77\U5e02\U5e7f\U5143\U897f\U8def319\U53f7";
- 
- certificateUrl = "http://xynh.eduoinfo.com/resources/client/image/73f8e2a8-201c-474a-8a13-c96a106e848c.jpg";
- 
- collectCounts = 7;
- 
- commentCounts = 24;
- 
- description = "<p> </p>";
- 
- distanceToMe = "1892.719644444036";
- 
- fullName = "\U9526\U6c5f\U4e4b\U661f\Uff08\U5f90\U5bb6\U6c47\U5e97\Uff09";
- 
- gradeScore = "2.62";
- 
- latitude = "31.204134";
- 
- longitude = "121.441974";
- 
- merchantId = 66;
- 
- merchantUserInfo =                             {  };
- 
- praiseCounts = 6;
- 
- shortName = "\U9526\U6c5f\U4e4b\U661f";
- 
- userId = 238;
+ address = "\U4e0a\U6d77\U5e02\U957f\U4e50\U8def336\U53f7";
+ certificateUrl = "http://xynh.eduoinfo.com/resources/client/image/b6678c53-f9fc-4e52-8d59-8ec607b841a7.jpg";
+ collectCounts = 1;
+ commentCounts = 1;
+ description = "<p></p>";
+ distanceToMe = 0;
+ fullName = "\U6717\U8fc8\U4fdd\U9f84\U7403\U9986";
+ gradeScore = 5;
+ latitude = "31.227844";
+ longitude = "121.469314";
+ merchantId = 72;
+ merchantUserInfo = {};
+ praiseCounts = 0;
+ shortName = "\U6717\U8fc8\U4fdd\U9f84\U7403\U9986";
+ userId = 244;
  */
 
 #import <Foundation/Foundation.h>
@@ -45,31 +31,19 @@
 @interface SLMerchantInDetail : NSObject
 
 @property (nonatomic, copy) NSString *address;
-
 @property (nonatomic, copy) NSString *certificateUrl;
-
-@property (nonatomic, assign) long collectCounts;
-
-@property (nonatomic, assign) long commentCounts;
-
+@property (nonatomic, strong) NSNumber *collectCounts;
+@property (nonatomic, strong) NSNumber *commentCounts;
+@property (nonatomic, copy) NSString *Description;
 @property (nonatomic, strong) NSNumber *distanceToMe;
-
 @property (nonatomic, copy) NSString *fullName;
-
 @property (nonatomic, strong) NSNumber *gradeScore;
-
 @property (nonatomic, strong) NSNumber *latitude;
-
 @property (nonatomic, strong) NSNumber *longitude;
-
-@property (nonatomic, assign) long merchantId;
-
+@property (nonatomic, strong) NSNumber *merchantId;
 @property (nonatomic, strong) SLMerchantUserInfo *merchantUserInfo;
-
-@property (nonatomic, assign) long praiseCounts;
-
+@property (nonatomic, strong) NSNumber *praiseCounts;
 @property (nonatomic, copy) NSString *shortName;
-
-@property (nonatomic, assign) long userId;
+@property (nonatomic, strong) NSNumber *userId;
 
 @end

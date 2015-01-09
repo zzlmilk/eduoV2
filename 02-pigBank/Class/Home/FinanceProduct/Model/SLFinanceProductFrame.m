@@ -269,7 +269,7 @@
     /** middleLabelF */
     CGFloat middleLabelX = CGRectGetMaxX(_moneyYuanLabelF) + middleMargin * 2;
     CGFloat middleLabelY = moneyYuanLabelY;
-    long long days = (self.financeProduct.financialProductsDetail.valueDateTo - self.financeProduct.financialProductsDetail.valueDateFrom) / 1000 / 60 / 60 / 24;
+    long long days = ([self.financeProduct.financialProductsDetail.valueDateTo longLongValue] - [self.financeProduct.financialProductsDetail.valueDateFrom longLongValue]) / 1000 / 60 / 60 / 24;
     CGSize middleLabelS = [[NSString stringWithFormat:@"%lld天", days] sizeWithFont:SLDetailGrayLabelFont];
     CGFloat middleLabelH = moneyYuanLabelH;
     _middleLabelF = CGRectMake(middleLabelX, middleLabelY, middleLabelS.width, middleLabelH);

@@ -12,6 +12,6 @@
 
 @interface SLFinanceProductController : UIViewController
 
-@property (nonatomic, strong) SLFinanceProductFrame *financeProductFrame;
+@property (nonatomic, strong) NSNumber *materialId;
 
 @end

@@ -10,45 +10,39 @@
 
 /*
  collectFlag = 0;
- 
  firstReadTime = 1411013954076;
- 
  joinFlag = 0;
- 
  lastReadTime = 1411635946694;
- 
  materialId = 263;
- 
  praiseFlag = 0;
- 
  readFlag = 1;
- 
  readTimes = 75;
- 
  userId = 147;
  */
 
 @interface SLMaterialUser : NSObject
 
 /** collectFlag */
-@property (nonatomic, assign) int collectFlag;
+@property (nonatomic, strong) NSNumber *collectFlag;
 
 /** firstReadTime */
 @property (nonatomic, strong) NSNumber *firstReadTime;
 
-/** firstReadTime */
-@property (nonatomic, assign) int joinFlag;
+/** joinFlag */
+@property (nonatomic, strong) NSNumber *joinFlag;
 
 /** firstReadTime */
 @property (nonatomic, strong) NSNumber *lastReadTime;
+@property (nonatomic, strong) NSNumber *materialId;
 
 /** firstReadTime */
-@property (nonatomic, assign) int praiseFlag;
+@property (nonatomic, strong) NSNumber *praiseFlag;
 
 /** firstReadTime */
-@property (nonatomic, assign) int readFlag;
+@property (nonatomic, strong) NSNumber *readFlag;
 
 /** firstReadTime */
 @property (nonatomic, strong) NSNumber *readTimes;
+@property (nonatomic, strong) NSNumber *userId;
 
 @end

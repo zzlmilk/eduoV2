@@ -9,11 +9,22 @@
 #import "SLVipProductViewController.h"
 
 #import "SLVipStatus.h"
+#import "SLMeterialDetialParameters.h"
+#import "SLResult.h"
+#import "SLPrivilegeProduct.h"
 
 #import "SLVipProductHeadView.h"
 #import "SLVipProductArrorCell.H"
+#import "SLPraiseButton.h"
+#import "SLCollectButton.h"
 
 #import "SLMapViewController.h"
+
+#import "SLMeterialDetialTool.h"
+#import "SLUserOperateTool.h"
+
+#import "MJExtension.h"
+#import "MBProgressHUD+MJ.h"
 
 @interface SLVipProductViewController () <UIWebViewDelegate>
 
@@ -22,6 +33,8 @@
 @property (nonatomic, weak) UIWebView *footWebView;
 
 @property (nonatomic, assign) CGFloat footHeight;
+
+@property (nonatomic, strong) SLPrivilegeProduct *privilegeProduct;
 
 @end
 
@@ -36,18 +49,61 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+#pragma mark ----- viewDidLoad
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // 计算foot的高度
-    [self calculateFootHeight];
+    [MBProgressHUD showMessage:@"数据加载中"];
     
-    [self setupVipProductData];
+    [self loadInternetData];
 }
 
-- (void)setupVipProductData
+#pragma mark ----- 加载网络数据
+- (void)loadInternetData
 {
+    SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
+    parameters.materialId = self.materialId;
+    
+    [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
+        
+        NSDictionary *dict = [result.info lastObject];
+        SLPrivilegeProduct *privilegeProduct = [SLPrivilegeProduct objectWithKeyValues:dict];
+        self.privilegeProduct = privilegeProduct;
+        
+        [self.tableView reloadData];
+        
+        // 计算foot的高度
+        [self calculateFootHeight];
+        
+        [self setNavBar];
+        
+        [MBProgressHUD hideHUD];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    // 设置右上角的barButton
+    SLPraiseButton *praiseButton = [SLPraiseButton button];
+    [praiseButton setMaterialId:self.privilegeProduct.materialId praiseCounts:self.privilegeProduct.praiseCounts praiseFlag:self.privilegeProduct.materialUser.praiseFlag];
+    UIBarButtonItem *praiseItem = [[UIBarButtonItem alloc] initWithCustomView:praiseButton];
+    
+    SLCollectButton *collectButton = [SLCollectButton button];
+    [collectButton setMaterialId:self.privilegeProduct.materialId collectFlag:self.privilegeProduct.materialUser.collectFlag];
+    UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
+    
+    NSArray *rightBarButtonItems = @[praiseItem, collectItem];
+    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
 }
 
 - (void)calculateFootHeight
@@ -55,7 +111,7 @@
     UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-320, 0, 320, 300)];
     webview.delegate = self;
     webview.tag = 1;
-    [webview loadHTMLString:self.vipStatus.firstMaterialInfo.content baseURL:nil];
+    [webview loadHTMLString:self.privilegeProduct.content baseURL:nil];
     [self.view addSubview:webview];
 }
 
@@ -66,9 +122,7 @@
     
     headView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200);
     
-    SLVipStatus *vipStatus = self.vipStatus;
-    
-    headView.vipStatus = vipStatus;
+    headView.privilegeProduct = self.privilegeProduct;
     
     self.tableView.tableHeaderView = headView;
     
@@ -82,12 +136,12 @@
     webView.backgroundColor = [UIColor clearColor];
     webView.scrollView.bounces = NO;//禁止滑动
     self.footWebView = webView;
-    [webView loadHTMLString:vipStatus.firstMaterialInfo.content baseURL:nil];
+    [webView loadHTMLString:self.privilegeProduct.content baseURL:nil];
     
     footView.textLabel.font = SLVipStatusTitleFont;
     footView.textLabel.textColor = [UIColor blackColor];
-    footView.textLabel.text = vipStatus.firstMaterialInfo.content;
-    CGSize footViewS = [vipStatus.firstMaterialInfo.content sizeWithFont:SLVipStatusTitleFont constrainedToSize:CGSizeMake(300, MAXFLOAT)];
+    footView.textLabel.text = self.privilegeProduct.content;
+    CGSize footViewS = [self.privilegeProduct.content sizeWithFont:SLVipStatusTitleFont constrainedToSize:CGSizeMake(300, MAXFLOAT)];
     footView.frame = (CGRect){{0, 0}, footViewS};
     
     self.tableView.tableFooterView = webView;
@@ -103,7 +157,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
+    if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
         return 3;
     } else {
         return 4;
@@ -123,37 +177,37 @@
     
     switch (indexPath.row) {
         case 0:
-            cell.textLabel.text = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.fullName;
+            cell.textLabel.text = self.privilegeProduct.privilegeDetail.merchantDetail.fullName;
             break;
         case 1:
-            if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
+            if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 cell.imageView.image = [UIImage imageNamed:@"diZhi"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.text = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.address;
+                cell.textLabel.text = self.privilegeProduct.privilegeDetail.merchantDetail.address;
                 break;
             } else {
                 cell.textLabel.text = @"sdafasdfasf";
                 break;
             }
         case 2:
-            if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
+            if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 cell.imageView.image = [UIImage imageNamed:@"dianHua"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.text = [NSString stringWithFormat:@"%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@", self.privilegeProduct.privilegeDetail.merchantDetail.merchantUserInfo.telephone];
                 break;
             } else {
                 cell.imageView.image = [UIImage imageNamed:@"diZhi"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.text = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.address;
+                cell.textLabel.text = self.privilegeProduct.privilegeDetail.merchantDetail.address;
                 break;
             }
         case 3:
-            if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
+            if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 break;
             } else {
                 cell.imageView.image = [UIImage imageNamed:@"dianHua"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.textLabel.text = [NSString stringWithFormat:@"%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone];
+                cell.textLabel.text = [NSString stringWithFormat:@"%@", self.privilegeProduct.privilegeDetail.merchantDetail.merchantUserInfo.telephone];
                 break;
             }
             
@@ -173,13 +227,13 @@
     self.telWebView = telWebView;
     
     SLMapViewController *mvc = [[SLMapViewController alloc] init];
-    mvc.merchantDetail = self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail;
+    mvc.merchantDetail = self.privilegeProduct.privilegeDetail.merchantDetail;
     
-    if ([self.vipStatus.firstMaterialInfo.privilegeDetail.saleDescript isEqualToString:@""]) {
+    if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
         if (indexPath.row == 1) {
             [self.navigationController pushViewController:mvc animated:YES];
         } else if (indexPath.row == 2) {// 利用创建好的uiwebview加载request
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.privilegeProduct.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
             [telWebView loadRequest:[NSURLRequest requestWithURL:url]];
         }
         
@@ -187,7 +241,7 @@
         if (indexPath.row == 2) {
             [self.navigationController pushViewController:mvc animated:YES];
         } else if (indexPath.row == 3) {
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.vipStatus.firstMaterialInfo.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.privilegeProduct.privilegeDetail.merchantDetail.merchantUserInfo.telephone]];
             [telWebView loadRequest:[NSURLRequest requestWithURL:url]];
         }
     }

@@ -12,6 +12,6 @@
 
 @interface SLOutletDetialController : UITableViewController
 
-@property (nonatomic, strong) SLOutletsInfo *outletsInfo;
+@property (nonatomic, strong) NSNumber *materialId;
 
 @end

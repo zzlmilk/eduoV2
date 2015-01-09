@@ -10,8 +10,6 @@
 
 #import "SLMerchantDetailPatameters.h"
 
-#import "SLMerchantDetail.h"
-
 @interface SLMerchantDetailTool : NSObject
 
 /**

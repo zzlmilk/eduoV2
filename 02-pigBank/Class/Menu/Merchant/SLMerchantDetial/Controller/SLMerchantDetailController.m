@@ -24,12 +24,16 @@
 #import "SLWebViewCell.h"
 #import "SLCommentCell.h"
 #import "SLPostCommentView.h"
+#import "SLPraiseButton.h"
+#import "SLCollectButton.h"
 
 #import "SLMapViewController.h"
 #import "SLVipProductViewController.h"
 #import "SLCommentViewController.h"
 
 #import "SLMerchantDetailTool.h"
+
+#import "MBProgressHUD+MJ.h"
 
 @interface SLMerchantDetailController () <UITableViewDataSource, UITableViewDelegate, CLLocationManagerDelegate, UIWebViewDelegate, SLPostCommentViewDelegate>
 
@@ -88,14 +92,20 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    // 开始定位
-    [self.locMgr startUpdatingLocation];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // 开始定位
+    [self.locMgr startUpdatingLocation];
+    
+    [self addSubviews];
+}
+
+#pragma mark ----- addSubviews添加子控件
+- (void)addSubviews
+{
     CGRect newFrame = CGRectMake(0, 0, screenW, screenH - 44);
     UITableView *tableView = [[UITableView alloc] initWithFrame:newFrame style:UITableViewStyleGrouped];
     tableView.delegate = self;
@@ -103,8 +113,6 @@
     tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:tableView];
     self.tableView = tableView;
-    
-    SLLog(@"%@", NSStringFromCGRect(self.tableView.frame));
     
     self.tableView.sectionFooterHeight = 0;
     self.tableView.sectionHeaderHeight = 20;
@@ -124,7 +132,7 @@
 - (void)postCommentView:(SLPostCommentView *)postCommentView didClickPostCommentButton:(UIButton *)button
 {
     SLCommentViewController *vc = [[SLCommentViewController alloc] init];
-    vc.vipMerchantDetail = self.vipMerchantDetail;
+//    vc.vipMerchantDetail = self.vipMerchantDetail;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -217,7 +225,7 @@
     self.telWebView = telWebView;
     
     SLMapViewController *mvc = [[SLMapViewController alloc] init];
-    mvc.merchantDetail = self.vipMerchantDetail;
+//    mvc.merchantDetail = self.vipMerchantDetail;
     
     SLMerchantDetailGroup *group = self.sectionArray[indexPath.section];
     SLMerchantDetailItem *item = group.merchantDetailItems[indexPath.row];
@@ -235,9 +243,9 @@
         if (merchantDetail.materialInfoList.count) {
             for (int i = 0; i < merchantDetail.materialInfoList.count; i++) {
                 if (indexPath.row == i) {
-                    SLVipStatus *vipStatus = self.vipStatusArray[i];
                     SLVipProductViewController *vpvc = [[SLVipProductViewController alloc] init];
-                    vpvc.vipStatus = vipStatus;
+                    SLMaterialInfo *materialInfo = self.merchantDetail.materialInfoList[i];
+                    vpvc.materialId = materialInfo.materialId;
                     [self.navigationController pushViewController:vpvc animated:YES];
                 }
             }
@@ -273,10 +281,10 @@
 #pragma mark ------ CLLocationManager的代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    
     self.location = [locations firstObject];
     
-    // 加载网络数据
+    [MBProgressHUD showMessage:@"数据加载中"];
+    
     [self loadInternetData];
     
     [self.locMgr stopUpdatingLocation];
@@ -287,7 +295,7 @@
 {
     self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
     self.parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
-    self.parameters.merchantId = [NSNumber numberWithLong:self.vipMerchantDetail.merchantId];
+    self.parameters.merchantId = self.merchantId;
     
     [SLMerchantDetailTool merchantDetailWithParameters:self.parameters success:^(NSArray *merchantDetailAndVipStatuses) {
         
@@ -300,9 +308,33 @@
         [webview loadHTMLString:self.merchantDetail.Description baseURL:nil];
         [self.view addSubview:webview];
         
+        [MBProgressHUD hideHUD];
+        
+        [self setNavBar];
+        
     } failure:^(NSError *error) {
         
     }];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    // 设置右上角的barButton
+    SLPraiseButton *priseButton = [SLPraiseButton button];
+    [priseButton setMerchantId:self.merchantDetail.merchantId praiseCounts:self.merchantDetail.praiseCounts praiseFlag:self.merchantDetail.merchantUser.praiseFlag];
+    UIBarButtonItem *priseItem = [[UIBarButtonItem alloc] initWithCustomView:priseButton];
+    
+    SLCollectButton *collectButton = [SLCollectButton button];
+    [collectButton setMerchantId:self.merchantDetail.merchantId collectFlag:self.merchantDetail.merchantUser.collectFlag];
+    UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
+    
+    NSArray *rightBarButtonItems = @[priseItem, collectItem];
+    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
 }
 
 - (void)setMerchantDetail:(SLMerchantDetail *)merchantDetail

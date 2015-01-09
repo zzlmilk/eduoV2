@@ -32,6 +32,8 @@
 		0102526F19E907B100CC60CB /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0102526819E907B100CC60CB /* FMDatabaseQueue.m */; };
 		0102527019E907B100CC60CB /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 0102526B19E907B100CC60CB /* FMResultSet.m */; };
 		0102527219E9092500CC60CB /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0102527119E9092500CC60CB /* libsqlite3.dylib */; };
+		0103B0C31A5E7A4500F98000 /* SLPraiseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0103B0C21A5E7A4500F98000 /* SLPraiseButton.m */; };
+		0103B0C61A5E811900F98000 /* SLCollectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0103B0C51A5E811900F98000 /* SLCollectButton.m */; };
 		0106C2E119C5E7A7009CBED9 /* SLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0106C2E019C5E7A7009CBED9 /* SLTabBar.m */; };
 		0106C2E419C6B696009CBED9 /* UIImage+S_LINE.m in Sources */ = {isa = PBXBuildFile; fileRef = 0106C2E319C6B696009CBED9 /* UIImage+S_LINE.m */; };
 		0106C2E719C6CA55009CBED9 /* SLBadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0106C2E619C6CA55009CBED9 /* SLBadgeButton.m */; };
@@ -152,7 +154,6 @@
 		018DDB9A19EF7613004B8F73 /* SLOutletsParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 018DDB9919EF7613004B8F73 /* SLOutletsParameters.m */; };
 		018DDBA219EF77A9004B8F73 /* SLOutletsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 018DDBA119EF77A9004B8F73 /* SLOutletsTool.m */; };
 		018DDBA919EF8A0B004B8F73 /* SLUserOperateParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 018DDBA819EF8A0B004B8F73 /* SLUserOperateParameters.m */; };
-		018DDBAC19EF8AE8004B8F73 /* SLUserOperateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 018DDBAB19EF8AE8004B8F73 /* SLUserOperateTool.m */; };
 		018DDBAF19EF90AF004B8F73 /* SLMaterialUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 018DDBAE19EF90AF004B8F73 /* SLMaterialUser.m */; };
 		018EFFBC19C92F70009915DA /* SLAccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 018EFFBB19C92F70009915DA /* SLAccountTool.m */; };
 		018EFFBF19C937F6009915DA /* SLImageVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 018EFFBE19C937F6009915DA /* SLImageVIew.m */; };
@@ -183,7 +184,6 @@
 		019F691219D25E190072B87C /* SLVipProductArrorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F691119D25E190072B87C /* SLVipProductArrorCell.m */; };
 		019F691519D25F630072B87C /* SLVipProductHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F691419D25F630072B87C /* SLVipProductHeadView.m */; };
 		019F691919D262230072B87C /* SLVipMerchantUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F691819D262230072B87C /* SLVipMerchantUserInfo.m */; };
-		019F691C19D2652F0072B87C /* SLVipProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F691B19D2652F0072B87C /* SLVipProduct.m */; };
 		019F692D19D2B17C0072B87C /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F692219D2B17C0072B87C /* RECommonFunctions.m */; };
 		019F692E19D2B17C0072B87C /* REFrostedContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F692419D2B17C0072B87C /* REFrostedContainerViewController.m */; };
 		019F692F19D2B17C0072B87C /* REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 019F692619D2B17C0072B87C /* REFrostedViewController.m */; };
@@ -213,8 +213,20 @@
 		01B3F27019D929660074AC40 /* SLVipDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B3F26F19D929660074AC40 /* SLVipDetail.m */; };
 		01B3F27319D937CB0074AC40 /* SLConsultant.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B3F27219D937CB0074AC40 /* SLConsultant.m */; };
 		01B3F27619D93CDB0074AC40 /* SLConsultantTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B3F27519D93CDB0074AC40 /* SLConsultantTool.m */; };
+		01B50E871A5D2BC600BD16AA /* SLMerchantStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B50E861A5D2BC600BD16AA /* SLMerchantStatus.m */; };
+		01B50E8A1A5D30E300BD16AA /* SLMyCollectedMerchantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B50E891A5D30E300BD16AA /* SLMyCollectedMerchantCell.m */; };
+		01B50E901A5D32D900BD16AA /* SLMyMerchantCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B50E8F1A5D32D900BD16AA /* SLMyMerchantCellFrame.m */; };
+		01B50E931A5D367300BD16AA /* NSString+S_LINE.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B50E921A5D367300BD16AA /* NSString+S_LINE.m */; };
 		01BDF37619CE80D10005A07A /* SLFinancialProductsDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BDF37519CE80D10005A07A /* SLFinancialProductsDetail.m */; };
 		01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 01BDF37819CEAB280005A07A /* SLVipHeadViewButton.m */; };
+		01C00EC31A5F71900082F4F7 /* SLMeterialDetialParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00EC21A5F71900082F4F7 /* SLMeterialDetialParameters.m */; };
+		01C00ECA1A5F725C0082F4F7 /* SLMeterialDetialTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00EC91A5F725C0082F4F7 /* SLMeterialDetialTool.m */; };
+		01C00ECD1A5F76640082F4F7 /* SLPrivilegeProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00ECC1A5F76640082F4F7 /* SLPrivilegeProduct.m */; };
+		01C00ED61A5F843A0082F4F7 /* SLResponseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00ED51A5F843A0082F4F7 /* SLResponseObject.m */; };
+		01C00ED91A5F85510082F4F7 /* SLResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00ED81A5F85510082F4F7 /* SLResult.m */; };
+		01C00EDC1A5FCC8F0082F4F7 /* SLMerchantUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00EDB1A5FCC8F0082F4F7 /* SLMerchantUser.m */; };
+		01C00EE41A5FD7D30082F4F7 /* SLMerchantOperateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00EE11A5FD7D30082F4F7 /* SLMerchantOperateTool.m */; };
+		01C00EE51A5FD7D30082F4F7 /* SLUserOperateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C00EE31A5FD7D30082F4F7 /* SLUserOperateTool.m */; };
 		01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C010AC19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m */; };
 		01C5060B1A00DC47009D0395 /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C506051A00DC47009D0395 /* MBProgressHUD+Add.m */; };
 		01C5060C1A00DC47009D0395 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C506071A00DC47009D0395 /* MBProgressHUD+MJ.m */; };
@@ -252,6 +264,12 @@
 		01EAFA0019FE291D001B651C /* SLMaterialTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAF9FF19FE291D001B651C /* SLMaterialTool.m */; };
 		01EAFA0319FE298E001B651C /* SLMaterialParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0219FE298E001B651C /* SLMaterialParameters.m */; };
 		01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */; };
+		01FE01C91A4904CF0029902A /* SLMyCollectedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01C81A4904CF0029902A /* SLMyCollectedItem.m */; };
+		01FE01CC1A490FF50029902A /* SLMyCollectionHeadButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01CB1A490FF50029902A /* SLMyCollectionHeadButton.m */; };
+		01FE01D01A4911880029902A /* SLCollectedMerchantParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01CF1A4911880029902A /* SLCollectedMerchantParameters.m */; };
+		01FE01D31A4911FB0029902A /* SLCollectedMaterialParameter.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01D21A4911FB0029902A /* SLCollectedMaterialParameter.m */; };
+		01FE01D61A49127E0029902A /* SLCollectedMerchantTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01D51A49127E0029902A /* SLCollectedMerchantTool.m */; };
+		01FE01D91A4913740029902A /* SLCollectecMaterialTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE01D81A4913740029902A /* SLCollectecMaterialTool.m */; };
 		01FE654F1A00DCB700AAC1EF /* MJPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE653F1A00DCB700AAC1EF /* MJPhoto.m */; };
 		01FE65501A00DCB700AAC1EF /* MJPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 01FE65401A00DCB700AAC1EF /* MJPhotoBrowser.bundle */; };
 		01FE65511A00DCB700AAC1EF /* MJPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 01FE65421A00DCB700AAC1EF /* MJPhotoBrowser.m */; };
@@ -324,6 +342,10 @@
 		0102526A19E907B100CC60CB /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		0102526B19E907B100CC60CB /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		0102527119E9092500CC60CB /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		0103B0C11A5E7A4500F98000 /* SLPraiseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPraiseButton.h; sourceTree = "<group>"; };
+		0103B0C21A5E7A4500F98000 /* SLPraiseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPraiseButton.m; sourceTree = "<group>"; };
+		0103B0C41A5E811900F98000 /* SLCollectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectButton.h; sourceTree = "<group>"; };
+		0103B0C51A5E811900F98000 /* SLCollectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectButton.m; sourceTree = "<group>"; };
 		0106C2DF19C5E7A7009CBED9 /* SLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLTabBar.h; sourceTree = "<group>"; };
 		0106C2E019C5E7A7009CBED9 /* SLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLTabBar.m; sourceTree = "<group>"; };
 		0106C2E219C6B696009CBED9 /* UIImage+S_LINE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+S_LINE.h"; sourceTree = "<group>"; };
@@ -567,8 +589,6 @@
 		018DDBA119EF77A9004B8F73 /* SLOutletsTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLOutletsTool.m; sourceTree = "<group>"; };
 		018DDBA719EF8A0B004B8F73 /* SLUserOperateParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUserOperateParameters.h; sourceTree = "<group>"; };
 		018DDBA819EF8A0B004B8F73 /* SLUserOperateParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUserOperateParameters.m; sourceTree = "<group>"; };
-		018DDBAA19EF8AE8004B8F73 /* SLUserOperateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUserOperateTool.h; sourceTree = SOURCE_ROOT; };
-		018DDBAB19EF8AE8004B8F73 /* SLUserOperateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUserOperateTool.m; sourceTree = SOURCE_ROOT; };
 		018DDBAD19EF90AF004B8F73 /* SLMaterialUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMaterialUser.h; sourceTree = "<group>"; };
 		018DDBAE19EF90AF004B8F73 /* SLMaterialUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialUser.m; sourceTree = "<group>"; };
 		018EFFBA19C92F70009915DA /* SLAccountTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLAccountTool.h; sourceTree = "<group>"; };
@@ -629,8 +649,6 @@
 		019F691419D25F630072B87C /* SLVipProductHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipProductHeadView.m; sourceTree = "<group>"; };
 		019F691719D262230072B87C /* SLVipMerchantUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLVipMerchantUserInfo.h; sourceTree = "<group>"; };
 		019F691819D262230072B87C /* SLVipMerchantUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipMerchantUserInfo.m; sourceTree = "<group>"; };
-		019F691A19D2652F0072B87C /* SLVipProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLVipProduct.h; sourceTree = "<group>"; };
-		019F691B19D2652F0072B87C /* SLVipProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipProduct.m; sourceTree = "<group>"; };
 		019F692119D2B17C0072B87C /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
 		019F692219D2B17C0072B87C /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
 		019F692319D2B17C0072B87C /* REFrostedContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REFrostedContainerViewController.h; sourceTree = "<group>"; };
@@ -690,10 +708,34 @@
 		01B3F27219D937CB0074AC40 /* SLConsultant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLConsultant.m; sourceTree = "<group>"; };
 		01B3F27419D93CDB0074AC40 /* SLConsultantTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLConsultantTool.h; sourceTree = "<group>"; };
 		01B3F27519D93CDB0074AC40 /* SLConsultantTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLConsultantTool.m; sourceTree = "<group>"; };
+		01B50E851A5D2BC600BD16AA /* SLMerchantStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantStatus.h; sourceTree = "<group>"; };
+		01B50E861A5D2BC600BD16AA /* SLMerchantStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantStatus.m; sourceTree = "<group>"; };
+		01B50E881A5D30E300BD16AA /* SLMyCollectedMerchantCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCollectedMerchantCell.h; sourceTree = "<group>"; };
+		01B50E891A5D30E300BD16AA /* SLMyCollectedMerchantCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCollectedMerchantCell.m; sourceTree = "<group>"; };
+		01B50E8E1A5D32D900BD16AA /* SLMyMerchantCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyMerchantCellFrame.h; sourceTree = "<group>"; };
+		01B50E8F1A5D32D900BD16AA /* SLMyMerchantCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyMerchantCellFrame.m; sourceTree = "<group>"; };
+		01B50E911A5D367300BD16AA /* NSString+S_LINE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+S_LINE.h"; sourceTree = "<group>"; };
+		01B50E921A5D367300BD16AA /* NSString+S_LINE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+S_LINE.m"; sourceTree = "<group>"; };
 		01BDF37419CE80D10005A07A /* SLFinancialProductsDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinancialProductsDetail.h; sourceTree = "<group>"; };
 		01BDF37519CE80D10005A07A /* SLFinancialProductsDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinancialProductsDetail.m; sourceTree = "<group>"; };
 		01BDF37719CEAB280005A07A /* SLVipHeadViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLVipHeadViewButton.h; sourceTree = "<group>"; };
 		01BDF37819CEAB280005A07A /* SLVipHeadViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLVipHeadViewButton.m; sourceTree = "<group>"; };
+		01C00EC11A5F71900082F4F7 /* SLMeterialDetialParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMeterialDetialParameters.h; sourceTree = "<group>"; };
+		01C00EC21A5F71900082F4F7 /* SLMeterialDetialParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMeterialDetialParameters.m; sourceTree = "<group>"; };
+		01C00EC81A5F725C0082F4F7 /* SLMeterialDetialTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMeterialDetialTool.h; sourceTree = "<group>"; };
+		01C00EC91A5F725C0082F4F7 /* SLMeterialDetialTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMeterialDetialTool.m; sourceTree = "<group>"; };
+		01C00ECB1A5F76640082F4F7 /* SLPrivilegeProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLPrivilegeProduct.h; sourceTree = "<group>"; };
+		01C00ECC1A5F76640082F4F7 /* SLPrivilegeProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLPrivilegeProduct.m; sourceTree = "<group>"; };
+		01C00ED41A5F843A0082F4F7 /* SLResponseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLResponseObject.h; sourceTree = "<group>"; };
+		01C00ED51A5F843A0082F4F7 /* SLResponseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLResponseObject.m; sourceTree = "<group>"; };
+		01C00ED71A5F85510082F4F7 /* SLResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLResult.h; sourceTree = "<group>"; };
+		01C00ED81A5F85510082F4F7 /* SLResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLResult.m; sourceTree = "<group>"; };
+		01C00EDA1A5FCC8F0082F4F7 /* SLMerchantUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantUser.h; sourceTree = "<group>"; };
+		01C00EDB1A5FCC8F0082F4F7 /* SLMerchantUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantUser.m; sourceTree = "<group>"; };
+		01C00EE01A5FD7D30082F4F7 /* SLMerchantOperateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMerchantOperateTool.h; sourceTree = "<group>"; };
+		01C00EE11A5FD7D30082F4F7 /* SLMerchantOperateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMerchantOperateTool.m; sourceTree = "<group>"; };
+		01C00EE21A5FD7D30082F4F7 /* SLUserOperateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUserOperateTool.h; sourceTree = "<group>"; };
+		01C00EE31A5FD7D30082F4F7 /* SLUserOperateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUserOperateTool.m; sourceTree = "<group>"; };
 		01C010AB19CFC43C00FDE05E /* SLFinanceComparisonViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLFinanceComparisonViewCell.h; sourceTree = "<group>"; };
 		01C010AC19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLFinanceComparisonViewCell.m; sourceTree = "<group>"; };
 		01C506041A00DC47009D0395 /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
@@ -758,6 +800,18 @@
 		01EAFA0219FE298E001B651C /* SLMaterialParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMaterialParameters.m; sourceTree = "<group>"; };
 		01EAFA0419FE4347001B651C /* SLMenuNavgationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMenuNavgationController.h; sourceTree = "<group>"; };
 		01EAFA0519FE4347001B651C /* SLMenuNavgationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMenuNavgationController.m; sourceTree = "<group>"; };
+		01FE01C71A4904CF0029902A /* SLMyCollectedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCollectedItem.h; sourceTree = "<group>"; };
+		01FE01C81A4904CF0029902A /* SLMyCollectedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCollectedItem.m; sourceTree = "<group>"; };
+		01FE01CA1A490FF50029902A /* SLMyCollectionHeadButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMyCollectionHeadButton.h; sourceTree = "<group>"; };
+		01FE01CB1A490FF50029902A /* SLMyCollectionHeadButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMyCollectionHeadButton.m; sourceTree = "<group>"; };
+		01FE01CE1A4911880029902A /* SLCollectedMerchantParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectedMerchantParameters.h; sourceTree = "<group>"; };
+		01FE01CF1A4911880029902A /* SLCollectedMerchantParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectedMerchantParameters.m; sourceTree = "<group>"; };
+		01FE01D11A4911FB0029902A /* SLCollectedMaterialParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectedMaterialParameter.h; sourceTree = "<group>"; };
+		01FE01D21A4911FB0029902A /* SLCollectedMaterialParameter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectedMaterialParameter.m; sourceTree = "<group>"; };
+		01FE01D41A49127E0029902A /* SLCollectedMerchantTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectedMerchantTool.h; sourceTree = "<group>"; };
+		01FE01D51A49127E0029902A /* SLCollectedMerchantTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectedMerchantTool.m; sourceTree = "<group>"; };
+		01FE01D71A4913740029902A /* SLCollectecMaterialTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLCollectecMaterialTool.h; sourceTree = "<group>"; };
+		01FE01D81A4913740029902A /* SLCollectecMaterialTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLCollectecMaterialTool.m; sourceTree = "<group>"; };
 		01FE653E1A00DCB700AAC1EF /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
 		01FE653F1A00DCB700AAC1EF /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
 		01FE65401A00DCB700AAC1EF /* MJPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJPhotoBrowser.bundle; sourceTree = "<group>"; };
@@ -937,6 +991,8 @@
 		0106C2E819C6E842009CBED9 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				01B50E911A5D367300BD16AA /* NSString+S_LINE.h */,
+				01B50E921A5D367300BD16AA /* NSString+S_LINE.m */,
 				014FCC2019C8872A0035E697 /* NSString+Password.h */,
 				014FCC2119C8872A0035E697 /* NSString+Password.m */,
 				0106C2E219C6B696009CBED9 /* UIImage+S_LINE.h */,
@@ -1266,6 +1322,8 @@
 				0166730819F7A2A8004EA294 /* Parameters */,
 				0166731019F7AB48004EA294 /* SLMerchantDetail.h */,
 				0166731119F7AB48004EA294 /* SLMerchantDetail.m */,
+				01C00EDA1A5FCC8F0082F4F7 /* SLMerchantUser.h */,
+				01C00EDB1A5FCC8F0082F4F7 /* SLMerchantUser.m */,
 				0166731319F7ABC9004EA294 /* SLMerchantUserInfo.h */,
 				0166731419F7ABC9004EA294 /* SLMerchantUserInfo.m */,
 				0166731F19F7B536004EA294 /* SLMerchantPhoto.h */,
@@ -1695,6 +1753,10 @@
 				015243D819D80FFF001E84B4 /* SLFinanceProductHeadView.m */,
 				01B3F25E19D8EBBE0074AC40 /* SLFinanceProductChartView.h */,
 				01B3F25F19D8EBBE0074AC40 /* SLFinanceProductChartView.m */,
+				0103B0C11A5E7A4500F98000 /* SLPraiseButton.h */,
+				0103B0C21A5E7A4500F98000 /* SLPraiseButton.m */,
+				0103B0C41A5E811900F98000 /* SLCollectButton.h */,
+				0103B0C51A5E811900F98000 /* SLCollectButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1713,8 +1775,10 @@
 		017CF76219CACFA500872031 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
-				018DDBAA19EF8AE8004B8F73 /* SLUserOperateTool.h */,
-				018DDBAB19EF8AE8004B8F73 /* SLUserOperateTool.m */,
+				01C00EE01A5FD7D30082F4F7 /* SLMerchantOperateTool.h */,
+				01C00EE11A5FD7D30082F4F7 /* SLMerchantOperateTool.m */,
+				01C00EE21A5FD7D30082F4F7 /* SLUserOperateTool.h */,
+				01C00EE31A5FD7D30082F4F7 /* SLUserOperateTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1895,6 +1959,7 @@
 		019F690519D25A760072B87C /* VipProduct */ = {
 			isa = PBXGroup;
 			children = (
+				01C00EC41A5F71DB0082F4F7 /* Tool */,
 				019F690719D25A760072B87C /* Model */,
 				019F690919D25A760072B87C /* View */,
 				019F690619D25A760072B87C /* Controller */,
@@ -1916,8 +1981,9 @@
 		019F690719D25A760072B87C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				019F691A19D2652F0072B87C /* SLVipProduct.h */,
-				019F691B19D2652F0072B87C /* SLVipProduct.m */,
+				01C00EC01A5F71670082F4F7 /* Parameter */,
+				01C00ECB1A5F76640082F4F7 /* SLPrivilegeProduct.h */,
+				01C00ECC1A5F76640082F4F7 /* SLPrivilegeProduct.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1984,7 +2050,7 @@
 				019FE3AF19F61B9F0065E135 /* Model */,
 				019FE3B119F61B9F0065E135 /* View */,
 				019FE3AE19F61B9F0065E135 /* Controller */,
-				019FE3B019F61B9F0065E135 /* Other */,
+				019FE3B019F61B9F0065E135 /* Tool */,
 			);
 			path = MyCollection;
 			sourceTree = "<group>";
@@ -2001,20 +2067,36 @@
 		019FE3AF19F61B9F0065E135 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				01FE01CD1A4911090029902A /* Parameters */,
+				01FE01C71A4904CF0029902A /* SLMyCollectedItem.h */,
+				01FE01C81A4904CF0029902A /* SLMyCollectedItem.m */,
+				01B50E851A5D2BC600BD16AA /* SLMerchantStatus.h */,
+				01B50E861A5D2BC600BD16AA /* SLMerchantStatus.m */,
+				01B50E8E1A5D32D900BD16AA /* SLMyMerchantCellFrame.h */,
+				01B50E8F1A5D32D900BD16AA /* SLMyMerchantCellFrame.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		019FE3B019F61B9F0065E135 /* Other */ = {
+		019FE3B019F61B9F0065E135 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				01FE01D41A49127E0029902A /* SLCollectedMerchantTool.h */,
+				01FE01D51A49127E0029902A /* SLCollectedMerchantTool.m */,
+				01FE01D71A4913740029902A /* SLCollectecMaterialTool.h */,
+				01FE01D81A4913740029902A /* SLCollectecMaterialTool.m */,
 			);
+			name = Tool;
 			path = Other;
 			sourceTree = "<group>";
 		};
 		019FE3B119F61B9F0065E135 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				01FE01CA1A490FF50029902A /* SLMyCollectionHeadButton.h */,
+				01FE01CB1A490FF50029902A /* SLMyCollectionHeadButton.m */,
+				01B50E881A5D30E300BD16AA /* SLMyCollectedMerchantCell.h */,
+				01B50E891A5D30E300BD16AA /* SLMyCollectedMerchantCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2123,6 +2205,24 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		01C00EC01A5F71670082F4F7 /* Parameter */ = {
+			isa = PBXGroup;
+			children = (
+				01C00EC11A5F71900082F4F7 /* SLMeterialDetialParameters.h */,
+				01C00EC21A5F71900082F4F7 /* SLMeterialDetialParameters.m */,
+			);
+			path = Parameter;
+			sourceTree = "<group>";
+		};
+		01C00EC41A5F71DB0082F4F7 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				01C00EC81A5F725C0082F4F7 /* SLMeterialDetialTool.h */,
+				01C00EC91A5F725C0082F4F7 /* SLMeterialDetialTool.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 		01C506031A00DC47009D0395 /* MBProgressHUD */ = {
@@ -2519,6 +2619,10 @@
 				0193C5D519D0114100AF5A49 /* SLMoreGroups.m */,
 				0193C5D719D0147300AF5A49 /* SLMoreItem.h */,
 				0193C5D819D0147300AF5A49 /* SLMoreItem.m */,
+				01C00ED41A5F843A0082F4F7 /* SLResponseObject.h */,
+				01C00ED51A5F843A0082F4F7 /* SLResponseObject.m */,
+				01C00ED71A5F85510082F4F7 /* SLResult.h */,
+				01C00ED81A5F85510082F4F7 /* SLResult.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2695,6 +2799,17 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		01FE01CD1A4911090029902A /* Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				01FE01CE1A4911880029902A /* SLCollectedMerchantParameters.h */,
+				01FE01CF1A4911880029902A /* SLCollectedMerchantParameters.m */,
+				01FE01D11A4911FB0029902A /* SLCollectedMaterialParameter.h */,
+				01FE01D21A4911FB0029902A /* SLCollectedMaterialParameter.m */,
+			);
+			path = Parameters;
+			sourceTree = "<group>";
+		};
 		01FE653D1A00DCB700AAC1EF /* MJPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -2823,6 +2938,7 @@
 				0100A9F419EE224C00B9C6D5 /* SLVipStatusCacheTool.m in Sources */,
 				017BF28119FA24D300A13331 /* SLMerchantCommentFrame.m in Sources */,
 				0155B9A81A387BD500E3A446 /* REXCommonFunctions.m in Sources */,
+				01C00ECA1A5F725C0082F4F7 /* SLMeterialDetialTool.m in Sources */,
 				018DDBAF19EF90AF004B8F73 /* SLMaterialUser.m in Sources */,
 				01FE65521A00DCB700AAC1EF /* MJPhotoLoadingView.m in Sources */,
 				0143FA3819EBA675007FFC80 /* SLSettingLabelItem.m in Sources */,
@@ -2835,6 +2951,7 @@
 				017F27B819C3EA5C00068BC4 /* SLHomeViewController.m in Sources */,
 				01E66E9119C2F95C0005C79C /* SLTabBarController.m in Sources */,
 				019A5FCA19F89A1F0052F3BA /* SLMerchantHeadCell.m in Sources */,
+				01B50E8A1A5D30E300BD16AA /* SLMyCollectedMerchantCell.m in Sources */,
 				017F27C419C3F2BB00068BC4 /* SLTabBarButton.m in Sources */,
 				01FE65561A00DCB700AAC1EF /* SDWebImageManager+MJ.m in Sources */,
 				01982FB519D16BE600E41EE9 /* SLVipMerchantDetail.m in Sources */,
@@ -2857,8 +2974,10 @@
 				0193C5D619D0114100AF5A49 /* SLMoreGroups.m in Sources */,
 				01666C7B19CD35F7002AFBFC /* SLLabelView.m in Sources */,
 				01982FB819D16CD100E41EE9 /* SLVipStatusFrame.m in Sources */,
+				01FE01D31A4911FB0029902A /* SLCollectedMaterialParameter.m in Sources */,
 				015920EC19C7DCCB00AC091B /* SLNewFeaturesController.m in Sources */,
 				019FE3BC19F62EB40065E135 /* SLMyConsultantController.m in Sources */,
+				01C00EC31A5F71900082F4F7 /* SLMeterialDetialParameters.m in Sources */,
 				0185B7AC19E4E17D00FD9C95 /* UIImage+WebP.m in Sources */,
 				019A5FD719F8AFAB0052F3BA /* SLMerchantDetailGroup.m in Sources */,
 				0174B5BC19D3BE4200D59D52 /* SLViewController.m in Sources */,
@@ -2867,7 +2986,6 @@
 				014A9F861A45AC8C00345E72 /* SLMyCommentSectionFootView.m in Sources */,
 				0174B5D219D412C200D59D52 /* SLFinancialProductsListController.m in Sources */,
 				017225D819ED20BF0087E683 /* MJArgument.m in Sources */,
-				019F691C19D2652F0072B87C /* SLVipProduct.m in Sources */,
 				0143FA4119EBB6ED007FFC80 /* SLFinanceProductParameters.m in Sources */,
 				017CF73019CA7B0800872031 /* SLHomeStatusCell.m in Sources */,
 				017225DD19ED20BF0087E683 /* MJTypeEncoding.m in Sources */,
@@ -2906,8 +3024,11 @@
 				017BF27819F9E6DD00A13331 /* SLMerchantInDetail.m in Sources */,
 				017CF73B19CAAEEB00872031 /* SLFinanceProductController.m in Sources */,
 				0155B9AA1A387BD500E3A446 /* UIViewController+REXSideMenu.m in Sources */,
+				01C00EE51A5FD7D30082F4F7 /* SLUserOperateTool.m in Sources */,
 				018029CE19D5A55800A7B98B /* SLModifyPwdController.m in Sources */,
 				0193C5D919D0147300AF5A49 /* SLMoreItem.m in Sources */,
+				01FE01D91A4913740029902A /* SLCollectecMaterialTool.m in Sources */,
+				01C00EE41A5FD7D30082F4F7 /* SLMerchantOperateTool.m in Sources */,
 				0137619519EFAAF200248FF3 /* SLOutletsListCell.m in Sources */,
 				01C8B64B1A3AEB8400F28104 /* SLMyCommentParameters.m in Sources */,
 				017225B419ECFD770087E683 /* SLVipParameters.m in Sources */,
@@ -2922,6 +3043,7 @@
 				0102525319E8DE5A00CC60CB /* SLHomeStatusParameters.m in Sources */,
 				0102527019E907B100CC60CB /* FMResultSet.m in Sources */,
 				0143FA3B19EBB1A7007FFC80 /* SLFinanceProductCacheTool.m in Sources */,
+				01C00ED91A5F85510082F4F7 /* SLResult.m in Sources */,
 				017BF27E19FA235D00A13331 /* SLCommentCell.m in Sources */,
 				0102526F19E907B100CC60CB /* FMDatabaseQueue.m in Sources */,
 				01982FA319D115F100E41EE9 /* SLDetailGrayLabel.m in Sources */,
@@ -2930,6 +3052,7 @@
 				0166730F19F7A365004EA294 /* SLMerchantDetailTool.m in Sources */,
 				01EAF9FD19FDEC9F001B651C /* SLPostCommentView.m in Sources */,
 				0106C2E419C6B696009CBED9 /* UIImage+S_LINE.m in Sources */,
+				01C00ED61A5F843A0082F4F7 /* SLResponseObject.m in Sources */,
 				0100AA0F19EE636A00B9C6D5 /* SLMenuLabelItem.m in Sources */,
 				019A5FDA19F8AFF00052F3BA /* SLMerchantDetailItem.m in Sources */,
 				018DDBA919EF8A0B004B8F73 /* SLUserOperateParameters.m in Sources */,
@@ -2950,22 +3073,25 @@
 				0188749819EA489900250648 /* SLHomeStatusCacheTool.m in Sources */,
 				0155B9B21A387FDA00E3A446 /* SLSideViewController.m in Sources */,
 				019A5FC719F897CB0052F3BA /* SLBaseArrowCell.m in Sources */,
-				018DDBAC19EF8AE8004B8F73 /* SLUserOperateTool.m in Sources */,
 				017C2B351A3BF8CA00A5C51F /* SLMyCommentCell.m in Sources */,
+				01FE01D01A4911880029902A /* SLCollectedMerchantParameters.m in Sources */,
 				019F690F19D25DD80072B87C /* SLVipProductNoneCell.m in Sources */,
 				0100AB5619E64D9800E4F1E9 /* MJRefreshFooterView.m in Sources */,
 				01AC95D819ED2443009AB082 /* AFURLConnectionOperation.m in Sources */,
 				014F69E719F0E5CC00D98E02 /* SLOutletsViewController.m in Sources */,
 				015243D319D691A5001E84B4 /* SLFinancialProductListCell.m in Sources */,
 				01C5060B1A00DC47009D0395 /* MBProgressHUD+Add.m in Sources */,
+				01B50E871A5D2BC600BD16AA /* SLMerchantStatus.m in Sources */,
 				0100AA0C19EE62EB00B9C6D5 /* SLMenuArrowItem.m in Sources */,
 				01982FA619D1192600E41EE9 /* SLDetailBlackLabel.m in Sources */,
 				014FCC2519C892D80035E697 /* SLAccount.m in Sources */,
 				017F27CA19C5DD8500068BC4 /* SLNavigationController.m in Sources */,
 				017225DA19ED20BF0087E683 /* MJMember.m in Sources */,
+				01FE01C91A4904CF0029902A /* SLMyCollectedItem.m in Sources */,
 				01C5060E1A00DC47009D0395 /* MBProgressHUD.m in Sources */,
 				01B3F27319D937CB0074AC40 /* SLConsultant.m in Sources */,
 				019FE3C219F63F4D0065E135 /* SLMerchantStatusFrame.m in Sources */,
+				01C00EDC1A5FCC8F0082F4F7 /* SLMerchantUser.m in Sources */,
 				01FE654F1A00DCB700AAC1EF /* MJPhoto.m in Sources */,
 				018EFFBC19C92F70009915DA /* SLAccountTool.m in Sources */,
 				0166730719F7A209004EA294 /* SLMerchantDetailController.m in Sources */,
@@ -2977,11 +3103,14 @@
 				0185B7A319E4E17D00FD9C95 /* SDWebImageCompat.m in Sources */,
 				0102525C19E8F23000CC60CB /* SLHomeStatusResult.m in Sources */,
 				017225DF19ED20BF0087E683 /* NSObject+MJKeyValue.m in Sources */,
+				0103B0C31A5E7A4500F98000 /* SLPraiseButton.m in Sources */,
+				0103B0C61A5E811900F98000 /* SLCollectButton.m in Sources */,
 				01D607A719F786BB007362CC /* SLMapViewController.m in Sources */,
 				018DDB9A19EF7613004B8F73 /* SLOutletsParameters.m in Sources */,
 				01AC95D519ED2443009AB082 /* AFHTTPSessionManager.m in Sources */,
 				01EAFA0619FE4347001B651C /* SLMenuNavgationController.m in Sources */,
 				01BDF37919CEAB280005A07A /* SLVipHeadViewButton.m in Sources */,
+				01FE01CC1A490FF50029902A /* SLMyCollectionHeadButton.m in Sources */,
 				014F69EA19F1073D00D98E02 /* SLServiceAreaCoverView.m in Sources */,
 				01C8B6511A3AEC5200F28104 /* SLMyCommentViewController.m in Sources */,
 				017F27BE19C3EA9300068BC4 /* SLPhoneViewController.m in Sources */,
@@ -2996,10 +3125,13 @@
 				01FE65571A00DCB700AAC1EF /* UIImageView+MJWebCache.m in Sources */,
 				01C5060C1A00DC47009D0395 /* MBProgressHUD+MJ.m in Sources */,
 				01982FAC19D16AA200E41EE9 /* SLVipStatus.m in Sources */,
+				01FE01D61A49127E0029902A /* SLCollectedMerchantTool.m in Sources */,
+				01B50E931A5D367300BD16AA /* NSString+S_LINE.m in Sources */,
 				014F69F219F11AD100D98E02 /* SLMerchantControllerController.m in Sources */,
 				01AC95DA19ED2443009AB082 /* AFURLResponseSerialization.m in Sources */,
 				01B3F27619D93CDB0074AC40 /* SLConsultantTool.m in Sources */,
 				0166732119F7B536004EA294 /* SLMerchantPhoto.m in Sources */,
+				01B50E901A5D32D900BD16AA /* SLMyMerchantCellFrame.m in Sources */,
 				0166731219F7AB48004EA294 /* SLMerchantDetail.m in Sources */,
 				01C010AD19CFC43C00FDE05E /* SLFinanceComparisonViewCell.m in Sources */,
 				01C8B6381A3A8F2900F28104 /* SLCommentViewController.m in Sources */,
@@ -3031,6 +3163,7 @@
 				019F691519D25F630072B87C /* SLVipProductHeadView.m in Sources */,
 				01D607AA19F78ECA007362CC /* SLAnnotation.m in Sources */,
 				0137619B19EFC35300248FF3 /* SLRotateButton.m in Sources */,
+				01C00ECD1A5F76640082F4F7 /* SLPrivilegeProduct.m in Sources */,
 				0100AB5419E64D9800E4F1E9 /* MJRefreshBaseView.m in Sources */,
 				01D0FA2319F0C57400C4D1EC /* SLChildrenAreaList.m in Sources */,
 				018EFFC519C93B94009915DA /* SLInputTextField.m in Sources */,

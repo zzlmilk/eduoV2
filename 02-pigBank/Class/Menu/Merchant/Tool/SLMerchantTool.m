@@ -8,8 +8,7 @@
 
 #import "SLMerchantTool.h"
 
-#import "SLVipMerchantDetail.h"
-#import "SLVipMerchantUserInfo.h"
+#import "SLMerchantDetail.h"
 
 #import "SLHttpTool.h"
 
@@ -25,7 +24,7 @@
         
         NSArray *dictArray = [responseObject[@"info"] lastObject];
         
-        NSArray *merchantArray = [SLVipMerchantDetail objectArrayWithKeyValuesArray:dictArray];
+        NSArray *merchantArray = [SLMerchantDetail objectArrayWithKeyValuesArray:dictArray];
         
         
         // 传递了block

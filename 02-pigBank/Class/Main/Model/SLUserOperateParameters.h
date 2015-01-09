@@ -20,6 +20,9 @@
 /** materialId */
 @property (nonatomic, strong) NSNumber *materialId;
 
+/** materialId */
+@property (nonatomic, strong) NSNumber *merchantId;
+
 /** operateTime */
 @property (nonatomic, strong) NSNumber *operateTime;
 

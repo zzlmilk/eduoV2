@@ -19,7 +19,6 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/catchMaterialInfoById"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        SLLog(@"%@", responseObject);
         
         NSDictionary *dict = [responseObject[@"info"] lastObject];
         SLVipStatusFirstMaterialInfo *firstMaterialInfo = [SLVipStatusFirstMaterialInfo objectWithKeyValues:dict];

@@ -8,11 +8,24 @@
 
 #import "SLOutletDetialController.h"
 
+#import "SLMeterialDetialParameters.h"
+#import "SLOutletsInfo.h"
+
+#import "SLPraiseButton.h"
+#import "SLCollectButton.h"
+
 #import "SLMapViewController.h"
+
+#import "SLMeterialDetialTool.h"
+
+#import "MBProgressHUD+MJ.h"
+#import "MJExtension.h"
 
 @interface SLOutletDetialController () <UIWebViewDelegate>
 
 @property (nonatomic, weak) UIWebView *telWebView;
+
+@property (nonatomic, strong) SLOutletsInfo *outletsInfo;
 
 @end
 
@@ -21,9 +34,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self initTableHeadView];
+    [MBProgressHUD showMessage:@"数据加载中"];
     
-    [self initTableFootView];
+    [self loadInternetData];
+}
+
+#pragma mark ----- 加载网络数据
+- (void)loadInternetData
+{
+    SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
+    parameters.materialId = self.materialId;
+    
+    [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
+        
+        NSDictionary *dict = [result.info lastObject];
+        SLOutletsInfo *outletsInfo = [SLOutletsInfo objectWithKeyValues:dict];
+        self.outletsInfo = outletsInfo;
+        
+        [self setNavBar];
+        
+        [self initTableHeadView];
+        
+        [self initTableFootView];
+        
+        [MBProgressHUD hideHUD];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    // 设置右上角的barButton
+    SLPraiseButton *priseButton = [SLPraiseButton button];
+    [priseButton setMaterialId:self.outletsInfo.materialId praiseCounts:self.outletsInfo.praiseCounts praiseFlag:self.outletsInfo.materialUser.praiseFlag];
+    UIBarButtonItem *priseItem = [[UIBarButtonItem alloc] initWithCustomView:priseButton];
+    
+    SLCollectButton *collectButton = [SLCollectButton button];
+    [collectButton setMaterialId:self.outletsInfo.materialId collectFlag:self.outletsInfo.materialUser.collectFlag];
+    UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
+    //    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+    NSArray *rightBarButtonItems = @[priseItem, collectItem];
+    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
 }
 
 - (void)initTableFootView
@@ -64,10 +122,6 @@
     [headView addSubview:separator];
     
     self.tableView.tableHeaderView = headView;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - Table view data source
@@ -135,6 +189,10 @@
     [webView sizeToFit];
     
     [self.tableView reloadData];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
 }
 
 @end

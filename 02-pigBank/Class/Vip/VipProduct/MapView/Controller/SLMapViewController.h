@@ -10,10 +10,11 @@
 
 #import "SLOutletsInfo.h"
 #import "SLVipMerchantDetail.h"
+#import "SLMerchantInDetail.h"
 
 @interface SLMapViewController : UIViewController
 
 @property (nonatomic, strong) SLOutletsInfo *outletsInfo;
-@property (nonatomic, strong) SLVipMerchantDetail *merchantDetail;
+@property (nonatomic, strong) SLMerchantInDetail *merchantDetail;
 
 @end

@@ -21,6 +21,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SLMyCollectionController : UITableViewController
+@interface SLMyCollectionController : UIViewController
 
 @end

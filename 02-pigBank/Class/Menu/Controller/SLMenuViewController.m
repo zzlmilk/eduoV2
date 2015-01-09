@@ -86,6 +86,13 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self loadClientPlateData];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -132,17 +139,6 @@
     if ([self.delegate respondsToSelector:@selector(menuViewController:didClickMoreButton:)]) {
         [self.delegate menuViewController:self didClickMoreButton:self.navigationItem.leftBarButtonItem];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self loadClientPlateData];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -244,18 +240,8 @@
     }];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath.section == 0) {
-//        return 60;
-//    }
-//    return 44;
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     SLMenuGroup *menuGroup = self.menuGroups[indexPath.section];
     SLMenuItem *menuItem = menuGroup.menuItems[indexPath.row];
     
@@ -386,4 +372,11 @@
         
     }];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 @end

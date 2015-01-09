@@ -21,20 +21,10 @@
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/listOutletsMaterialInfo"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        
         NSArray *dictArray = [responseObject[@"info"] lastObject];
 
-//        NSArray *statusArray = [SLHomeStatus objectArrayWithKeyValuesArray:dictArray];
-
         NSArray *outletsArray = [SLOutletsInfo objectArrayWithKeyValuesArray:dictArray];
-        
-//        NSMutableArray *financeProductFrameArray = [NSMutableArray array];
-//        for (SLFinanceProduct *financeProduct in financeProductArray) {
-//            SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
-//            
-//            financeProductFrame.financeProduct = financeProduct;
-//            [financeProductFrameArray addObject:financeProductFrame];
-//        }
-//        [SLFinanceProductCacheTool addFinanceProductFrames:financeProductFrameArray];
         
         
         // 传递了block

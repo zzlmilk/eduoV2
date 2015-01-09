@@ -46,19 +46,19 @@
 
 @interface SLMaterialInfo : NSObject
 
-@property (nonatomic, assign) long classId;
+@property (nonatomic, strong) NSNumber *classId;
 
-@property (nonatomic, assign) long collectCounts;
+@property (nonatomic, strong) NSNumber *collectCounts;
 
 @property (nonatomic, copy) NSString *content;
 
 @property (nonatomic, copy) NSString *extPictureUrl;
 
-@property (nonatomic, assign) long materialId;
+@property (nonatomic, strong) NSNumber *materialId;
 
-@property (nonatomic, assign) long plateId;
+@property (nonatomic, strong) NSNumber *plateId;
 
-@property (nonatomic, assign) long praiseCounts;
+@property (nonatomic, strong) NSNumber *praiseCounts;
 
 @property (nonatomic, strong) SLPrivilegeDetail *privilegeDetail;
 

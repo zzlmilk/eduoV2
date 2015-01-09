@@ -14,6 +14,7 @@
 #import "SLMaterialInfo.h"
 #import "SLVipStatusFirstMaterialInfo.h"
 #import "SLVipStatus.h"
+#import "SLMerchantDetail.h"
 
 #import "SLHttpTool.h"
 

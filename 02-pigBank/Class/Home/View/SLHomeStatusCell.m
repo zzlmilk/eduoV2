@@ -132,7 +132,7 @@
     // frame
     self.likeView.frame = self.homeStatusFrame.likeViewF;
     // image
-    self.likeView.image = [UIImage imageNamed:@"zan"];
+    self.likeView.image = [UIImage imageNamed:@"xiaoZan"];
     
     /** praiseCounts */
     // frame
@@ -149,8 +149,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end
