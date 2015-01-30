@@ -8,16 +8,19 @@
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
-
-#import "SLMapViewController.h"
+#import <MAMapKit/MAMapKit.h>
 
 #import "SLAnnotation.h"
 
-@interface SLMapViewController () <MKMapViewDelegate>
+#import "SLBackButton.h"
 
-@property (nonatomic, weak) MKMapView *mapView;
+#import "SLChangeCoordinateTool.h"
 
-@property (strong, nonatomic) CLGeocoder *geocoder;
+#import "SLMapViewController.h"
+
+@interface SLMapViewController () <MAMapViewDelegate>
+
+@property (nonatomic, weak) MAMapView *mapView;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
@@ -25,131 +28,116 @@
 
 @implementation SLMapViewController
 
-- (CLGeocoder *)geocoder
+- (void)viewWillAppear:(BOOL)animated
 {
-    if (_geocoder == nil) {
-        _geocoder = [[CLGeocoder alloc] init];
-    }
-    return _geocoder;
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- 设置导航栏样式
+- (void)setNavBar
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+    
+    self.title = @"地图";
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.frame];
+    [self addSubviews];
+}
+
+#pragma mark ----- 添加所有子控件
+- (void)addSubviews
+{
+    MAMapView *mapView = [[MAMapView alloc] initWithFrame:self.view.frame];
     mapView.delegate = self;
-    mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
     self.mapView = mapView;
     [self.view addSubview:mapView];
     
-    // 创建显示区域
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.021321, 0.019366);
-    // 创建显示的大头针
-    SLAnnotation *annotation = [[SLAnnotation alloc] init];
+    [self setSubviewsData];
+}
+
+#pragma mark ----- 设置子控件属性
+- (void)setSubviewsData
+{
     if (self.outletsInfo) {
-        annotation.coordinate = CLLocationCoordinate2DMake([self.outletsInfo.outletsDetail.latitude doubleValue], [self.outletsInfo.outletsDetail.longitude doubleValue]);
-        self.coordinate = annotation.coordinate;
-        annotation.title = self.outletsInfo.title;
-        annotation.subtitle = self.outletsInfo.outletsDetail.address;
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.outletsInfo.outletsDetail.latitude doubleValue], [self.outletsInfo.outletsDetail.longitude doubleValue]);
+        [self setMapViewDataWithCoordinate:coordinate title:self.outletsInfo.title subTitle:self.outletsInfo.outletsDetail.address];
     } else if (self.merchantDetail) {
-        annotation.coordinate = CLLocationCoordinate2DMake([self.merchantDetail.latitude doubleValue], [self.merchantDetail.longitude doubleValue]);
-        self.coordinate = annotation.coordinate;
-        annotation.title = self.merchantDetail.fullName;
-        annotation.subtitle = self.merchantDetail.address;
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.merchantDetail.latitude doubleValue], [self.merchantDetail.longitude doubleValue]);
+        [self setMapViewDataWithCoordinate:coordinate title:self.merchantDetail.fullName subTitle:self.merchantDetail.address];
+    } else if (self.privilegeProduct) {
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.privilegeProduct.privilegeDetail.merchantDetail.latitude doubleValue], [self.privilegeProduct.privilegeDetail.merchantDetail.longitude doubleValue]);
+        [self setMapViewDataWithCoordinate:coordinate title:self.privilegeProduct.privilegeDetail.merchantDetail.fullName subTitle:self.privilegeProduct.privilegeDetail.merchantDetail.address];
+    } else if (self.activityDetail) {
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.activityDetail.latitude doubleValue], [self.activityDetail.longitude doubleValue]);
+        [self setMapViewDataWithCoordinate:coordinate title:self.activityDetail.title subTitle:self.activityDetail.address];
     }
-    [mapView addAnnotation:annotation];
-    MKCoordinateRegion region = MKCoordinateRegionMake(annotation.coordinate, span);
-    [mapView setRegion:region animated:YES];
 }
 
-// 在此方法中自定义annotationView
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+- (void)setMapViewDataWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title subTitle:(NSString *)subTitle
 {
-    static NSString *ID = @"datouzhen";
+    SLLog(@"%f%f", coordinate.latitude, coordinate.longitude);
     
-    MKPinAnnotationView *pinAnnotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:ID];
+    SLChangeCoordinateParameters *parameters = [[SLChangeCoordinateParameters alloc] init];
+    parameters.key = @"b25b57d75bd1f96f72d9da42b183b9f5";
+    parameters.locations = [NSString stringWithFormat:@"%f,%f", coordinate.latitude, coordinate.longitude];
+    parameters.coordsys = @"baidu";
     
-    if (pinAnnotationView == nil) {
-        pinAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:ID];
-    }
-    
-    pinAnnotationView.annotation = annotation;
-    pinAnnotationView.canShowCallout = YES;
-    pinAnnotationView.animatesDrop = YES;
-    UIButton *leftCalloutAccessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [leftCalloutAccessoryButton setTitle:@"本页导航" forState:UIControlStateNormal];
-    [leftCalloutAccessoryButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    leftCalloutAccessoryButton.titleLabel.font = SLFont14;
-    leftCalloutAccessoryButton.frame = CGRectMake(0, 0, 60, pinAnnotationView.frame.size.height);
-    [leftCalloutAccessoryButton addTarget:self action:@selector(leftCalloutAccessoryButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    pinAnnotationView.leftCalloutAccessoryView = leftCalloutAccessoryButton;
-    
-    UIButton *rightCalloutAccessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightCalloutAccessoryButton setTitle:@"系统导航" forState:UIControlStateNormal];
-    [rightCalloutAccessoryButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    rightCalloutAccessoryButton.titleLabel.font = SLFont14;
-    rightCalloutAccessoryButton.frame = CGRectMake(0, 0, 60, pinAnnotationView.frame.size.height);
-    [rightCalloutAccessoryButton addTarget:self action:@selector(rightCalloutAccessoryButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    pinAnnotationView.rightCalloutAccessoryView = rightCalloutAccessoryButton;
-    
-    return pinAnnotationView;
-    
-}
-
-- (void)rightCalloutAccessoryButtonClick:(UIButton *)button
-{
-    CLLocation *toLocation = [[CLLocation alloc] initWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
-    
-    [self.geocoder reverseGeocodeLocation:toLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (error) return;
+    [SLChangeCoordinateTool changeCoordinateWithParameters:parameters success:^(SLChangeCoordinateResult *result) {
+        if ([result.info isEqualToString:@"ok"]) {
+            NSArray *array = [result.locations componentsSeparatedByString:@","];
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([array[0] doubleValue], [array[1] doubleValue]);
+            
+            MACoordinateSpan span = MACoordinateSpanMake(0.021321, 0.019366);
+            MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+            [self.mapView setRegion:region animated:YES];
+            
+            SLAnnotation *annotation = [[SLAnnotation alloc] init];
+            annotation.coordinate = coordinate;
+            annotation.title = title;
+            annotation.subtitle = subTitle;
+            [self.mapView addAnnotation:annotation];
+        }
         
-        CLPlacemark *placemark = [placemarks firstObject];
+    } failure:^(NSError *error) {
         
-        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithPlacemark:placemark]];
-        
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        options[MKLaunchOptionsDirectionsModeKey] = MKLaunchOptionsDirectionsModeDriving;
-        options[MKLaunchOptionsShowsTrafficKey] = @YES;
-        [MKMapItem openMapsWithItems:@[currentLocation, toLocation] launchOptions:options];
     }];
 }
 
-#warning ----- 导航报错
-- (void)leftCalloutAccessoryButtonClick:(UIButton *)button
+#pragma mark ----- mapView代理方法 ----- 自定义大头针样式
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation
 {
-    CLLocation *toLocation = [[CLLocation alloc] initWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
-    
-    [self.geocoder reverseGeocodeLocation:toLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        if (error) return;
+    if ([annotation isKindOfClass:[SLAnnotation class]]) {
         
-        CLPlacemark *toPlacemark = [placemarks firstObject];
+        static NSString *ID = @"SLAnnotation";
+        MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
+        if (annotationView == nil) {
+            annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:ID];
+        }
         
-        // 2.查找路线
-        // 方向请求
-        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-        // 设置起点
-        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-        MKPlacemark *sourcePm = currentLocation.placemark;
-        request.source = [[MKMapItem alloc] initWithPlacemark:sourcePm];
+        annotationView.annotation = annotation;
+        annotationView.image = [UIImage imageNamed:@"default_voiceguide_selecte"];
         
-        // 设置终点
-        MKPlacemark *destinationPm = [[MKPlacemark alloc] initWithPlacemark:toPlacemark];
-        request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPm];
-        
-        // 方向对象
-        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-        
-        // 计算路线
-        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-            SLLog(@"%@", error);
-            // 遍历所有的路线
-            for (MKRoute *route in response.routes) {
-                // 添加路线遮盖
-                [self.mapView addOverlay:route.polyline];
-            }
-        }];
-    }];
+        return annotationView;
+    }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {

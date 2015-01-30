@@ -56,9 +56,9 @@
 @property (nonatomic, copy) NSString *pictureSmallUrl;
 @property (nonatomic, copy) NSString *pictureUrl;
 @property (nonatomic, copy) NSString *productCode;
-@property (nonatomic, strong) NSNumber *productSeries;
-@property (nonatomic, strong) NSNumber *productStruct;
-@property (nonatomic, strong) NSNumber *receiptTimeType;
+@property (nonatomic, copy) NSString *productSeries;
+@property (nonatomic, copy) NSString *productStruct;
+@property (nonatomic, copy) NSString *receiptTimeType;
 /** subscribeStart 认购开始时间 */
 @property (nonatomic, strong) NSNumber *subscribeStart;
 /** subscribeEnd 认购结束时间 */

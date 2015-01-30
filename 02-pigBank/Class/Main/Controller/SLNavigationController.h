@@ -8,11 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ICSDrawerController.h"
 
-
-@interface SLNavigationController : UINavigationController <ICSDrawerControllerChild, ICSDrawerControllerPresenting>
-
-@property(nonatomic, weak) ICSDrawerController *drawer;
+@interface SLNavigationController : UINavigationController 
 
 @end

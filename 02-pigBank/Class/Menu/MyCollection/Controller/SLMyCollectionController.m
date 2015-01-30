@@ -10,9 +10,7 @@
 
 #import "SLMyCollectedItem.h"
 #import "SLCollectedMaterialParameter.h"
-#import "SLVipStatus.h"
-#import "SLFinanceProductFrame.h"
-#import "SLOutletsInfo.h"
+#import "SLPlateInfo.h"
 
 #import "SLMyCollectionHeadButton.h"
 #import "SLVipStatusCell.h"
@@ -20,14 +18,26 @@
 #import "SLOutletsListCell.h"
 #import "SLMyCollectedMerchantCell.h"
 
+#import "SLVipProductViewController.h"
+#import "SLFinanceProductController.h"
+#import "SLOutletDetialController.h"
+#import "SLMerchantDetailController.h"
+
 #import "SLCollectecMaterialTool.h"
 #import "SLCollectedMerchantTool.h"
+#import "SLPlateInfoTool.h"
+#import "SLCollectMaterialTool.h"
 
+#import "UIBarButtonItem+SL.h"
+
+#import "MBProgressHUD+MJ.h"
 #import "MJExtension.h"
+#import "MJRefresh.h"
+#import "UIViewController+REXSideMenu.h"
 
 #define ButtonW 80
 
-@interface SLMyCollectionController ()<UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SLMyCollectionController ()<UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, MJRefreshBaseViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *myCollectedItems;
 
@@ -35,13 +45,10 @@
 
 @property (nonatomic, strong) NSMutableArray *myCollectionTableViews;
 
-@property (nonatomic, strong) NSArray *myCollectedVipArray;
-
-@property (nonatomic, strong) NSArray *myCollectedFinanceProductArray;
-
-@property (nonatomic, strong) NSArray *myCollectedOutletsArray;
-
-@property (nonatomic, strong) NSArray *myCollectedMerchantArray;
+@property (nonatomic, strong) NSMutableArray *myCollectedVipArray;
+@property (nonatomic, strong) NSMutableArray *myCollectedFinanceProductArray;
+@property (nonatomic, strong) NSMutableArray *myCollectedOutletsArray;
+@property (nonatomic, strong) NSMutableArray *myCollectedMerchantArray;
 
 @property (nonatomic, weak) UIView *listView;
 
@@ -49,41 +56,81 @@
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 
+@property (nonatomic, assign) BOOL flag;
+
+@property (nonatomic, strong) NSMutableArray *headerArray;
+@property (nonatomic, strong) NSMutableArray *footerArray;
+
+@property (nonatomic, strong) NSMutableArray *currentPageArray;
+@property (nonatomic, strong) NSMutableArray *paremetersArray;
+
 @end
 
 @implementation SLMyCollectionController
 
-//- (NSMutableArray *)myCollectedMerchantArray
-//{
-//    if (_myCollectedMerchantArray == nil) {
-//        _myCollectedMerchantArray = [NSMutableArray array];
-//    }
-//    return _myCollectedMerchantArray;
-//}
-//
-//- (NSMutableArray *)myCollectedOutletsArray
-//{
-//    if (_myCollectedOutletsArray == nil) {
-//        _myCollectedOutletsArray = [NSMutableArray array];
-//    }
-//    return _myCollectedOutletsArray;
-//}
-//
-//- (NSMutableArray *)myCollectedFinanceProductArray
-//{
-//    if (_myCollectedFinanceProductArray == nil) {
-//        _myCollectedFinanceProductArray = [NSMutableArray array];
-//    }
-//    return _myCollectedFinanceProductArray;
-//}
-//
-//- (NSMutableArray *)myCollectedVipArray
-//{
-//    if (_myCollectedVipArray == nil) {
-//        _myCollectedVipArray = [NSMutableArray array];
-//    }
-//    return _myCollectedVipArray;
-//}
+- (NSMutableArray *)myCollectedMerchantArray
+{
+    if (_myCollectedMerchantArray == nil) {
+        _myCollectedMerchantArray = [NSMutableArray array];
+    }
+    return _myCollectedMerchantArray;
+}
+
+- (NSMutableArray *)myCollectedOutletsArray
+{
+    if (_myCollectedOutletsArray == nil) {
+        _myCollectedOutletsArray = [NSMutableArray array];
+    }
+    return _myCollectedOutletsArray;
+}
+
+- (NSMutableArray *)myCollectedFinanceProductArray
+{
+    if (_myCollectedFinanceProductArray == nil) {
+        _myCollectedFinanceProductArray = [NSMutableArray array];
+    }
+    return _myCollectedFinanceProductArray;
+}
+
+- (NSMutableArray *)myCollectedVipArray
+{
+    if (_myCollectedVipArray == nil) {
+        _myCollectedVipArray = [NSMutableArray array];
+    }
+    return _myCollectedVipArray;
+}
+
+- (NSMutableArray *)paremetersArray
+{
+    if (_paremetersArray == nil) {
+        _paremetersArray = [NSMutableArray array];
+    }
+    return _paremetersArray;
+}
+
+- (NSMutableArray *)currentPageArray
+{
+    if (_currentPageArray == nil) {
+        _currentPageArray = [NSMutableArray array];
+    }
+    return _currentPageArray;
+}
+
+- (NSMutableArray *)headerArray
+{
+    if (_headerArray == nil) {
+        _headerArray = [NSMutableArray array];
+    }
+    return _headerArray;
+}
+
+- (NSMutableArray *)footerArray
+{
+    if (_footerArray == nil) {
+        _footerArray = [NSMutableArray array];
+    }
+    return _footerArray;
+}
 
 - (NSMutableArray *)myCollectedItems
 {
@@ -112,8 +159,15 @@
 #pragma mark ----- viewWillAppear
 - (void)viewWillAppear:(BOOL)animated
 {
-    for (int i = 1; i < 5; i++) {
-        if (i < 4) {
+    if (self.flag == NO) {
+        [MBProgressHUD showMessage:@"收藏列表加载中..."];
+        self.flag = YES;
+    }
+    
+    [self setNavBar];
+    
+    for (int i = 1; i < 6; i++) {
+        if (i < 5) {
             SLCollectedMaterialParameter *parameter = [SLCollectedMaterialParameter parameters];
             parameter.curPage = @1;
             parameter.pageSize = [NSNumber numberWithInt:-99];
@@ -123,23 +177,25 @@
                 
                 if (i == 1) {
                     NSArray *myCollectedVipArray = [SLVipStatusFirstMaterialInfo objectArrayWithKeyValuesArray:collectedMaterialArray];
-                    self.myCollectedVipArray = nil;
-                    self.myCollectedVipArray = myCollectedVipArray;
+                    [self.myCollectedVipArray removeAllObjects];
+                    [self.myCollectedVipArray addObjectsFromArray:myCollectedVipArray];
                     UITableView *tableView = self.myCollectionTableViews[i - 1];
                     [tableView reloadData];
                 } else if (i == 2) {
                     NSArray *myCollectedFinanceProductArray = [SLFinanceProduct objectArrayWithKeyValuesArray:collectedMaterialArray];
-                    self.myCollectedFinanceProductArray = nil;
-                    self.myCollectedFinanceProductArray = myCollectedFinanceProductArray;
+                    [self.myCollectedFinanceProductArray removeAllObjects];
+                    [self.myCollectedFinanceProductArray addObjectsFromArray:myCollectedFinanceProductArray];
                     UITableView *tableView = self.myCollectionTableViews[i - 1];
                     [tableView reloadData];
                 } else if (i == 3) {
                     NSArray *myCollectedOutletsArray = [SLOutletsInfo objectArrayWithKeyValuesArray:collectedMaterialArray];
-                    self.myCollectedOutletsArray = nil;
-                    self.myCollectedOutletsArray = myCollectedOutletsArray;
+                    [self.myCollectedOutletsArray removeAllObjects];
+                    [self.myCollectedOutletsArray addObjectsFromArray:myCollectedOutletsArray];
                     UITableView *tableView = self.myCollectionTableViews[i - 1];
                     [tableView reloadData];
                 }
+                
+                [MBProgressHUD hideHUD];
                 
                 
             } failure:^(NSError *error) {
@@ -154,10 +210,10 @@
                 
                 NSArray *myCollectedMerchantArray = [SLMerchantStatus objectArrayWithKeyValuesArray:collectedMerchantArray];
                 
-                self.myCollectedMerchantArray = nil;
-                self.myCollectedMerchantArray = myCollectedMerchantArray;
+                [self.myCollectedMerchantArray removeAllObjects];
+                [self.myCollectedMerchantArray addObjectsFromArray:myCollectedMerchantArray];
                 
-                UITableView *tableView = self.myCollectionTableViews[i - 1];
+                UITableView *tableView = self.myCollectionTableViews[i - 2];
                 [tableView reloadData];
                 
             } failure:^(NSError *error) {
@@ -165,6 +221,13 @@
             }];
         }
     }
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -189,10 +252,39 @@
 - (void)setItems
 {
     [self.myCollectedItems removeAllObjects];
+    [self.paremetersArray removeAllObjects];
     
-    for (int i = 0; i < 4; i ++) {
+    NSArray *plateInfoArray = [SLPlateInfoTool getPlateInfoList];
+    
+    for (int i = 0; i < plateInfoArray.count + 1; i ++) {
         SLMyCollectedItem *myCollectedItem = [[SLMyCollectedItem alloc] init];
         myCollectedItem.tag = i;
+        if (i < plateInfoArray.count) {
+            SLPlateInfo *plateInfo = plateInfoArray[i];
+            myCollectedItem.title = plateInfo.dispName;
+            myCollectedItem.imageURLStr = plateInfo.pictureUrl;
+            SLCollectedMaterialParameter *parameter = [SLCollectedMaterialParameter parameters];
+            parameter.pageSize = @20;
+            parameter.curPage = @1;
+            parameter.plateId = plateInfo.plateId;
+            [self.paremetersArray addObject:parameter];
+            if ([plateInfo.plateType isEqualToString:@"5"]) {
+                myCollectedItem.urlstr = @"/material/collectActivityInfo";
+            } else {
+                myCollectedItem.urlstr = @"/material/listCollectMaterial";
+            }
+            myCollectedItem.plateId = plateInfo.plateId;
+            myCollectedItem.plateType = plateInfo.plateType;
+            [self.myCollectedItems addObject:myCollectedItem];
+        } else {
+            SLCollectedMaterialParameter *parameter = [SLCollectedMaterialParameter parameters];
+            parameter.pageSize = @20;
+            parameter.curPage = @1;
+            [self.paremetersArray addObject:parameter];
+            myCollectedItem.title = @"商圈";
+            myCollectedItem.imageURLStr = [SLPicHttpUrl stringByAppendingString:@"/plate/shangQuan@2x.png"];
+            myCollectedItem.urlstr = @"/merchant/listCollectMerchantInfo";
+        }
         switch (i) {
             case 0:
                 myCollectedItem.title = @"VIP特权";
@@ -232,18 +324,20 @@
 {
     UIView *tableHeadView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, screenW, 86)];
     
+    CGFloat buttonW = screenW / self.myCollectedItems.count;
+    
     for (int i = 0; i < self.myCollectedItems.count; i++) {
         SLMyCollectedItem *myCollectedItem = self.myCollectedItems[i];
         
-        CGFloat headButtonX = i * ButtonW;
+        CGFloat headButtonX = i * buttonW;
         CGFloat headButtonY = 0;
-        CGFloat headButtonW = ButtonW;
+        CGFloat headButtonW = buttonW;
         CGFloat headButtonH = 86;
         SLMyCollectionHeadButton *headButton = [[SLMyCollectionHeadButton alloc] initWithFrame:CGRectMake(headButtonX, headButtonY, headButtonW, headButtonH)];
         headButton.myCollectedItem = myCollectedItem;
         [headButton setTitle:myCollectedItem.title forState:UIControlStateNormal];
         [headButton setImage:[UIImage imageNamed:myCollectedItem.imageName] forState:UIControlStateNormal];
-        headButton.tag = myCollectedItem.tag;
+        headButton.tag = [myCollectedItem.plateType integerValue];
         [headButton addTarget:self action:@selector(headButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.myCollectionButtons addObject:headButton];
         [tableHeadView addSubview:headButton];
@@ -258,28 +352,6 @@
     CGFloat offsetX = headButton.tag * screenW;
     CGPoint offset = CGPointMake(offsetX, 0);
     [self.scrollView setContentOffset:offset animated:YES];
-//    if (headButton.tag < 3) {
-//        SLCollectedMaterialParameter *parameter = [SLCollectedMaterialParameter parameters];
-//        parameter.curPage = @1;
-//        parameter.pageSize = [NSNumber numberWithInt:-99];
-//        parameter.plateId = headButton.myCollectedItem.plateId;
-//        
-//        [SLCollectecMaterialTool CollcetedMerchantWithParameters:parameter success:^(NSArray *collectedMaterialArray) {
-//
-//        } failure:^(NSError *error) {
-//            
-//        }];
-//    } else {
-//        SLCollectedMerchantParameters *parameter = [SLCollectedMerchantParameters parameters];
-//        parameter.curPage = @1;
-//        parameter.pageSize = [NSNumber numberWithInt:-99];
-//        
-//        [SLCollectedMerchantTool CollcetedMerchantWithParameters:parameter success:^(NSArray *collectedMerchantArray) {
-//            
-//        } failure:^(NSError *error) {
-//            
-//        }];
-//    }
 }
 
 #pragma mark ----- setListView设置展示的view
@@ -334,10 +406,28 @@
         // 设置tableView的frame
         CGFloat tableViewX = i * tableViewW;
         tableView.frame = CGRectMake(tableViewX, 0, tableViewW, tableViewH);
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, 54, 0);
         
         [self.myCollectionTableViews addObject:tableView];
-        UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 0.5)];
+        UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 0.5)];
+        footView.backgroundColor = SLLightGray;
         tableView.tableFooterView = footView;
+        
+        [self.currentPageArray addObject:@1];
+        
+        // 1.下拉刷新
+        MJRefreshHeaderView *header = [MJRefreshHeaderView header];
+        header.scrollView = tableView;
+        header.delegate = self;
+        // 自动进入刷新状态
+        [header beginRefreshing];
+        [self.headerArray addObject:header];
+        
+        // 2.上拉刷新(上拉加载更多数据)
+        MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+        footer.scrollView = tableView;
+        footer.delegate = self;
+        [self.footerArray addObject:footer];
         
         // 将imageView添加到scrollView里面
         [scrollView addSubview:tableView];
@@ -347,6 +437,125 @@
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.pagingEnabled = YES;
     scrollView.bounces = NO;
+}
+
+#pragma mark ----- 代理方法,mj刷新包的代理方法
+#pragma mark ----- 刷新控件进入开始刷新状态的时候调用
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    if ([refreshView isKindOfClass:[MJRefreshFooterView class]]) { // 上拉刷新
+        [self loadMoreData];
+    } else { // 下拉刷新
+        [self loadNewData];
+    }
+}
+
+/**
+ *  发送请求加载更多的数据
+ */
+- (void)loadMoreData
+{
+    for (int i = 0; i < self.myCollectedItems.count; i++) {
+        MJRefreshFooterView *footer = self.footerArray[i];
+        SLMyCollectedItem *collectItem = self.myCollectedItems[i];
+        if (i == 0) {
+            
+            SLCollectedMaterialParameter *parameters = self.paremetersArray[i];
+            NSNumber *currentPageNumber = parameters.curPage;
+            int currentPage = [currentPageNumber intValue] + 1;
+            parameters.curPage = [NSNumber numberWithInt:currentPage];
+            
+            self.paremetersArray[i] = parameters;
+            
+            [SLCollectMaterialTool collcetedMaterialWithParameters:parameters urlStr:collectItem.urlstr success:^(SLResult *result) {
+                
+                if (result.info.count > 0) {
+                    if ([collectItem.plateType isEqualToString:@"2"]) {
+                        NSArray *dictArray = [result.info lastObject];
+                        if (dictArray.count > 0) {
+                            NSArray *myCollectedVipArray = [SLVipStatusFirstMaterialInfo objectArrayWithKeyValuesArray:dictArray];
+                            [self.myCollectedVipArray addObjectsFromArray:myCollectedVipArray];
+                            UITableView *tableView = self.myCollectionTableViews[[collectItem.plateType integerValue]];
+                            [tableView reloadData];
+                        }
+                    } else if ([collectItem.plateType isEqualToString:@"3"]) {
+                        NSArray *dictArray = [result.info lastObject];
+                        if (dictArray.count > 0) {
+                            NSArray *myCollectedFinanceProductArray = [SLFinanceProduct objectArrayWithKeyValuesArray:dictArray];
+                            [self.myCollectedFinanceProductArray addObjectsFromArray:myCollectedFinanceProductArray];
+                            UITableView *tableView = self.myCollectionTableViews[[collectItem.plateType integerValue]];
+                            [tableView reloadData];
+                        }
+                    } else if ([collectItem.plateType isEqualToString:@"4"]) {
+                        NSArray *dictArray = [result.info lastObject];
+                        if (dictArray.count > 0) {
+                            NSArray *myCollectedOutletsArray = [SLOutletsInfo objectArrayWithKeyValuesArray:dictArray];
+                            [self.myCollectedOutletsArray addObjectsFromArray:myCollectedOutletsArray];
+                            UITableView *tableView = self.myCollectionTableViews[[collectItem.plateType integerValue]];
+                            [tableView reloadData];
+                        }
+                    } else if ([collectItem.plateType isEqualToString:@"4"]) {
+                        NSArray *dictArray = [result.info lastObject];
+                        if (dictArray.count > 0) {
+                            NSArray *myCollectedOutletsArray = [SLOutletsInfo objectArrayWithKeyValuesArray:dictArray];
+                            [self.myCollectedOutletsArray addObjectsFromArray:myCollectedOutletsArray];
+                            UITableView *tableView = self.myCollectionTableViews[[collectItem.plateType integerValue]];
+                            [tableView reloadData];
+                        }
+                    } else {
+                        NSArray *dictArray = [result.info lastObject];
+                        if (dictArray.count > 0) {
+                            NSArray *myCollectedMerchantArray = [SLMerchantStatus objectArrayWithKeyValuesArray:dictArray];
+                            [self.myCollectedMerchantArray addObjectsFromArray:myCollectedMerchantArray];
+                            UITableView *tableView = [self.myCollectionTableViews lastObject];
+                            [tableView reloadData];
+                        }
+                    }
+                }
+                // 让刷新控件停止显示刷新状态
+                [footer endRefreshing];
+                
+            } failure:^(NSError *error) {
+                
+                // 让刷新控件停止显示刷新状态
+                [footer endRefreshing];
+                
+            }];
+        }
+    }
+}
+/**
+ *  // 刷新数据(向服务器获取更新的数据)
+ */
+- (void)loadNewData
+{
+//    self.currentPage = 1;
+//    
+//    self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
+//    
+//    [SLSubscribeTool subscribeListWithParameters:self.parameters success:^(SLResult *result) {
+//        
+//        if ([result.code isEqualToString:@"0000"]) {
+//            if (result.info.count > 0) {
+//                NSArray *dictArray = [result.info lastObject];
+//                NSArray *subscribeStatusList = [SLSubscribeList objectArrayWithKeyValuesArray:dictArray];
+//                [self.subscribeStatusList removeAllObjects];
+//                
+//                if (subscribeStatusList.count > 0) {
+//                    [self.subscribeStatusList addObjectsFromArray:subscribeStatusList];
+//                } else {
+//                    [MBProgressHUD showError:@"没有相关数据"];
+//                }
+//                [self.tableView reloadData];
+//            }
+//        }
+//        
+//        // 让刷新控件停止显示刷新状态
+//        [self.header endRefreshing];
+//        
+//    } failure:^(NSError *error) {
+//        [self.header endRefreshing];
+//    }];
 }
 
 #pragma mark ----- scrollView的代理方法
@@ -473,7 +682,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    if (tableView.tag == 0) {
+        
+        SLVipStatusFirstMaterialInfo *firstMaterialInfo = self.myCollectedVipArray[indexPath.row];
+        SLVipProductViewController *vpvc = [[SLVipProductViewController alloc] init];
+        vpvc.materialId = firstMaterialInfo.materialId;
+        vpvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vpvc animated:YES];
+        
+    } else if (tableView.tag == 1) {
+        
+        SLFinanceProduct *financeProduct = self.myCollectedFinanceProductArray[indexPath.row];
+        SLFinanceProductController *fpvc = [[SLFinanceProductController alloc] init];
+        fpvc.materialId = financeProduct.financialProductsDetail.materialId;
+        fpvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:fpvc animated:YES];
+        
+    } else if (tableView.tag == 2) {
+        
+        SLOutletsInfo *outlets = self.myCollectedOutletsArray[indexPath.row];
+        SLOutletDetialController *odvc = [[SLOutletDetialController alloc] init];
+        odvc.materialId = outlets.materialId;
+        odvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:odvc animated:YES];
+        
+    } else{
+        
+        SLMerchantStatus *merchantDetail = self.myCollectedMerchantArray[indexPath.row];
+        SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] init];
+        mdvc.merchantId = merchantDetail.merchantId;
+        mdvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:mdvc animated:YES];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

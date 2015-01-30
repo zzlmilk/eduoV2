@@ -31,7 +31,6 @@
 #pragma mark IB Action  methods
 -(void)presentLeftMenuViewController:(id)sender{
     [self.sideMenuViewController presentLeftMenuViewController];
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 }
 
 

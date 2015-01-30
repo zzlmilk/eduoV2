@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLMyCommentParameters.h"
+#import "SLResult.h"
 
 @interface SLMyCommentTool : NSObject
 
@@ -19,6 +20,6 @@
  *  @param success 请求成功后的回调
  *  @param failure 请求失败后的回调
  */
-+ (void)myCommentsWithParameters:(SLMyCommentParameters *)parameters success:(void (^)(NSArray *myCommentStatusArray))success failure:(void (^)(NSError *error))failure;
++ (void)myCommentsWithParameters:(SLMyCommentParameters *)parameters success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure;
 
 @end

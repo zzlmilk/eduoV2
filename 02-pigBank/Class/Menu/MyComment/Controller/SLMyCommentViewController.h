@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SLMyCommentViewController : UITableViewController
+@interface SLMyCommentViewController : UIViewController
 
 @end

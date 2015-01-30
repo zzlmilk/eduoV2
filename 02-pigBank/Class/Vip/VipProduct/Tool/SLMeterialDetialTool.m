@@ -20,7 +20,6 @@
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
         
-        
         SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
         if (success) {

@@ -14,16 +14,17 @@
 
 @implementation SLCommitCommentTool
 
-+ (void)commitCommentWithParameters:(SLCommitCommentParameters *)parameters success:(void (^)(NSString *code))success failure:(void (^)(NSError *error))failure
++ (void)commitCommentWithParameters:(SLCommitCommentParameters *)parameters success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure
 {
     NSString *url = [SLHttpUrl stringByAppendingString:@"/merchant/commentAndGradeForMerchant"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        NSString *code = responseObject[@"code"];
+        
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
         // 传递了block
         if (success) {
-            success(code);
+            success(result);
         }
     } failure:^(NSError *error) {
         if (failure) {

@@ -13,12 +13,14 @@
 @property (nonatomic, copy) NSString *title;
 
 @property (nonatomic, copy) NSString *imageName;
+@property (nonatomic, copy) NSString *imageURLStr;
 
 @property (nonatomic, copy) NSString *urlstr;
 
 @property (nonatomic, copy) NSString *tableViewStyle;
 
 @property (nonatomic, strong) NSNumber *plateId;
+@property (nonatomic, copy) NSString *plateType;
 
 @property (nonatomic, assign) int tag;
 

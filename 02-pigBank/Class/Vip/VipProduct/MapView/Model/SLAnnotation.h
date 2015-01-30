@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
 
-@interface SLAnnotation : NSObject <MKAnnotation>
+@interface SLAnnotation : NSObject <MAAnnotation>
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString *title;

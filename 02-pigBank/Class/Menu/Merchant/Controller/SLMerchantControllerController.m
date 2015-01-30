@@ -14,6 +14,7 @@
 #import "SLOutletsServiceArea.h"
 #import "SLChildrenScope.h"
 #import "SLMerchantStatusFrame.h"
+#import "SLMerchantDetail.h"
 
 #import "SLMerchantHeadView.h"
 #import "SLMerchantTypeCoverView.h"
@@ -102,8 +103,6 @@
         _parameters = [SLMerchantParameters parameters];
         _parameters.pageSize = @20;
         _parameters.search = @"";
-        _parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-        _parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
     }
     return _parameters;
 }
@@ -115,35 +114,42 @@
     return _scrollView;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self.tableView setSeparatorColor:[UIColor clearColor]];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.rowHeight = 70;
     
-    SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
-    headView.delegate = self;
-    self.headView = headView;
-    [headView setLeftButtonWithTitle:@"所有类型" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
-    [headView setRightButtonWithTitle:@"所有区域" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
-    self.tableView.tableHeaderView = headView;
+    [self loadFilterData];
     
-    SLMerchantTypeCoverView *typeCover = [[SLMerchantTypeCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    typeCover.delegate = self;
-    self.typeCover = typeCover;
-        typeCover.hidden = YES;
-    [self.view addSubview:typeCover];
+    [self setTableHeadFootView];
     
-    SLMerchantAreaCoverView *areaCover = [[SLMerchantAreaCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    areaCover.delegate = self;
-    self.areaCover = areaCover;
-    areaCover.hidden = YES;
-    [self.view addSubview:areaCover];
+    [self addSubviews];
     
-    if (self.tag == 1) {
-        // 设置左上角的barButton
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
-    }
+    // 集成刷新控件
+    [self setupRefreshView];
     
+    // 开始定位
+    [self.locMgr startUpdatingLocation];
+}
+
+#pragma mark ----- loadFilterData加载筛选数据
+- (void)loadFilterData
+{
     // 获取商户业务范围（行业类型）二级列表接口
     NSString *serviceTypeUrl = [SLHttpUrl stringByAppendingString:@"/merchant/listMerchantBusinessScope"];
     
@@ -185,20 +191,39 @@
     } failure:^(NSError *error) {
         
     }];
+}
+
+#pragma mark ----- 设置tableHeadFootView
+- (void)setTableHeadFootView
+{
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 0.5)];
+    footView.backgroundColor = [UIColor lightGrayColor];
+    self.tableView.tableFooterView = footView;
     
-    // 集成刷新控件
-    [self setupRefreshView];
+    SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
+    headView.delegate = self;
+    self.headView = headView;
+    [headView setLeftButtonTitle:@"所有类型" rightButtonTitle:@"所有区域"];
+    self.tableView.tableHeaderView = headView;
+}
+
+#pragma mark ----- addSubviews添加所有子控件
+- (void)addSubviews
+{
+    SLMerchantTypeCoverView *typeCover = [[SLMerchantTypeCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    typeCover.delegate = self;
+    self.typeCover = typeCover;
+    typeCover.hidden = YES;
+    [self.view insertSubview:typeCover aboveSubview:self.tableView];
     
-    self.tableView.rowHeight = 70;
-    
-    // 开始定位
-    [self.locMgr startUpdatingLocation];
+    SLMerchantAreaCoverView *areaCover = [[SLMerchantAreaCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    areaCover.delegate = self;
+    self.areaCover = areaCover;
+    areaCover.hidden = YES;
+    [self.view insertSubview:areaCover aboveSubview:self.tableView];
 }
 
 #pragma mark ----- 刷新数据的方法
-/**
- *  集成刷新控件
- */
 - (void)setupRefreshView
 {
     // 1.下拉刷新
@@ -206,12 +231,15 @@
     header.scrollView = self.tableView;
     header.delegate = self;
     self.header = header;
+    
+    // 2.上拉刷新(上拉加载更多数据)
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self.tableView;
+    footer.delegate = self;
+    self.footer = footer;
 }
 
 #pragma mark ----- 代理方法,mj刷新包的代理方法
-/**
- *  刷新控件进入开始刷新状态的时候调用
- */
 - (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
     if ([refreshView isKindOfClass:[MJRefreshFooterView class]]) { // 上拉刷新
@@ -221,9 +249,7 @@
     }
 }
 
-/**
- *  发送请求加载更多的数据
- */
+#pragma mark ----- loadMoreData加载更多数据
 - (void)loadMoreData
 {
     self.currentPage += 1;
@@ -232,40 +258,42 @@
     
     [SLMerchantTool merchantWithParameters:self.parameters success:^(NSArray *merchantArray) {
         
-        [self.merchantArray addObjectsFromArray:merchantArray];
+        if (merchantArray.count > 0) {
+            [self.merchantArray addObjectsFromArray:merchantArray];
+        } else {
+            [MBProgressHUD showError:@"没有更多数据了"];
+        }
+        
         
         [self.tableView reloadData];
         
         // 让刷新控件停止显示刷新状态
         [self.footer endRefreshing];
+        
     } failure:^(NSError *error) {
         [self.footer endRefreshing];
     }];
 }
-/**
- *  // 刷新数据(向服务器获取更新的数据)
- */
+
+#pragma mark ----- loadNewData向服务器获取最新的数据
 - (void)loadNewData
 {
-    self.currentPage = 1;
-    
     self.parameters.areaId = self.areaId;
     self.parameters.scopeId = self.scopeId;
-    self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
+    self.parameters.curPage = @1;
+    if (self.location) {
+        self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
+        self.parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
+    }
     
     [SLMerchantTool merchantWithParameters:self.parameters success:^(NSArray *merchantArray) {
-        self.merchantArray = nil;
         
-        [self.merchantArray addObjectsFromArray:merchantArray];
+        [self.merchantArray removeAllObjects];
         
-        if (merchantArray.count > 19) {
-            // 2.上拉刷新(上拉加载更多数据)
-            MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-            footer.scrollView = self.tableView;
-            footer.delegate = self;
-            self.footer = footer;
+        if (merchantArray.count > 0) {
+            [self.merchantArray addObjectsFromArray:merchantArray];
         } else {
-            self.footer.scrollView = self.scrollView;
+            [MBProgressHUD showError:@"没有相关数据"];
         }
         
         [self.tableView reloadData];
@@ -284,15 +312,9 @@
     [self.footer free];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 #pragma mark ------ CLLocationManager的代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    
     self.location = [locations firstObject];
     
     // 加载网络数据
@@ -301,16 +323,17 @@
     [self.locMgr stopUpdatingLocation];
 }
 
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    [self.header beginRefreshing];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
+#pragma mark ----- Tableview datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.merchantArray.count;
 }
@@ -319,7 +342,7 @@
 {
     SLMerchantCell *cell = [SLMerchantCell cellWithTableView:tableView];
     
-    SLVipMerchantDetail *merchantDetail = self.merchantArray[indexPath.row];
+    SLMerchantDetail *merchantDetail = self.merchantArray[indexPath.row];
     SLMerchantStatusFrame *merchantStatusFrame = [[SLMerchantStatusFrame alloc] init];
     merchantStatusFrame.merchantDetial = merchantDetail;
     cell.merchantStatusFrame = merchantStatusFrame;
@@ -329,9 +352,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SLVipMerchantDetail *merchantDetial = self.merchantArray[indexPath.row];
+    SLMerchantDetail *merchantDetial = self.merchantArray[indexPath.row];
     SLMerchantDetailController *mdvc = [[SLMerchantDetailController alloc] init];
     mdvc.merchantId = merchantDetial.merchantId;
+    mdvc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:mdvc animated:YES];
 }
 
@@ -341,12 +365,13 @@
     if (self.typeCover.hidden == YES) {
         self.typeCover.hidden = NO;
         self.typeCover.alpha = 0;
+        self.tableView.scrollEnabled = NO;
+        self.tabBarController.tabBar.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.areaCover.alpha = 0;
             self.typeCover.alpha = 1;
         } completion:^(BOOL finished) {
             self.areaCover.hidden = YES;
-            self.tableView.scrollEnabled = NO;
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
@@ -354,6 +379,7 @@
         } completion:^(BOOL finished) {
             self.typeCover.hidden = YES;
             self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
         }];
     }
 }
@@ -362,12 +388,13 @@
     if (self.areaCover.hidden == YES) {
         self.areaCover.hidden = NO;
         self.areaCover.alpha = 0;
+        self.tableView.scrollEnabled = NO;
+        self.tabBarController.tabBar.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.typeCover.alpha = 0;
             self.areaCover.alpha = 1;
         } completion:^(BOOL finished) {
             self.typeCover.hidden = YES;
-            self.tableView.scrollEnabled = NO;
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
@@ -375,6 +402,7 @@
         } completion:^(BOOL finished) {
             self.areaCover.hidden = YES;
             self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
         }];
     }
 }
@@ -385,7 +413,8 @@
     self.scopeId = childrenScope.scopeId;
     
     self.tableView.scrollEnabled = YES;
-    self.typeCover.hidden = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    merchantTypeCoverView.hidden = YES;
     [self.headView setLeftButtonStatusNormal];
     if (childrenScope == nil) {
         [self.headView setLeftButtonWithTitle:@"全部类型"];
@@ -395,6 +424,19 @@
     
     [self.locMgr startUpdatingLocation];
 }
+- (void)merchantTypeCoverViewDidTouchCoverView:(SLMerchantTypeCoverView *)merchantTypeCoverView
+{
+    if (merchantTypeCoverView.hidden == NO) {
+        [UIView animateWithDuration:0.5 animations:^{
+            merchantTypeCoverView.alpha = 0;
+        } completion:^(BOOL finished) {
+            merchantTypeCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
+        [self.headView setLeftButtonStatusNormal];
+    }
+}
 
 #pragma mark ----- MerchantAreaCoverView代理方法
 - (void)merchantAreaCoverView:(SLMerchantAreaCoverView *)merchantAreaCoverView didSelectedChildrenArea:(SLChildrenArea *)childrenArea
@@ -402,7 +444,8 @@
     self.areaId = childrenArea.areaId;
     
     self.tableView.scrollEnabled = YES;
-    self.areaCover.hidden = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    merchantAreaCoverView.hidden = YES;
     [self.headView setRightButtonStatusNormal];
     if (childrenArea == nil) {
         [self.headView setRightButtonWithTitle:@"全部区域"];
@@ -412,4 +455,18 @@
     
     [self.locMgr startUpdatingLocation];
 }
+- (void)merchantAreaCoverViewDidTouchCoverView:(SLMerchantAreaCoverView *)merchantAreaCoverView
+{
+    if (merchantAreaCoverView.hidden == NO) {
+        [UIView animateWithDuration:0.5 animations:^{
+            merchantAreaCoverView.alpha = 0;
+        } completion:^(BOOL finished) {
+            merchantAreaCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
+        [self.headView setRightButtonStatusNormal];
+    }
+}
+
 @end

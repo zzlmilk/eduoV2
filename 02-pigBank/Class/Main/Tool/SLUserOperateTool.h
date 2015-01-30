@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLUserOperateParameters.h"
+#import "SLResult.h"
 
 @interface SLUserOperateTool : NSObject
 

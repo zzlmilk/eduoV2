@@ -148,7 +148,7 @@
     // frame
     self.priseCountLabel.frame = self.vipStatusFrame.priseCountLabelF;
     // praiseCounts
-    self.priseCountLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", vipStatus.firstMaterialInfo.praiseCounts];
+    self.priseCountLabel.text = [NSString stringWithFormat:@"%@人很喜欢", vipStatus.firstMaterialInfo.praiseCounts];
     
     /** distabceLabel */
     // frame

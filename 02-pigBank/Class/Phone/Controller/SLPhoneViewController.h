@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class SLPhoneViewController;
+
+@protocol SLPhoneViewControllerDelegate <NSObject>
+
+@optional
+- (void)phoneViewControllerDidPoped:(SLPhoneViewController *)phoneViewController;
+
+@end
+
 @interface SLPhoneViewController : UIViewController
+
+@property (nonatomic, weak) id<SLPhoneViewControllerDelegate> delegate;
 
 @end

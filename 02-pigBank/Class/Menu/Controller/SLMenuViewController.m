@@ -91,14 +91,25 @@
     [self loadClientPlateData];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    // 设置导航栏
+    [self setupNavBar];
+}
+
+#pragma mark ----- setupNavBar设置导航栏
+- (void)setupNavBar
+{
+    // 设置右上角的barButton
+    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+    self.navigationItem.rightBarButtonItem = callItem;
+    
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // 设置导航栏
-    [self setupNavBar];
     
     self.tableView.sectionFooterHeight = 0;
     self.tableView.sectionHeaderHeight = 10;
@@ -107,19 +118,6 @@
     [self setupGroup0];
     [self setupGroup1];
     [self setupGroup2];
-}
-
-/**
- *  设置导航栏
- */
-- (void)setupNavBar
-{
-    // 设置右上角的barButton
-    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
-    self.navigationItem.rightBarButtonItem = callItem;
-    
-    // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
 }
 
 #pragma mark ----- 设置打电话的item

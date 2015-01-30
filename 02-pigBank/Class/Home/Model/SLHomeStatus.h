@@ -56,5 +56,8 @@
 @property (nonatomic, strong) NSNumber *verifyStatus;
 /** verifyTime */
 @property (nonatomic, strong) NSNumber *verifyTime;
+@property (nonatomic, copy) NSString *verifyTimeData;
+
+@property (nonatomic, assign) BOOL hideTime;
 
 @end

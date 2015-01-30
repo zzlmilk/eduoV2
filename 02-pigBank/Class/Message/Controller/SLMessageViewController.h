@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SLMessageViewController : UITableViewController
+@class SLMessageViewController;
+
+@protocol SLMessageViewControllerDelegate <NSObject>
+
+@optional
+- (void)messageViewController:(SLMessageViewController *)messageViewController didPopWithFlag:(BOOL)flag;
+
+@end
+
+@interface SLMessageViewController : UIViewController
+
+@property (nonatomic, copy) NSString *from;
+
+@property (nonatomic, weak) id<SLMessageViewControllerDelegate> delegate;
 
 @end

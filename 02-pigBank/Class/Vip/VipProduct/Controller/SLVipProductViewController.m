@@ -17,20 +17,19 @@
 #import "SLVipProductArrorCell.H"
 #import "SLPraiseButton.h"
 #import "SLCollectButton.h"
+#import "SLBackButton.h"
 
 #import "SLMapViewController.h"
 
 #import "SLMeterialDetialTool.h"
 #import "SLUserOperateTool.h"
 
-#import "MJExtension.h"
-#import "MBProgressHUD+MJ.h"
-
-@interface SLVipProductViewController () <UIWebViewDelegate>
+@interface SLVipProductViewController () <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) UIWebView *telWebView;
 
 @property (nonatomic, weak) UIWebView *footWebView;
+@property (nonatomic, weak) UITableView *tableView;
 
 @property (nonatomic, assign) CGFloat footHeight;
 
@@ -40,18 +39,31 @@
 
 @implementation SLVipProductViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- 设置导航栏样式
+- (void)setNavBar
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [navBar setBarTintColor:SLColor(246, 246, 246)];
+    
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark ----- viewDidLoad
@@ -60,6 +72,21 @@
     [super viewDidLoad];
     
     [MBProgressHUD showMessage:@"数据加载中"];
+    
+    [self addSubviews];
+}
+
+#pragma mark ----- 添加所有子控件
+- (void)addSubviews
+{
+    self.view.backgroundColor = SLWhite;
+
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.hidden = YES;
+    self.tableView = tableView;
+    [self.view addSubview:tableView];
     
     [self loadInternetData];
 }
@@ -72,26 +99,32 @@
     
     [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
         
-        NSDictionary *dict = [result.info lastObject];
-        SLPrivilegeProduct *privilegeProduct = [SLPrivilegeProduct objectWithKeyValues:dict];
-        self.privilegeProduct = privilegeProduct;
-        
-        [self.tableView reloadData];
-        
-        // 计算foot的高度
-        [self calculateFootHeight];
-        
-        [self setNavBar];
-        
         [MBProgressHUD hideHUD];
         
+        if ([result.code isEqualToString:successStr]) {
+            if (result.info.count > 0) {
+                NSDictionary *dict = [result.info lastObject];
+                SLPrivilegeProduct *privilegeProduct = [SLPrivilegeProduct objectWithKeyValues:dict];
+                self.privilegeProduct = privilegeProduct;
+                
+                // 计算foot的高度
+                [self calculateFootHeight];
+                [self setCollectAndPrise];
+                [self.tableView reloadData];
+                self.tableView.hidden = NO;
+            } else {
+                [MBProgressHUD showError:@"数据源错误..."];
+            }
+        } else {
+            [MBProgressHUD showError:result.msg];
+        }
     } failure:^(NSError *error) {
-        
+        [MBProgressHUD hideHUD];
     }];
 }
 
-#pragma mark ----- setNavBar设置导航栏
-- (void)setNavBar
+#pragma mark ----- setCollectAndPrise设置赞和收藏按钮
+- (void)setCollectAndPrise
 {
     // 设置右上角的barButton
     SLPraiseButton *praiseButton = [SLPraiseButton button];
@@ -106,15 +139,17 @@
     self.navigationItem.rightBarButtonItems = rightBarButtonItems;
 }
 
+#pragma mark ----- 计算webview的高度
 - (void)calculateFootHeight
 {
-    UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(-320, 0, 320, 300)];
+    UIWebView *webview = [[UIWebView alloc]initWithFrame:CGRectMake(screenW, 0, screenW, 1)];
     webview.delegate = self;
     webview.tag = 1;
     [webview loadHTMLString:self.privilegeProduct.content baseURL:nil];
     [self.view addSubview:webview];
 }
 
+#pragma mark ----- 设置tableHeadFootView
 - (void)setupTableHeadFootView
 {
     // headView
@@ -177,19 +212,23 @@
     
     switch (indexPath.row) {
         case 0:
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             cell.textLabel.text = self.privilegeProduct.privilegeDetail.merchantDetail.fullName;
             break;
         case 1:
+            [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
             if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 cell.imageView.image = [UIImage imageNamed:@"diZhi"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.textLabel.text = self.privilegeProduct.privilegeDetail.merchantDetail.address;
                 break;
             } else {
-                cell.textLabel.text = @"sdafasdfasf";
+                cell.imageView.image = [UIImage imageNamed:@"youHui"];
+                cell.textLabel.text = [NSString stringWithFormat:@"(%@)%@", self.privilegeProduct.privilegeDetail.saleTypes, self.privilegeProduct.privilegeDetail.saleDescript];
                 break;
             }
         case 2:
+            [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
             if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 cell.imageView.image = [UIImage imageNamed:@"dianHua"];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -202,6 +241,7 @@
                 break;
             }
         case 3:
+            [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
             if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
                 break;
             } else {
@@ -220,15 +260,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     // 拨打电话首先要创建一个uiwebview
     UIWebView *telWebView = [[UIWebView alloc] init];
     [self.view addSubview:telWebView];
     self.telWebView = telWebView;
     
     SLMapViewController *mvc = [[SLMapViewController alloc] init];
-    mvc.merchantDetail = self.privilegeProduct.privilegeDetail.merchantDetail;
-    
+    mvc.privilegeProduct = self.privilegeProduct;
     if ([self.privilegeProduct.privilegeDetail.saleDescript isEqualToString:@""]) {
         if (indexPath.row == 1) {
             [self.navigationController pushViewController:mvc animated:YES];
@@ -245,6 +283,8 @@
             [telWebView loadRequest:[NSURLRequest requestWithURL:url]];
         }
     }
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 #pragma mark ----- uiwebview代理方法

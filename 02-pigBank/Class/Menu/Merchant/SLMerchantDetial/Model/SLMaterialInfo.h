@@ -8,35 +8,20 @@
 
 /*
  classId = 2;
- 
  collectCounts = 8;
- 
  content = "<p> </p>";
- 
  extPictureUrl = "http://xynh.eduoinfo.com/resources/client/image/ba065f53-17be-4a2c-8740-5a68e10b7cd1.jpg";
- 
  materialId = 256;
- 
  plateId = 1;
- 
  praiseCounts = 10;
- 
- privilegeDetail =                     { };
- 
+ privilegeDetail = { };
  publishModel = 1;
- 
  recommendFlag = 0;
- 
  searchKey = "";
- 
  status = 1;
- 
  templetType = 2;
- 
  title = "\U9526\U6c5f\U4e0e\U60a8\U76f8\U7ea6\U4e2d\U79cb\U7279\U60e0";
- 
  verifyStatus = 1;
- 
  verifyTime = 1407899558727;
  */
 

@@ -20,16 +20,36 @@
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
         
-        SLLog(@"%@", responseObject);
+        SLLog(@"%@plateId%@", responseObject, parameters.plateId);
+        
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
         NSArray *collectedMaterialArray = [responseObject[@"info"] lastObject];
-        //
-        //        NSArray *merchantArray = [SLVipMerchantDetail objectArrayWithKeyValuesArray:dictArray];
-        
         
         // 传递了block
         if (success) {
             success(collectedMaterialArray);
+        }
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
++ (void)collcetedMaterialWithParameters:(SLCollectedMaterialParameter *)parameters urlStr:(NSString *)urlStr success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure
+{
+    NSString *url = [SLHttpUrl stringByAppendingString:urlStr];
+    
+    [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
+        
+        SLLog(@"%@plateId%@", responseObject, parameters.plateId);
+        
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
+        
+        // 传递了block
+        if (success) {
+            success(result);
         }
     } failure:^(NSError *error) {
         if (failure) {

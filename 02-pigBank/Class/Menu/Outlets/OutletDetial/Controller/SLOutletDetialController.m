@@ -13,6 +13,7 @@
 
 #import "SLPraiseButton.h"
 #import "SLCollectButton.h"
+#import "SLBackButton.h"
 
 #import "SLMapViewController.h"
 
@@ -21,8 +22,10 @@
 #import "MBProgressHUD+MJ.h"
 #import "MJExtension.h"
 
-@interface SLOutletDetialController () <UIWebViewDelegate>
+@interface SLOutletDetialController () <UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate, SLNoNetReloadViewDelegate>
 
+@property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, weak) SLNoNetReloadView *noNetReloadView;
 @property (nonatomic, weak) UIWebView *telWebView;
 
 @property (nonatomic, strong) SLOutletsInfo *outletsInfo;
@@ -31,37 +34,11 @@
 
 @implementation SLOutletDetialController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [MBProgressHUD showMessage:@"数据加载中"];
-    
-    [self loadInternetData];
-}
-
-#pragma mark ----- 加载网络数据
-- (void)loadInternetData
+- (void)viewWillAppear:(BOOL)animated
 {
-    SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
-    parameters.materialId = self.materialId;
+    [super viewWillAppear:animated];
     
-    [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
-        
-        NSDictionary *dict = [result.info lastObject];
-        SLOutletsInfo *outletsInfo = [SLOutletsInfo objectWithKeyValues:dict];
-        self.outletsInfo = outletsInfo;
-        
-        [self setNavBar];
-        
-        [self initTableHeadView];
-        
-        [self initTableFootView];
-        
-        [MBProgressHUD hideHUD];
-        
-    } failure:^(NSError *error) {
-        
-    }];
+    [self setNavBar];
 }
 
 #pragma mark ----- setNavBar设置导航栏
@@ -71,6 +48,89 @@
     // 设置背景
     [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self addSubviews];
+}
+
+#pragma mark ----- 添加子控件
+- (void)addSubviews
+{
+    self.view.backgroundColor = SLWhite;
+    
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.hidden = YES;
+    self.tableView = tableView;
+    [self.view addSubview:tableView];
+    
+    SLNoNetReloadView *noNetReloadView = [[SLNoNetReloadView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    noNetReloadView.center = self.view.center;
+    noNetReloadView.delegate = self;
+    noNetReloadView.hidden = YES;
+    self.noNetReloadView = noNetReloadView;
+    [self.view addSubview:noNetReloadView];
+    
+    [self loadInternetData];
+}
+
+#pragma mark ----- SLNoNetReloadView代理方法
+- (void)noNetReloadView:(SLNoNetReloadView *)noNetReloadView didClickedReloadButton:(UIButton *)reloadButton
+{
+    noNetReloadView.hidden = YES;
+    
+    [self loadInternetData];
+}
+
+#pragma mark ----- 加载网络数据
+- (void)loadInternetData
+{
+    [MBProgressHUD showMessage:@"数据加载中"];
+    
+    SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
+    parameters.materialId = self.materialId;
+#warning ----- 没有用坐标信息
+    
+    [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
+        
+        NSDictionary *dict = [result.info lastObject];
+        SLOutletsInfo *outletsInfo = [SLOutletsInfo objectWithKeyValues:dict];
+        self.outletsInfo = outletsInfo;
+        
+        [self setCollectAndPrise];
+        
+        [self initTableHeadView];
+        
+        [self initTableFootView];
+        
+        [self.tableView reloadData];
+        self.tableView.hidden = NO;
+        
+        [MBProgressHUD hideHUD];
+        
+    } failure:^(NSError *error) {
+        self.tableView.hidden = YES;
+        self.noNetReloadView.hidden = NO;
+    }];
+}
+
+#pragma mark ----- setCollectAndPrise设置赞和收藏按钮
+- (void)setCollectAndPrise
+{
     // 设置右上角的barButton
     SLPraiseButton *priseButton = [SLPraiseButton button];
     [priseButton setMaterialId:self.outletsInfo.materialId praiseCounts:self.outletsInfo.praiseCounts praiseFlag:self.outletsInfo.materialUser.praiseFlag];
@@ -143,13 +203,16 @@
     
     // 给cell赋值
     if (indexPath.row == 0) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = self.outletsInfo.outletsDetail.serviceTypeDisp;
         cell.imageView.image = [UIImage imageNamed:@"fuWu"];
     } else if (indexPath.row == 1) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.textLabel.text = self.outletsInfo.outletsDetail.address;
         cell.imageView.image = [UIImage imageNamed:@"diZhi"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     } else if (indexPath.row == 2) {
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         cell.textLabel.text = [NSString stringWithFormat:@"%@", self.outletsInfo.outletsDetail.telephone];
         cell.imageView.image = [UIImage imageNamed:@"dianHua"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -165,10 +228,9 @@
     [self.view addSubview:telWebView];
     self.telWebView = telWebView;
     
-    SLMapViewController *mvc = [[SLMapViewController alloc] init];
-    mvc.outletsInfo = self.outletsInfo;
-    
     if (indexPath.row == 1) {
+        SLMapViewController *mvc = [[SLMapViewController alloc] init];
+        mvc.outletsInfo = self.outletsInfo;
         [self.navigationController pushViewController:mvc animated:YES];
     } else if (indexPath.row == 2) {
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", self.outletsInfo.outletsDetail.telephone]];

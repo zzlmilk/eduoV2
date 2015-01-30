@@ -13,8 +13,10 @@
 
 @interface SLHomeStatusCell ()
 
+@property (nonatomic, weak) UIView *DataView;
 /** dateLabel */
 @property (nonatomic, weak) UILabel *dateLabel;
+@property (nonatomic, weak) UILabel *monthLabel;
 /** extPicture 图标 */
 @property (nonatomic, weak) UIImageView *extPictureView;
 /** title */
@@ -55,9 +57,16 @@
 - (void)setupStatusSubviews
 {
     /** dateLabel */
+    UIView *DataView = [[UIView alloc] init];
+    self.DataView = DataView;
+    [self.contentView addSubview:DataView];
+    
     UILabel *dateLabel = [[UILabel alloc] init];
-    [self.contentView addSubview:dateLabel];
+    [DataView addSubview:dateLabel];
     self.dateLabel = dateLabel;
+    UILabel *monthLabel = [[UILabel alloc] init];
+    [DataView addSubview:monthLabel];
+    self.monthLabel = monthLabel;
     
     /** extPicture 图标 */
     UIImageView *extPictureView = [[UIImageView alloc] init];
@@ -101,15 +110,69 @@
     
     /** dateLabel */
     // frame
-//    self.dateLabel.frame = self.homeStatusFrame.dateLabelF;
-//    // data
-//    NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.homeStatusFrame.homeStatus.verifyTime];
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"dd日MM月"];
-//    NSString *dateStr = [dateFormat stringFromDate:date];
-//    self.dateLabel.text = dateStr;
-//    self.dateLabel.backgroundColor = SLColor(226, 231, 235);
-//    self.dateLabel.font = SLBoldFont18;
+    self.DataView.frame = self.homeStatusFrame.dateLabelF;
+    self.DataView.backgroundColor = SLLightGray;
+    
+    // data
+    CGRect dataLabelF = self.homeStatusFrame.dateLabelF;
+    dataLabelF.size.width = 26;
+    dataLabelF.origin.x = middleMargin;
+    self.dateLabel.frame = dataLabelF;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.homeStatusFrame.homeStatus.verifyTime longLongValue]/1000];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd"];
+    NSString *dateStr = [dateFormat stringFromDate:date];
+//    self.dateLabel.textColor = SLWhite;
+    self.dateLabel.font = SLBoldFont22;
+    self.dateLabel.text = dateStr;
+    
+    CGRect monthLabelF = self.homeStatusFrame.dateLabelF;
+    monthLabelF.origin.x = CGRectGetMaxX(dataLabelF);
+    monthLabelF.origin.y += 8;
+    monthLabelF.size.height -= 8;
+    NSDateFormatter *dateFormatMonth = [[NSDateFormatter alloc] init];
+    [dateFormatMonth setDateFormat:@"MM"];
+    NSString *monthStr = [dateFormatMonth stringFromDate:date];
+    if ([monthStr isEqualToString:@"01"]) {
+        monthStr = @"一月";
+    } else if ([monthStr isEqualToString:@"02"]) {
+        monthStr = @"二月";
+    } else if ([monthStr isEqualToString:@"03"]) {
+        monthStr = @"三月";
+    } else if ([monthStr isEqualToString:@"04"]) {
+        monthStr = @"四月";
+    } else if ([monthStr isEqualToString:@"05"]) {
+        monthStr = @"五月";
+    } else if ([monthStr isEqualToString:@"06"]) {
+        monthStr = @"六月";
+    } else if ([monthStr isEqualToString:@"07"]) {
+        monthStr = @"七月";
+    } else if ([monthStr isEqualToString:@"08"]) {
+        monthStr = @"八月";
+    } else if ([monthStr isEqualToString:@"09"]) {
+        monthStr = @"九月";
+    } else if ([monthStr isEqualToString:@"10"]) {
+        monthStr = @"十月";
+    } else if ([monthStr isEqualToString:@"11"]) {
+        monthStr = @"十一月";
+    } else if ([monthStr isEqualToString:@"12"]) {
+        monthStr = @"十二月";
+    }
+    NSString *monthString;
+    NSDate *nowData = [NSDate date];
+    NSDateFormatter *dateFormat1 = [[NSDateFormatter alloc] init];
+    [dateFormat1 setDateFormat:@"ddMM"];
+    NSString *nowString = [dateFormat1 stringFromDate:nowData];
+    NSString *timeString = [dateFormat1 stringFromDate:date];
+    if ([nowString isEqualToString:timeString]) {
+        monthString = [monthStr stringByAppendingString:@"  今天"];
+    } else {
+        monthString = monthStr;
+    }
+    self.monthLabel.frame = monthLabelF;
+    self.monthLabel.font = SLFont12;
+    self.monthLabel.contentMode = UIViewContentModeBottomLeft;
+    self.monthLabel.text = monthString;
     
     /** extPicture标 */
     // frame
@@ -120,13 +183,13 @@
     /** title */
     // frame
     self.titleLabel.frame = self.homeStatusFrame.titleLabelF;
+    
     // title
-    if (homeStatus.templetType == 3) {
+    if ([homeStatus.templetType intValue] == 3) {
         self.titleLabel.text = [NSString stringWithFormat:@"【尊享理财】%@", homeStatus.title];
     } else {
         self.titleLabel.text = [NSString stringWithFormat:@"【VIP特权】%@", homeStatus.title];
     }
-    
     
     /** 赞的图标 */
     // frame
@@ -138,7 +201,7 @@
     // frame
     self.praiseCountsLabel.frame = self.homeStatusFrame.praiseCountsLabelF;
     // praiseCounts
-    self.praiseCountsLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", homeStatus.praiseCounts];
+    self.praiseCountsLabel.text = [NSString stringWithFormat:@"%@人很喜欢", homeStatus.praiseCounts];
 }
 
 - (void)awakeFromNib

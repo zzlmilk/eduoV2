@@ -24,23 +24,32 @@
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
         
-        // 取出状态字典数组
-        NSArray *dictArray = [responseObject[@"info"] lastObject];
-
-        NSMutableArray *vipStatusFrameArray = [NSMutableArray array];
-        for (NSDictionary *dict in dictArray) {
-            SLVipStatusFirstMaterialInfo *vipStatusFirstMaterialInfo = [SLVipStatusFirstMaterialInfo objectWithKeyValues:dict];
-            SLVipStatusFrame *vipStatusFrame = [[SLVipStatusFrame alloc] init];
-            SLVipStatus *vipStatus = [[SLVipStatus alloc] init];
-            vipStatus.firstMaterialInfo = vipStatusFirstMaterialInfo;
-            vipStatusFrame.vipStatus = vipStatus;
-            [vipStatusFrameArray addObject:vipStatusFrame];
-        }
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
-        
-        // 传递了block
-        if (success) {
-            success(vipStatusFrameArray);
+        if ([result.code isEqualToString:@"0000"]) {
+            if (result.info.count > 0) {
+                // 取出状态字典数组
+                NSArray *dictArray = [result.info lastObject];
+                
+                NSMutableArray *vipStatusFrameArray = [NSMutableArray array];
+                for (NSDictionary *dict in dictArray) {
+                    SLVipStatusFirstMaterialInfo *vipStatusFirstMaterialInfo = [SLVipStatusFirstMaterialInfo objectWithKeyValues:dict];
+                    SLVipStatusFrame *vipStatusFrame = [[SLVipStatusFrame alloc] init];
+                    SLVipStatus *vipStatus = [[SLVipStatus alloc] init];
+                    vipStatus.firstMaterialInfo = vipStatusFirstMaterialInfo;
+                    vipStatusFrame.vipStatus = vipStatus;
+                    [vipStatusFrameArray addObject:vipStatusFrame];
+                    
+                    // 传递了block
+                    if (success) {
+                        success(vipStatusFrameArray);
+                    }
+                }
+            } else {
+                [MBProgressHUD showError:result.msg];
+            }
+        } else {
+            [MBProgressHUD showError:result.msg];
         }
     } failure:^(NSError *error) {
         if (failure) {

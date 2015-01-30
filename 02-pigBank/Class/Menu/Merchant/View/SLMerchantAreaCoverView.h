@@ -16,6 +16,7 @@
 
 @optional
 - (void)merchantAreaCoverView:(SLMerchantAreaCoverView *)merchantAreaCoverView didSelectedChildrenArea:(SLChildrenArea *)childrenArea;
+- (void)merchantAreaCoverViewDidTouchCoverView:(SLMerchantAreaCoverView *)merchantAreaCoverView;
 
 @end
 

@@ -13,7 +13,7 @@
 @protocol SLTabBarDelegate <NSObject>
 
 @optional
-- (void)tabBar:(SLTabBar *)tabBar didSelectedFrom:(int)from to:(int)to;
+- (void)tabBar:(SLTabBar *)tabBar didSelectedFrom:(NSInteger)from to:(NSInteger)to;
 
 @end
 

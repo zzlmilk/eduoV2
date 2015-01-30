@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ICSDrawerController.h"
-
 @class SLFinancialProductsListController;
 
 @protocol SLFinancialProductsListControllerDelegate <NSObject>
@@ -19,9 +17,7 @@
 
 @end
 
-@interface SLFinancialProductsListController : UITableViewController <ICSDrawerControllerChild, ICSDrawerControllerPresenting>
-
-@property(nonatomic, weak) ICSDrawerController *drawer;
+@interface SLFinancialProductsListController : UIViewController
 
 @property (nonatomic, assign) NSInteger tag;
 

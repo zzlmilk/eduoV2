@@ -8,8 +8,6 @@
 
 #import "SLTabBarController.h"
 
-#import "ICSDrawerController.h"
-
 #import "SLHomeViewController.h"
 #import "SLMessageViewController.h"
 #import "SLPhoneViewController.h"
@@ -17,7 +15,6 @@
 #import "SLTabBar.h"
 #import "SLNavigationController.h"
 #import "SLMoreViewController.h"
-#import "UIViewController+REFrostedViewController.h"
 #import "SLMenuViewController.h"
 
 
@@ -47,22 +44,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     [self setupTabBar];
     
     [self setupAllChildController];
-    
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     
-    SLLog(@"SLTabBarController----selectedIndexPath-----%d", self.selectedIndex);
+    SLLog(@"SLTabBarController----selectedIndexPath-----%lu", (unsigned long)self.selectedIndex);
     
-//    [self tabBar:self.custom didSelectedFrom:0 to:self.selectedIndex];
-    self.selectedIndex = self.selectedIndexPath;
+    //    [self tabBar:self.custom didSelectedFrom:0 to:self.selectedIndex];
+    
+    self.selectedIndex = 1;
     
     [super viewWillAppear:animated];
     
@@ -134,62 +130,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - homeViewController的代理方法
-/**
- *  点击了home页面的more按钮
- */
-- (void)homeViewController:(SLHomeViewController *)homeViewController didClickMoreButton:(UIBarButtonItem *)more
-{
-//    [self.frostedViewController presentMenuViewController]
-    [self.drawer open];
-}
-
-
-#pragma mark ---- REF侧滑菜单的按钮实现方法 --- 未完成
-//- (void)showMenu
-//{
-//    [self.frostedViewController presentMenuViewController];
-//}
-
-#pragma mark - vipViewController的代理方法
-/**
- *  点击了vip页面的more按钮
- */
-- (void)vipViewController:(SLVipViewController *)vipViewController didClickMoreButton:(UIBarButtonItem *)more
-{
-    [self.drawer open];
-}
-
-#pragma mark - vipViewController的代理方法
-/**
- *  点击了menu页面的more按钮
- */
-- (void)menuViewController:(SLMenuViewController *)menuViewController didClickMoreButton:(UIBarButtonItem *)more
-{
-    [self.drawer open];
-}
-
-#pragma mark - ICSDrawerControllerPresenting
-- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = NO;
-}
-
-- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = YES;
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

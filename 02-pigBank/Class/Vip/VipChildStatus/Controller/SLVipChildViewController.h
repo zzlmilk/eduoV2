@@ -14,5 +14,6 @@
  *  板块子分类Id
  */
 @property (nonatomic, strong) NSNumber *classId;
+@property (nonatomic, strong) NSNumber *plateId;
 
 @end

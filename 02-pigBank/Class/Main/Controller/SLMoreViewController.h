@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "REXSideMenu.h"
-#import "ICSDrawerController.h"
 
-@interface SLMoreViewController : UITableViewController 
+@interface SLMoreViewController : UITableViewController
 
-@property(nonatomic, weak) ICSDrawerController *drawer;
+@property (nonatomic, strong) NSArray *plateInfoListArray;
 
 @end

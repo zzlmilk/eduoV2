@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSNumber *merchantId;
 @property (nonatomic, strong) NSNumber *materialId;
 @property (nonatomic, strong) NSNumber *collectCounts;
-@property (nonatomic, strong) NSNumber *collectFlag;
+@property (nonatomic, copy) NSString *collectFlag;
 
 @end
 
@@ -40,7 +40,7 @@
     return self;
 }
 
-- (void)setMaterialId:(NSNumber *)materialId collectCounts:(NSNumber *)collectCounts collectFlag:(NSNumber *)collectFlag
+- (void)setMaterialId:(NSNumber *)materialId collectCounts:(NSNumber *)collectCounts collectFlag:(NSString *)collectFlag
 {
     self.materialId = materialId;
     self.collectCounts = collectCounts;
@@ -49,7 +49,7 @@
     [self setData];
 }
 
-- (void)setMerchantId:(NSNumber *)merchantId collectCounts:(NSNumber *)collectCounts collectFlag:(NSNumber *)collectFlag
+- (void)setMerchantId:(NSNumber *)merchantId collectCounts:(NSNumber *)collectCounts collectFlag:(NSString *)collectFlag
 {
     self.merchantId = merchantId;
     self.collectCounts = collectCounts;
@@ -58,7 +58,7 @@
     [self setData];
 }
 
-- (void)setMerchantId:(NSNumber *)merchantId collectFlag:(NSNumber *)collectFlag
+- (void)setMerchantId:(NSNumber *)merchantId collectFlag:(NSString *)collectFlag
 {
     self.merchantId = merchantId;
     self.collectFlag = collectFlag;
@@ -67,7 +67,7 @@
 }
 
 
-- (void)setMaterialId:(NSNumber *)materialId collectFlag:(NSNumber *)collectFlag
+- (void)setMaterialId:(NSNumber *)materialId collectFlag:(NSString *)collectFlag
 {
     self.materialId = materialId;
     self.collectFlag = collectFlag;

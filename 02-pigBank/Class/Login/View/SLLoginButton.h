@@ -12,4 +12,6 @@
 
 + (instancetype)buttonWithTitle:(NSString *)title backgroundImage:(NSString *)backgroundImage highlightBackgroundImage:(NSString *)highlightBackgroundImage;
 
++ (instancetype)buttonWithTitle:(NSString *)title;
+
 @end

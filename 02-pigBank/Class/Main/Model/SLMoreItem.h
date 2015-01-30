@@ -12,9 +12,11 @@
 
 /** title */
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *plateType;
 
 /** iconImage */
 @property (nonatomic, strong) UIImage *iconImage;
+@property (nonatomic, copy) NSString *imageURLStr;
 
 
 @end

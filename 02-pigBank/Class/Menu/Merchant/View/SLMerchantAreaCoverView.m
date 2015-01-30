@@ -81,6 +81,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
         }
+        cell.textLabel.font = SLFont16;
         
         if (indexPath.row == 0) {
             cell.textLabel.text = @"全部区域";
@@ -98,6 +99,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
         }
+        cell.textLabel.font = SLFont16;
         
         if (self.childrenAreaListArray == nil) {
             cell.textLabel.text = @"所有区域";
@@ -161,7 +163,11 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {}
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{}
+{
+    if ([self.delegate respondsToSelector:@selector(merchantAreaCoverViewDidTouchCoverView:)]) {
+        [self.delegate merchantAreaCoverViewDidTouchCoverView:self];
+    }
+}
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {}
 

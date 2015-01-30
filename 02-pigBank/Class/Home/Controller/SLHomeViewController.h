@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ICSDrawerController.h"
+
 @class SLHomeViewController;
 
 @protocol SLHomeViewControllerDelegate <NSObject>
@@ -17,9 +17,7 @@
 
 @end
 
-@interface SLHomeViewController : UITableViewController<ICSDrawerControllerChild, ICSDrawerControllerPresenting>
-
-@property(nonatomic, weak) ICSDrawerController *drawer;
+@interface SLHomeViewController : UITableViewController
 
 @property (nonatomic, weak) id<SLHomeViewControllerDelegate> delegate;
 

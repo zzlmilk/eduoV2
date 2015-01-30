@@ -8,7 +8,6 @@
 
 #import "SLCollectedMerchantTool.h"
 
-#import "SLVipMerchantDetail.h"
 #import "SLMerchantStatus.h"
 
 #import "SLHttpTool.h"

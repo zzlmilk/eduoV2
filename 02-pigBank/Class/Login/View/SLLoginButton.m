@@ -31,13 +31,12 @@
     return loginButton;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
++ (instancetype)buttonWithTitle:(NSString *)title
 {
-    // Drawing code
+    SLLoginButton *loginButton = [[SLLoginButton alloc] init];
+    [loginButton setTitle:title forState:UIControlStateNormal];
+    
+    return loginButton;
 }
-*/
 
 @end

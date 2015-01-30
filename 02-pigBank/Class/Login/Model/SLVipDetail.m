@@ -8,25 +8,10 @@
 
 #import "SLVipDetail.h"
 
+#import "MJExtension.h"
+
 @implementation SLVipDetail
 
-/**
- *  从文件中解析对象时调用
- */
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [super init]) {
-        self.userConsultant = [aDecoder decodeInt32ForKey:@"userConsultant"];
-    }
-    return self;
-}
-
-/**
- *  将对象写入文件时调用
- */
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeInt32:self.userConsultant forKey:@"userConsultant"];
-}
+MJCodingImplementation
 
 @end

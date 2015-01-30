@@ -10,7 +10,7 @@
 
 @interface SLResult : NSObject
 
-@property (nonatomic, strong) NSNumber *code;
+@property (nonatomic, copy) NSString *code;
 @property (nonatomic, strong) NSArray *info;
 @property (nonatomic, copy) NSString *msg;
 @property (nonatomic, strong) NSNumber *time;

@@ -24,7 +24,7 @@
     SLInputTextField *inputTextField = [[SLInputTextField alloc] init];
     UIImage *image = [UIImage imageNamed:imageName];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.bounds = CGRectMake(0, 0, image.size.width + 15, image.size.height);
+    imageView.bounds = CGRectMake(0, 0, 30, 30);
     imageView.contentMode = UIViewContentModeCenter;
     inputTextField.leftView = imageView;
     inputTextField.leftViewMode = UITextFieldViewModeAlways;

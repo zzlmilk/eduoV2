@@ -66,7 +66,6 @@
 }
 
 - (void)awakeFromNib {
-    [self.imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconImageViewTap:)]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

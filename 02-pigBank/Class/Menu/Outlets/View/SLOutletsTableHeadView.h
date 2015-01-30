@@ -22,11 +22,6 @@
 
 @interface SLOutletsTableHeadView : UIView
 
-/** serviceItemButton 服务项目 */
-@property (nonatomic, weak) SLRotateButton *serviceItemButton;
-/** serviceAreaButton 服务区域 */
-@property (nonatomic, weak) SLRotateButton *serviceAreaButton;
-
 @property (nonatomic, weak) id<SLOutletsTableHeadViewDelegate> delegate;
 
 @end

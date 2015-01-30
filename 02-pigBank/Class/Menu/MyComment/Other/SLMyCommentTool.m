@@ -8,7 +8,6 @@
 
 #import "SLMyCommentTool.h"
 
-#import "SLVipMerchantDetail.h"
 #import "SLMyCommentStatus.h"
 #import "SLMyCommentStatusFrame.h"
 
@@ -18,32 +17,16 @@
 
 @implementation SLMyCommentTool
 
-+ (void)myCommentsWithParameters:(SLMyCommentParameters *)parameters success:(void (^)(NSArray *myCommentStatusArray))success failure:(void (^)(NSError *error))failure
++ (void)myCommentsWithParameters:(SLMyCommentParameters *)parameters success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure
 {
     NSString *url = [SLHttpUrl stringByAppendingString:@"/merchant/listMyMerchantComment"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
         
-        NSString *code = responseObject[@"code"];
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
-        NSMutableArray *myCommentStatusArray = [NSMutableArray array];
-        
-        if ([code isEqualToString:@"0000"]) {
-            // 取出状态字典数组
-            NSArray *dictArray = [responseObject[@"info"] lastObject];
-            for (NSDictionary *dict in dictArray) {
-                
-                SLMyCommentStatus *myCommentStatus = [SLMyCommentStatus objectWithKeyValues:dict];
-                SLMyCommentStatusFrame *myCommentStatusFrame = [[SLMyCommentStatusFrame alloc] init];
-                myCommentStatusFrame.myCommentStatus = myCommentStatus;
-                [myCommentStatusArray addObject:myCommentStatusFrame];
-                
-            }
-        }
-        
-        // 传递了block
         if (success) {
-            success(myCommentStatusArray);
+            success(result);
         }
     } failure:^(NSError *error) {
         if (failure) {

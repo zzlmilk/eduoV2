@@ -9,16 +9,7 @@
 #import "REXSideMenu.h"
 #import "UIViewController+REXSideMenu.h"
 #import "REXCommonFunctions.h"
-//#import "PrivilegeViewController.h"
-//#import "HomePageViewController.h"
-//#import "CallViewController.h"
-//#import "ChatViewController.h"
-//#import "EMELPDialogVC.h"
-//#import "HomePageViewController.h"
-//#import "User.h"
-//#import "ChatViewController.h"
-//#import "MyClientsViewController.h"
-//#import "EMEChatConfManager.h"
+
 @interface REXSideMenu ()
 
 @property (strong, readwrite, nonatomic) UIImageView *backgroundImageView;
@@ -236,8 +227,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
-    NSString *strid = [mySettingData objectForKey:@"userType"];
+//    NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];
+//    NSString *strid = [mySettingData objectForKey:@"userType"];
     
 //    if ([strid intValue] == VIPType) {//VIP
 //        NSUserDefaults *mySettingData = [NSUserDefaults standardUserDefaults];

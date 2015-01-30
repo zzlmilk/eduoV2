@@ -16,6 +16,7 @@
 
 @optional
 - (void)serviceAreaCoverView:(SLServiceAreaCoverView *)serviceAreaCoverView didSelectedChildrenArea:(SLChildrenAreaList *)childrenArea;
+- (void)serviceAreaCoverViewDidTouchCoverView:(SLServiceAreaCoverView *)serviceAreaCoverView ;
 
 @end
 

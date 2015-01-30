@@ -7,44 +7,33 @@
 //
 
 #import "SLChangeMyMobileController.h"
-#import "AFNetworking.h"
 
 #import "SLAccount.h"
+
+#import "SLBackButton.h"
+#import "SLInputTextField.h"
+#import "SLLoginButton.h"
+
 #import "SLAccountTool.h"
-#import "SLChangeMyMobileFrame.h"
+#import "SLMessageTool.h"
+#import "SLModifyTool.h"
+
+#import "UIImage+S_LINE.h"
+#import "NSString+S_LINE.h"
+#import "MBProgressHUD+MJ.h"
 
 #define lingNumber 4
 
 @interface SLChangeMyMobileController ()
 
-/** bjView  */
-@property (nonatomic, weak) UIView *bjView;
-/** topLineView  */
-@property (nonatomic, weak) UIView *topLineView;
-/** pwdLeftImageView */
-@property (nonatomic, weak) UIImageView *pwdLeftImageView;
-/** pwdTextField */
-@property (nonatomic, weak) UITextField *pwdTextField;
-/** middleUpLineView */
-@property (nonatomic, weak) UIView *middleUpLineView;
-/** freshMobileLeftImageView */
-@property (nonatomic, weak) UIImageView *freshMobileLeftImageView;
-/** freshMobileTextField */
-@property (nonatomic, weak) UITextField *freshMobileTextField;
-/** middleDownLineView */
-@property (nonatomic, weak) UIView *middleDownLineView;
-/** captchaLeftImageView */
-@property (nonatomic, weak) UIImageView *captchaLeftImageView;
-/** captchaTextField */
-@property (nonatomic, weak) UITextField *captchaTextField;
-/** getCaptchaButton */
-@property (nonatomic, weak) UIButton *getCaptchaButton;
-/** bottomLineView  */
-@property (nonatomic, weak) UIView *bottomLineView;
-/** sureButton */
-@property (nonatomic, weak) UIButton *sureButton;
+@property (nonatomic, weak) SLInputTextField *nameTextField;
+@property (nonatomic, weak) SLInputTextField *passwordTextField;
+@property (nonatomic, weak) SLInputTextField *freshMobileTextField;
+@property (nonatomic, weak) SLInputTextField *securityCodeTextField;
+@property (nonatomic, weak) UIButton *confirmButton;
+@property (nonatomic, weak) SLLoginButton *commitButton;
 
-@property (nonatomic, strong) SLChangeMyMobileFrame *changeMyMobileFrame;
+@property (nonatomic, assign) int time;
 
 @end
 
@@ -59,6 +48,28 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -66,218 +77,180 @@
     // 添加所有子控件
     [self addAllSubviews];
     
-    SLChangeMyMobileFrame *changeMyMobileFrame = [[SLChangeMyMobileFrame alloc] init];
-    changeMyMobileFrame.login = 1;
-    self.changeMyMobileFrame = changeMyMobileFrame;
+    [self addObserver];
+}
+
+#pragma mark ----- 添加监听方法
+- (void)addObserver
+{
+    // 监听文本框文字改变
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.nameTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.passwordTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.freshMobileTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.securityCodeTextField];
+}
+
+- (void)textChanged
+{
+    self.commitButton.enabled = self.nameTextField.text.length && self.passwordTextField.text.length && self.freshMobileTextField.text.length && self.securityCodeTextField.text.length ;
+}
+
+#pragma mark ----- 添加所有子控件
+- (void)addAllSubviews
+{
+    SLInputTextField *nameTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_name"];
+    CGFloat nameTextFieldX = middleMargin;
+    CGFloat nameTextFieldY = largeMargin + 64;
+    CGFloat nameTextFieldW = screenW - largeMargin;
+    CGFloat nameTextFieldH = 30;
+    CGRect nameTextFieldF = CGRectMake(nameTextFieldX, nameTextFieldY, nameTextFieldW, nameTextFieldH);
+    nameTextField.frame = nameTextFieldF;
+    nameTextField.borderStyle = UITextBorderStyleRoundedRect;
+    nameTextField.placeholder = @"请输入姓名";
+    nameTextField.font = SLFont14;
+    self.nameTextField = nameTextField;
+    [self.view addSubview:nameTextField];
     
-    // 加载子控件数据
-    [self setupSubviewsData];
+    SLInputTextField *passwordTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_password"];
+    CGFloat passwordTextFieldX = nameTextFieldX;
+    CGFloat passwordTextFieldY = CGRectGetMaxY(nameTextFieldF) + largeMargin;
+    CGFloat passwordTextFieldW = nameTextFieldW;
+    CGFloat passwordTextFieldH = nameTextFieldH;
+    CGRect passwordTextFieldF = CGRectMake(passwordTextFieldX, passwordTextFieldY, passwordTextFieldW, passwordTextFieldH);
+    passwordTextField.frame = passwordTextFieldF;
+    passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
+    passwordTextField.placeholder = @"请输入密码";
+    passwordTextField.secureTextEntry = YES;
+    passwordTextField.font = SLFont14;
+    self.passwordTextField = passwordTextField;
+    [self.view addSubview:passwordTextField];
+    
+    SLInputTextField *freshMobileTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_newMobile"];
+    CGFloat freshMobileTextFieldX = passwordTextFieldX;
+    CGFloat freshMobileTextFieldY = CGRectGetMaxY(passwordTextFieldF) + largeMargin;
+    CGFloat freshMobileTextFieldW = passwordTextFieldW;
+    CGFloat freshMobileTextFieldH = passwordTextFieldH;
+    CGRect freshMobileTextFieldF = CGRectMake(freshMobileTextFieldX, freshMobileTextFieldY, freshMobileTextFieldW, freshMobileTextFieldH);
+    freshMobileTextField.frame = freshMobileTextFieldF;
+    freshMobileTextField.borderStyle = UITextBorderStyleRoundedRect;
+    freshMobileTextField.placeholder = @"请输入新手机";
+    freshMobileTextField.font = SLFont14;
+    self.freshMobileTextField = freshMobileTextField;
+    [self.view addSubview:freshMobileTextField];
+    
+    SLInputTextField *securityCodeTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_securityCode"];
+    CGFloat securityCodeTextFieldX = freshMobileTextFieldX;
+    CGFloat securityCodeTextFieldY = CGRectGetMaxY(freshMobileTextFieldF) + largeMargin;
+    CGFloat securityCodeTextFieldW = freshMobileTextFieldW;
+    CGFloat securityCodeTextFieldH = freshMobileTextFieldH;
+    CGRect securityCodeTextFieldF = CGRectMake(securityCodeTextFieldX, securityCodeTextFieldY, securityCodeTextFieldW, securityCodeTextFieldH);
+    securityCodeTextField.frame = securityCodeTextFieldF;
+    securityCodeTextField.borderStyle = UITextBorderStyleRoundedRect;
+    securityCodeTextField.placeholder = @"验证码";
+    securityCodeTextField.font = SLFont14;
+    self.securityCodeTextField = securityCodeTextField;
+    [self.view addSubview:securityCodeTextField];
+    
+    UIButton *confirmButton = [[UIButton alloc] init];
+    securityCodeTextField.rightView = confirmButton;
+    securityCodeTextField.rightViewMode = UITextFieldViewModeAlways;
+    CGFloat confirmButtonW = 80;
+    CGFloat confirmButtonH = 30;
+    confirmButton.bounds = CGRectMake(0, 0, confirmButtonW, confirmButtonH);
+    [confirmButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_redBg_normal"] forState:UIControlStateNormal];
+    [confirmButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_bg_disable"] forState:UIControlStateDisabled];
+    [confirmButton setTitle:@"验证码" forState:UIControlStateNormal];
+    confirmButton.titleLabel.font = SLFont14;
+    [confirmButton addTarget:self action:@selector(confirmButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    confirmButton.layer.cornerRadius = 5;
+    confirmButton.clipsToBounds = YES;
+    
+    SLLoginButton *commitButton = [SLLoginButton buttonWithTitle:@"确定" backgroundImage:@"login_loginButtonBg_normal" highlightBackgroundImage:@"login_loginButtonBg_highlight"];
+    CGFloat commitButtonX = securityCodeTextFieldX;
+    CGFloat commitButtonY = CGRectGetMaxY(securityCodeTextFieldF) + largeMargin;
+    CGFloat commitButtonW = securityCodeTextFieldW;
+    CGFloat commitButtonH = securityCodeTextFieldH;
+    CGRect commitButtonF = CGRectMake(commitButtonX, commitButtonY, commitButtonW, commitButtonH);
+    commitButton.frame = commitButtonF;
+    [commitButton addTarget:self action:@selector(commitButtonClidk:) forControlEvents:UIControlEventTouchUpInside];
+    commitButton.enabled = NO;
+    self.commitButton = commitButton;
+    [self.view addSubview:commitButton];
+}
+
+#pragma mark ----- 验证码按钮点击事件
+- (void)confirmButtonClick:(UIButton *)confirmButton
+{
+    SLMessageParameters *parameters = [SLMessageParameters parameters];
+    parameters.mobile = self.freshMobileTextField.text;
+    
+    [SLMessageTool messageWithParameters:parameters success:^(SLResult *result) {
+        if ([result.code isEqualToString:@"0000"]) {
+            
+            self.time = 60;
+            
+            CADisplayLink *countdown = [CADisplayLink displayLinkWithTarget:self selector:@selector(countdown:)];
+            countdown.frameInterval = 60;
+            [countdown addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            
+            [MBProgressHUD showSuccess:result.msg];
+        } else {
+            [MBProgressHUD showError:result.msg];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark ----- 倒计时定时器响应事件
+- (void)countdown:(CADisplayLink *)countdown
+{
+    self.time -= 1;
+    
+    if (self.time == 0) {
+        [countdown invalidate];
+        countdown = nil;
+        self.confirmButton.enabled = YES;
+        [self.confirmButton setTitle:@"验证码" forState:UIControlStateNormal];
+    } else {
+        self.confirmButton.enabled = NO;
+        [self.confirmButton setTitle:[NSString stringWithFormat:@"%i" , self.time] forState:UIControlStateDisabled];
+    }
+}
+
+#pragma mark ----- 确定按钮点击事件
+- (void)commitButtonClidk:(SLLoginButton *)commitButton
+{
+    if (self.freshMobileTextField.text.length != 11) {
+        [MBProgressHUD showError:@"请输入正确的手机号"];
+    } else {
+        SLChangeMobileParameters *parameters = [SLChangeMobileParameters parameters];
+        parameters.password = [self.passwordTextField.text MD5];
+        parameters.mobile = self.freshMobileTextField.text;
+        parameters.vercode = self.securityCodeTextField.text;
+        
+        [SLModifyTool changeMobileWithParameters:parameters success:^(SLResult *result) {
+            if ([result.code isEqualToString:@"0000"]) {
+                [MBProgressHUD showSuccess:@"手机修改成功"];
+            } else if ([result.code isEqualToString:@"9002"]) {
+                [MBProgressHUD showError:@"新手机号码已被占用"];
+            } else if ([result.code isEqualToString:@"9003"]) {
+                [MBProgressHUD showError:@"手机号码格式错误"];
+            } else if ([result.code isEqualToString:@"9005"]) {
+                [MBProgressHUD showError:@"验证码错误"];
+            } else if ([result.code isEqualToString:@"9006"]) {
+                [MBProgressHUD showError:@"旧密码输入错误"];
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-/**
- *  添加所有子控件
- */
-- (void)addAllSubviews
-{
-    // 添加输入部分整体的view
-    UIView *bjView = [[UIView alloc] init];
-    [self.view addSubview:bjView];
-    self.bjView = bjView;
-    
-    /** topLineView  */
-    UIView *topLineView = [[UIView alloc] init];
-    [bjView addSubview:topLineView];
-    self.topLineView = topLineView;
-    
-    /** pwdLeftImageView */
-    UIImageView *pwdLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:pwdLeftImageView];
-    self.pwdLeftImageView = pwdLeftImageView;
-    
-    /** pwdTextField */
-    UITextField *pwdTextField = [[UITextField alloc] init];
-    [bjView addSubview:pwdTextField];
-    self.pwdTextField = pwdTextField;
-    
-    /** middleUpLineView */
-    UIView *middleUpLineView = [[UIView alloc] init];
-    [bjView addSubview:middleUpLineView];
-    self.middleUpLineView = middleUpLineView;
-    
-    /** freshMobileLeftImageView */
-    UIImageView *freshMobileLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:freshMobileLeftImageView];
-    self.freshMobileLeftImageView = freshMobileLeftImageView;
-    
-    /** freshMobileTextField */
-    UITextField *freshMobileTextField = [[UITextField alloc] init];
-    [bjView addSubview:freshMobileTextField];
-    self.freshMobileTextField = freshMobileTextField;
-    
-    /** middleDownLineView */
-    UIView *middleDownLineView = [[UIView alloc] init];
-    [bjView addSubview:middleDownLineView];
-    self.middleDownLineView = middleDownLineView;
-    
-    /** captchaLeftImageView */
-    UIImageView *captchaLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:captchaLeftImageView];
-    self.captchaLeftImageView = captchaLeftImageView;
-    
-    /** captchaTextField */
-    UITextField *captchaTextField = [[UITextField alloc] init];
-    [bjView addSubview:captchaTextField];
-    self.captchaTextField = captchaTextField;
-    
-    /** getCaptchaButton */
-    UIButton *getCaptchaButton = [[UIButton alloc] init];
-    [bjView addSubview:getCaptchaButton];
-    self.getCaptchaButton = getCaptchaButton;
-    
-    /** bottomLineView  */
-    UIView *bottomLineView = [[UIView alloc] init];
-    [bjView addSubview:bottomLineView];
-    self.bottomLineView = bottomLineView;
-    
-    /** sureButton */
-    UIButton *sureButton = [[UIButton alloc] init];
-    [self.view addSubview:sureButton];
-    self.sureButton = sureButton;
-}
-
-- (void)setupSubviewsData
-{
-    /** bjView  */
-    self.bjView.frame = self.changeMyMobileFrame.bjViewF;
-    
-    /** topLineView  */
-    self.topLineView.frame = self.changeMyMobileFrame.topLineViewF;
-    self.topLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** pwdLeftView */
-    self.pwdLeftImageView.frame = self.changeMyMobileFrame.pwdLeftImageViewF;
-    self.pwdLeftImageView.image = [UIImage imageNamed:@"shuMiMa"];
-    self.pwdLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** pwdTextField */
-    self.pwdTextField.frame = self.changeMyMobileFrame.pwdTextFieldF;
-    self.pwdTextField.placeholder = @"请输入密码";
-    self.pwdTextField.font = SLFont14;
-    self.pwdTextField.contentMode = UIViewContentModeCenter;
-    
-    /** middleUpLineView */
-    self.middleUpLineView.frame = self.changeMyMobileFrame.middleUpLineViewF;
-    self.middleUpLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** freshMobileLeftImageView */
-    self.freshMobileLeftImageView.frame = self.changeMyMobileFrame.freshMobileLeftImageViewF;
-    self.freshMobileLeftImageView.image = [UIImage imageNamed:@"shouJiHao"];
-    self.freshMobileLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** freshMobileTextField */
-    self.freshMobileTextField.frame = self.changeMyMobileFrame.freshMobileTextFieldF;
-    self.freshMobileTextField.placeholder = @"新手机号码";
-    self.freshMobileTextField.keyboardType = UIKeyboardTypeNumberPad;
-    self.freshMobileTextField.font = SLFont14;
-    self.freshMobileTextField.contentMode = UIViewContentModeCenter;
-    
-    /** middleDownLineView */
-    self.middleDownLineView.frame = self.changeMyMobileFrame.middleDownLineViewF;
-    self.middleDownLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** captchaLeftImageView */
-    self.captchaLeftImageView.frame = self.changeMyMobileFrame.captchaLeftImageViewF;
-    self.captchaLeftImageView.image = [UIImage imageNamed:@"yanZhengMa"];
-    self.captchaLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** captchaTextField */
-    self.captchaTextField.frame = self.changeMyMobileFrame.captchaTextFieldF;
-    self.captchaTextField.placeholder = @"验证码";
-    self.captchaTextField.font = SLFont14;
-    self.captchaTextField.contentMode = UIViewContentModeCenter;
-    
-    /** getCaptchaButton */
-    self.getCaptchaButton.frame = self.changeMyMobileFrame.getCaptchaButtonF;
-    [self.getCaptchaButton setBackgroundImage:[UIImage imageNamed:@"weiHuoQu"] forState:UIControlStateNormal];
-    [self.getCaptchaButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-    self.getCaptchaButton.titleLabel.font = SLFont14;
-    [self.getCaptchaButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.getCaptchaButton addTarget:self action:@selector(getCaptchaButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    /** bottomLineView  */
-    self.bottomLineView.frame = self.changeMyMobileFrame.bottomLineViewF;
-    self.bottomLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** sureButton */
-    self.sureButton.frame = self.changeMyMobileFrame.sureButtonF;
-    [self.sureButton setTitle:@"确定" forState:UIControlStateNormal];
-    [self.sureButton setBackgroundImage:[UIImage imageNamed:@"anNiuZhuCe"] forState:UIControlStateNormal];
-    [self.sureButton setBackgroundImage:[UIImage imageNamed:@"anNiuZhuCeJiaoHu"] forState:UIControlStateHighlighted];
-    [self.sureButton addTarget:self action:@selector(sureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-/**
- *  获取验证码的按钮事件
- */
-- (void)getCaptchaButtonClick:(UIButton *)getCaptchaButton
-{
-    // 创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    
-    // 封装请求参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    paraments[@"mobile"] = self.freshMobileTextField.text;
-    
-    // 发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/sms/sendVercode" parameters:paraments success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        SLLog(@"%@", responseObject);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        SLLog(@"请求失败");
-    }];
-}
-
-/**
- *  确定按钮事件
- */
-- (void)sureButtonClick:(UIButton *)sureButton
-{
-    // 创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    
-    // 获取账户信息
-    SLAccount *account = [SLAccountTool getAccount];
-    
-    // 封装请求参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    // password:String/用户密码（MD5加密后）
-    paraments[@"password"] = self.pwdTextField.text;
-    // mobile:String/新手机号码
-    paraments[@"mobile"] = self.freshMobileTextField.text;
-    // vercode:String/验证码（新手机号码的验证码）
-    paraments[@"vercode"] = self.captchaTextField.text;
-    // uid:Long/当前登录用户UID
-    paraments[@"uid"] = account.uid;
-    // token:String/当前登录用户身份识别码（登陆、注册接口返回该值）
-    paraments[@"token"] = account.token;
-    
-    // 发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/user/changeUserMobile" parameters:paraments success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        SLLog(@"%@", responseObject);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        SLLog(@"请求失败");
-    }];
 }
 
 @end

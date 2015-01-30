@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLCommitCommentParameters.h"
+#import "SLResult.h"
 
 @interface SLCommitCommentTool : NSObject
 
@@ -19,6 +20,6 @@
  *  @param success 请求成功后的回调
  *  @param failure 请求失败后的回调
  */
-+ (void)commitCommentWithParameters:(SLCommitCommentParameters *)parameters success:(void (^)(NSString *code))success failure:(void (^)(NSError *error))failure;
++ (void)commitCommentWithParameters:(SLCommitCommentParameters *)parameters success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure;
 
 @end

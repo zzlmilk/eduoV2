@@ -30,6 +30,9 @@
 /** distabceLabel */
 @property (nonatomic, weak) UILabel *distabceLabel;
 
+/** separatorView */
+@property (nonatomic, weak) UIView *separatorView;
+
 @end
 
 @implementation SLMerchantCell
@@ -96,6 +99,10 @@
     distabceLabel.font = SLFont12;
     [self.contentView addSubview:distabceLabel];
     self.distabceLabel = distabceLabel;
+    
+    UIView *separatorView = [[UIView alloc] init];
+    self.separatorView = separatorView;
+    [self.contentView addSubview:separatorView];
 }
 
 - (void)setMerchantStatusFrame:(SLMerchantStatusFrame *)merchantStatusFrame
@@ -111,7 +118,7 @@
  */
 - (void)setupSubviewsData
 {
-    SLVipMerchantDetail *merchantDetail = self.merchantStatusFrame.merchantDetial;
+    SLMerchantDetail *merchantDetail = self.merchantStatusFrame.merchantDetial;
     
     /** pictureImageView */
     // frame
@@ -141,7 +148,7 @@
     // frame
     self.priseCountLabel.frame = self.merchantStatusFrame.priseCountLabelF;
     // praiseCounts
-    self.priseCountLabel.text = [NSString stringWithFormat:@"%ld人很喜欢", merchantDetail.praiseCounts];
+    self.priseCountLabel.text = [NSString stringWithFormat:@"%@人很喜欢", merchantDetail.praiseCounts];
     
     /** distabceLabel */
     // frame
@@ -154,6 +161,9 @@
     } else {
         self.distabceLabel.text = [NSString stringWithFormat:@"%.2f千米", [merchantDetail.distanceToMe doubleValue]];
     }
+    
+//    self.separatorView.frame = self.merchantStatusFrame.separatorViewF;
+//    self.separatorView.backgroundColor = [UIColor lightGrayColor];
 }
 
 - (void)awakeFromNib {

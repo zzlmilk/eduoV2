@@ -26,6 +26,7 @@
 #import "SLPostCommentView.h"
 #import "SLPraiseButton.h"
 #import "SLCollectButton.h"
+#import "SLBackButton.h"
 
 #import "SLMapViewController.h"
 #import "SLVipProductViewController.h"
@@ -92,10 +93,33 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self.locMgr startUpdatingLocation];
+
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [MBProgressHUD showMessage:@"数据加载中"];
     
     // 开始定位
     [self.locMgr startUpdatingLocation];
@@ -132,7 +156,7 @@
 - (void)postCommentView:(SLPostCommentView *)postCommentView didClickPostCommentButton:(UIButton *)button
 {
     SLCommentViewController *vc = [[SLCommentViewController alloc] init];
-//    vc.vipMerchantDetail = self.vipMerchantDetail;
+    vc.merchantId = self.merchantDetail.merchantId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -224,15 +248,14 @@
     [self.view addSubview:telWebView];
     self.telWebView = telWebView;
     
-    SLMapViewController *mvc = [[SLMapViewController alloc] init];
-//    mvc.merchantDetail = self.vipMerchantDetail;
-    
     SLMerchantDetailGroup *group = self.sectionArray[indexPath.section];
     SLMerchantDetailItem *item = group.merchantDetailItems[indexPath.row];
     SLMerchantDetail *merchantDetail = item.merchantDetailFrame.merchantDetail;
     
     if (indexPath.section == 0) {
         if (indexPath.row == 1) {
+            SLMapViewController *mvc = [[SLMapViewController alloc] init];
+            mvc.merchantDetail = merchantDetail;
             [self.navigationController pushViewController:mvc animated:YES];
         }
         else if (indexPath.row == 2){
@@ -283,18 +306,24 @@
 {
     self.location = [locations firstObject];
     
-    [MBProgressHUD showMessage:@"数据加载中"];
-    
     [self loadInternetData];
     
     [self.locMgr stopUpdatingLocation];
 }
 
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    [self loadInternetData];
+}
+
 #pragma mark ----- loadInternetData加载网络数据
 - (void)loadInternetData
 {
-    self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-    self.parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
+    if (self.location) {
+        self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
+        self.parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
+    }
     self.parameters.merchantId = self.merchantId;
     
     [SLMerchantDetailTool merchantDetailWithParameters:self.parameters success:^(NSArray *merchantDetailAndVipStatuses) {
@@ -310,15 +339,15 @@
         
         [MBProgressHUD hideHUD];
         
-        [self setNavBar];
+        [self setCollectAndPrise];
         
     } failure:^(NSError *error) {
         
     }];
 }
 
-#pragma mark ----- setNavBar设置导航栏
-- (void)setNavBar
+#pragma mark ----- setCollectAndPrise设置收藏和赞的按钮
+- (void)setCollectAndPrise
 {
     UINavigationBar *navBar = self.navigationController.navigationBar;
     // 设置背景
@@ -326,11 +355,11 @@
     
     // 设置右上角的barButton
     SLPraiseButton *priseButton = [SLPraiseButton button];
-    [priseButton setMerchantId:self.merchantDetail.merchantId praiseCounts:self.merchantDetail.praiseCounts praiseFlag:self.merchantDetail.merchantUser.praiseFlag];
+    [priseButton setMerchantId:self.merchantDetail.merchantId praiseCounts:self.merchantDetail.praiseCounts praiseFlag:[NSString stringWithFormat:@"%@", self.merchantDetail.merchantUser.praiseFlag]];
     UIBarButtonItem *priseItem = [[UIBarButtonItem alloc] initWithCustomView:priseButton];
     
     SLCollectButton *collectButton = [SLCollectButton button];
-    [collectButton setMerchantId:self.merchantDetail.merchantId collectFlag:self.merchantDetail.merchantUser.collectFlag];
+    [collectButton setMerchantId:self.merchantDetail.merchantId collectFlag:[NSString stringWithFormat:@"%@", self.merchantDetail.merchantUser.collectFlag]];
     UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
     
     NSArray *rightBarButtonItems = @[priseItem, collectItem];

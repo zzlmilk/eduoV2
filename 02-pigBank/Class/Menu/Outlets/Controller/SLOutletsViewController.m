@@ -92,8 +92,6 @@
     if (_parameters == nil) {
         _parameters = [SLOutletsParameters parameters];
         _parameters.search = @"";
-        _parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
-        _parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
         _parameters.plateId = @3;
         _parameters.pageSize = @20;
     }
@@ -112,38 +110,72 @@
 - (UIScrollView *)scrollView
 {
     if (_scrollView == nil) {
-        _scrollView = [[UIScrollView alloc] init];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(-100, 0, 10, 10)];
     }
     return _scrollView;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
+}
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
+    [self loadFilterData];
+    
+    [self setTableHeadFootView];
+    
+    [self addSubviews];
+    
+    // 集成刷新控件
+    [self setupRefreshView];
+    
+    // 开始定位
+    [self.locMgr startUpdatingLocation];
+}
+
+- (void)addSubviews
+{
+    SLServiceItemCoverView *serviceItemView = [[SLServiceItemCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 40)];
+    serviceItemView.delegate = self;
+    self.serviceItemCoverView = serviceItemView;
+    serviceItemView.hidden = YES;
+    [self.view insertSubview:serviceItemView aboveSubview:self.tableView];
+    
+    SLServiceAreaCoverView *serviceAreaView = [[SLServiceAreaCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 40)];
+    serviceAreaView.delegate = self;
+    self.serviceAreaCoverView = serviceAreaView;
+    serviceAreaView.hidden = YES;
+    [self.view insertSubview:serviceAreaView aboveSubview:self.tableView];
+}
+
+- (void)setTableHeadFootView
+{
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 0.5)];
+    footView.backgroundColor = [UIColor lightGrayColor];
+    self.tableView.tableFooterView = footView;
     
     SLMerchantHeadView *headView = [[SLMerchantHeadView alloc] init];
     headView.delegate = self;
     self.headView = headView;
-    [headView setLeftButtonWithTitle:@"服务项目" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
-    [headView setRightButtonWithTitle:@"服务区域" imageName:@"xiaLa" highlightImageName:@"xiaLaJiaoHu"];
+    [headView setLeftButtonTitle:@"服务项目" rightButtonTitle:@"服务区域"];
     self.tableView.tableHeaderView = headView;
-    
-    SLServiceItemCoverView *serviceItemView = [[SLServiceItemCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 40)];
-    [self.view addSubview:serviceItemView];
-    serviceItemView.delegate = self;
-    self.serviceItemCoverView = serviceItemView;
-    serviceItemView.hidden = YES;
-    
-    SLServiceAreaCoverView *serviceAreaView = [[SLServiceAreaCoverView alloc] initWithFrame:CGRectMake(0, 40, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 40)];
-    [self.view addSubview:serviceAreaView];
-    serviceAreaView.delegate = self;
-    self.serviceAreaCoverView = serviceAreaView;
-    serviceAreaView.hidden = YES;
-    
-    if (self.tag == 1) {
-        // 设置左上角的barButton
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
-    }
-    
+}
+
+- (void)loadFilterData
+{
     // 获取网点服务类型列表数据
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/listOutletsServiceType"];
     [SLHttpTool postWithUrlstr:url parameters:nil success:^(id responseObject) {
@@ -151,7 +183,7 @@
         NSArray *dictArray = [responseObject[@"info"] lastObject];
         
         NSArray *serviceItemArray = [SLOutletsServiceItem objectArrayWithKeyValuesArray:dictArray];
-
+        
         [self.serviceItemArray addObjectsFromArray:serviceItemArray];
         self.serviceItemCoverView.serviceItemArray = serviceItemArray;
         
@@ -162,27 +194,21 @@
     // 获取网点分区二级列表接口
     NSString *url1 = [SLHttpUrl stringByAppendingString:@"/material/listOutletsAreaInfo"];
     [SLHttpTool postWithUrlstr:url1 parameters:nil success:^(id responseObject) {
-            NSArray *dictArray = [responseObject[@"info"] lastObject];
-            
-            NSMutableArray *serviceAreaArray = [NSMutableArray array];
-            for (NSDictionary *dict in dictArray) {
-                SLOutletsServiceArea *serviceArea = [SLOutletsServiceArea objectWithKeyValues:dict];
-                
-                [serviceAreaArray addObject:serviceArea];
-            }
-            
-            [self.serviceAreaArray addObjectsFromArray:serviceAreaArray];
-            self.serviceAreaCoverView.serviceAreaArray = serviceAreaArray;
+        NSArray *dictArray = [responseObject[@"info"] lastObject];
         
-        } failure:^(NSError *error) {
+        NSMutableArray *serviceAreaArray = [NSMutableArray array];
+        for (NSDictionary *dict in dictArray) {
+            SLOutletsServiceArea *serviceArea = [SLOutletsServiceArea objectWithKeyValues:dict];
+            
+            [serviceAreaArray addObject:serviceArea];
+        }
+        
+        [self.serviceAreaArray addObjectsFromArray:serviceAreaArray];
+        self.serviceAreaCoverView.serviceAreaArray = serviceAreaArray;
+        
+    } failure:^(NSError *error) {
         
     }];
-    
-    // 集成刷新控件
-    [self setupRefreshView];
-    
-    // 开始定位
-    [self.locMgr startUpdatingLocation];
 }
 
 #pragma mark ----- 刷新数据的方法
@@ -196,12 +222,14 @@
     header.scrollView = self.tableView;
     header.delegate = self;
     self.header = header;
+    
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self.tableView;
+    footer.delegate = self;
+    self.footer = footer;
 }
 
 #pragma mark ----- 代理方法,mj刷新包的代理方法
-/**
- *  刷新控件进入开始刷新状态的时候调用
- */
 - (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
 {
     if ([refreshView isKindOfClass:[MJRefreshFooterView class]]) { // 上拉刷新
@@ -211,9 +239,7 @@
     }
 }
 
-/**
- *  发送请求加载更多的数据
- */
+#pragma mark ----- loadMoreData加载更多数据
 - (void)loadMoreData
 {
     self.currentPage += 1;
@@ -222,9 +248,14 @@
     
     [SLOutletsTool outletsListWithParameters:self.parameters success:^(NSArray *outletsArray) {
         
-        [self.outletsArray addObjectsFromArray:outletsArray];
+        if (outletsArray.count > 0) {
+            [self.outletsArray addObjectsFromArray:outletsArray];
+            
+            [self.tableView reloadData];
+        } else {
+            [MBProgressHUD showError:@"没有更多数据了"];
+        }
         
-        [self.tableView reloadData];
         
         // 让刷新控件停止显示刷新状态
         [self.footer endRefreshing];
@@ -232,9 +263,8 @@
         [self.footer endRefreshing];
     }];
 }
-/**
- *  // 刷新数据(向服务器获取更新的数据)
- */
+
+#pragma mark ----- loadNewData向服务器获取最新的数据
 - (void)loadNewData
 {
     self.currentPage = 1;
@@ -242,21 +272,20 @@
     self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
     self.parameters.serviceType = self.serviceType;
     self.parameters.outletsArea = self.outletsArea;
+    if (self.location) {
+        self.parameters.latitude = [NSNumber numberWithDouble:self.location.coordinate.latitude];
+        self.parameters.longitude = [NSNumber numberWithDouble:self.location.coordinate.longitude];
+    }
     
     [SLOutletsTool outletsListWithParameters:self.parameters success:^(NSArray *outletsArray) {
-        self.outletsArray = nil;
+        [self.outletsArray removeAllObjects];
         
-        [self.outletsArray addObjectsFromArray:outletsArray];
-        
-        if (outletsArray.count > 19) {
-            // 2.上拉刷新(上拉加载更多数据)
-            MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-            footer.scrollView = self.tableView;
-            footer.delegate = self;
-            self.footer = footer;
+        if (outletsArray.count > 0) {
+            [self.outletsArray addObjectsFromArray:outletsArray];
         } else {
-            self.footer.scrollView = self.scrollView;
+            [MBProgressHUD showError:@"没有相关数据"];
         }
+        
         
         [self.tableView reloadData];
         
@@ -288,16 +317,17 @@
     [self.locMgr stopUpdatingLocation];
 }
 
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    [self.header beginRefreshing];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 1;
-//}
-
+#pragma mark ----- Tableview datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.outletsArray.count;
 }
@@ -320,6 +350,7 @@
     SLOutletsInfo *outletsInfo = self.outletsArray[indexPath.row];
     SLOutletDetialController *vc = [[SLOutletDetialController alloc] init];
     vc.materialId = outletsInfo.materialId;
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -329,19 +360,21 @@
     if (self.serviceItemCoverView.hidden == YES) {
         self.serviceItemCoverView.hidden = NO;
         self.serviceItemCoverView.alpha = 0;
+        self.tableView.scrollEnabled = NO;
+        self.tabBarController.tabBar.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.serviceAreaCoverView.alpha = 0;
             self.serviceItemCoverView.alpha = 1;
         } completion:^(BOOL finished) {
             self.serviceAreaCoverView.hidden = YES;
-            self.tableView.scrollEnabled = NO;
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
             self.serviceItemCoverView.alpha = 0;
         } completion:^(BOOL finished) {
-            self.tableView.scrollEnabled = YES;
             self.serviceItemCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
         }];
     }
 }
@@ -350,12 +383,13 @@
     if (self.serviceAreaCoverView.hidden == YES) {
         self.serviceAreaCoverView.hidden = NO;
         self.serviceAreaCoverView.alpha = 0;
+        self.tableView.scrollEnabled = NO;
+        self.tabBarController.tabBar.userInteractionEnabled = NO;
         [UIView animateWithDuration:0.5 animations:^{
             self.serviceItemCoverView.alpha = 0;
             self.serviceAreaCoverView.alpha = 1;
         } completion:^(BOOL finished) {
             self.serviceItemCoverView.hidden = YES;
-            self.tableView.scrollEnabled = NO;
         }];
     } else {
         [UIView animateWithDuration:0.5 animations:^{
@@ -363,6 +397,7 @@
         } completion:^(BOOL finished) {
             self.serviceAreaCoverView.hidden = YES;
             self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
         }];
     }
 }
@@ -379,10 +414,24 @@
         [self.headView setLeftButtonWithTitle:serviceItem.dataText];
     }
     
-    self.serviceItemCoverView.hidden = YES;
+    serviceItemCoverView.hidden = YES;
     self.tableView.scrollEnabled = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
     
     [self.locMgr startUpdatingLocation];
+}
+- (void)serviceItemCoverViewDidTouchCoverView:(SLServiceItemCoverView *)serviceItemCoverView
+{
+    if (serviceItemCoverView.hidden == NO) {
+        [UIView animateWithDuration:0.5 animations:^{
+            serviceItemCoverView.alpha = 0;
+            [self.headView setLeftButtonStatusNormal];
+        } completion:^(BOOL finished) {
+            serviceItemCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
+    }
 }
 
 - (void)serviceAreaCoverView:(SLServiceAreaCoverView *)serviceAreaCoverView didSelectedChildrenArea:(SLChildrenAreaList *)childrenArea
@@ -396,10 +445,24 @@
         [self.headView setRightButtonWithTitle:childrenArea.areaName];
     }
     
-    self.serviceAreaCoverView.hidden = YES;
+    serviceAreaCoverView.hidden = YES;
     self.tableView.scrollEnabled = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
     
     [self.locMgr startUpdatingLocation];
+}
+- (void)serviceAreaCoverViewDidTouchCoverView:(SLServiceAreaCoverView *)serviceAreaCoverView
+{
+    if (serviceAreaCoverView.hidden == NO) {
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.headView setRightButtonStatusNormal];
+            serviceAreaCoverView.alpha = 0;
+        } completion:^(BOOL finished) {
+            serviceAreaCoverView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
+    }
 }
 
 @end

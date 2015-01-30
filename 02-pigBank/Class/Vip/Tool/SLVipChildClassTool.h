@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLVipChildClassParameters.h"
+#import "SLResult.h"
 
 @interface SLVipChildClassTool : NSObject
 

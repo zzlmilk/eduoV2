@@ -55,8 +55,6 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 /**
@@ -193,7 +191,11 @@
     NSDate *now = [NSDate date];
     NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
     long long leftTime = ([self.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000 - nowTimeInterval) / 60 / 60 / 24;
-    self.leftTimeDataLabel.text = [NSString stringWithFormat:@"%lld天", leftTime];
+    if (leftTime <= 0) {
+        self.leftTimeDataLabel.text = [NSString stringWithFormat:@"已结束"];
+    } else {
+        self.leftTimeDataLabel.text = [NSString stringWithFormat:@"%lld天", leftTime];
+    }
     self.leftTimeDataLabel.textColor = [UIColor grayColor];
     
     /** expectedYieldLabelF */

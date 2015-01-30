@@ -52,7 +52,7 @@
     CGFloat priseCountLabelY = likeViewY;
 //    CGFloat priseCountLabelW = titleLabelW;
 //    CGFloat priseCountLabelH = 16;
-    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%ld人很喜欢", vipStatus.firstMaterialInfo.praiseCounts] sizeWithFont:SLVipStatusPraiseCountsFont];
+    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%@人很喜欢", vipStatus.firstMaterialInfo.praiseCounts] sizeWithFont:SLVipStatusPraiseCountsFont];
     _priseCountLabelF = (CGRect){{priseCountLabelX, priseCountLabelY}, priseCountLabelS};
     
     /** distanceLabelF */

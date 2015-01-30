@@ -27,9 +27,8 @@
 
 #import "SLFinanceProductController.h"
 #import "SLTabBarController.h"
-#import "SLSearchController.h"
+#import "SLHomeStatusSearchController.h"
 #import "SLNavigationController.h"
-#import "ICSDrawerController.h"
 #import "SLVipProductViewController.h"
 
 #import "SLFinanceProductCacheTool.h"
@@ -64,11 +63,19 @@
 
 @property (nonatomic, assign) long currentPage;
 
-@property (nonatomic, strong) SLHomeStatusParameters *homeStatusParameters;
+@property (nonatomic, strong) SLHomeStatusParameters *parameters;
 
 @end
 
 @implementation SLHomeViewController
+
+- (SLHomeStatusParameters *)parameters
+{
+    if (_parameters == nil) {
+        _parameters = [SLHomeStatusParameters parameters];
+    }
+    return _parameters;
+}
 
 - (NSMutableArray *)homeStatusFrames
 {
@@ -94,9 +101,74 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self setupNavBar];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+#pragma mark ----- setupNavBar设置导航栏
+- (void)setupNavBar
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBarTintColor:SLRed];
+    
+    // 设置右上角的barButton
+    UIBarButtonItem *findItem = [UIBarButtonItem itemWithImage:@"iconSearch" highlightImage:@"iconSearchPress" target:self action:@selector(find)];
+//    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+//    self.rightBarButtonItems = @[findItem, callItem];
+//    self.navigationItem.rightBarButtonItems = self.rightBarButtonItems;
+    self.navigationItem.rightBarButtonItem = findItem;
+    
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
+    
+    // 设置title
+    NSMutableDictionary *attri = [NSMutableDictionary dictionary];
+    attri[UITextAttributeTextColor] = [UIColor whiteColor];
+    [navBar setTitleTextAttributes:attri];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    NSMutableDictionary *attri = [NSMutableDictionary dictionary];
+    attri[UITextAttributeTextColor] = SLBlack;
+    [self.navigationController.navigationBar setTitleTextAttributes:attri];
+}
+
+#pragma mark ----- 搜索icon点击事件
+- (void)find
+{
+    SLHomeStatusSearchController *searchController = [[SLHomeStatusSearchController alloc] init];
+    
+    SLNavigationController *nav = [[SLNavigationController alloc] initWithRootViewController:searchController];
+    
+    [self presentViewController:nav animated:YES completion:^{
+        nil;
+    }];
+}
+
+#pragma mark ----- 设置打电话的item
+- (void)call
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.consultant.mobile], nil];
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self addSubviews];
     
     // 获取当前理财顾问
     [self getCurrentconsultant];
@@ -106,6 +178,22 @@
     
     [self setupAllPlate];
 }
+
+#pragma mark ----- 添加所有子控件
+- (void)addSubviews
+{
+    [self setTableHeadFootView];
+}
+
+#pragma mark ----- 设置TableHeadFootView
+- (void)setTableHeadFootView
+{
+    UIView *footView = [[UIView alloc] initWithFrame:SLTableFootViewFrame];
+    footView.backgroundColor = SLLightGray;
+    self.tableView.tableFooterView = footView;
+}
+
+#pragma mark ----- setupAllPlate设置所有的板块
 - (void)setupAllPlate
 {
     NSString *url = [SLHttpUrl stringByAppendingString:@"/plate/listPlateInfo"];
@@ -156,24 +244,41 @@
  */
 - (void)loadMoreData
 {
+    int currentPage = [self.parameters.curPage intValue];
+    currentPage += 1;
+    self.parameters.curPage = [NSNumber numberWithInt:currentPage];
+    
     SLHomeStatusParameters *parameters = [SLHomeStatusParameters parameters];
     
     self.currentPage += 1;
     
     parameters.curPage = [NSNumber numberWithLong:self.currentPage];
-    parameters.search = @"";
     parameters.pageSize = @20;
     
-    [SLHomeStatusTool homeStatusesWithParameters:parameters success:^(NSArray *homeStatusArray) {
-        NSMutableArray *homeStatusFrameArray = [NSMutableArray array];
-        for (SLHomeStatus *homeStatus in homeStatusArray) {
-            SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
-            homeStatusFrame.homeStatus = homeStatus;
-            [homeStatusFrameArray addObject:homeStatusFrame];
-        }
-        [self.homeStatusFrames addObjectsFromArray:homeStatusFrameArray];
+    [SLHomeStatusTool homeStatusesWithParameters:self.parameters success:^(NSArray *homeStatusArray) {
         
-        [self.tableView reloadData];
+        if (homeStatusArray.count > 0) {
+            
+            for (int i = 0; i < homeStatusArray.count; i++) {
+                SLHomeStatus *homeStatus = homeStatusArray[i];
+                
+                SLHomeStatusFrame *last = [self.homeStatusFrames lastObject];
+                SLHomeStatus *lastHomeStatus = last.homeStatus;
+                
+                homeStatus.hideTime = [homeStatus.verifyTimeData isEqualToString:lastHomeStatus.verifyTimeData];
+                
+                SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
+                homeStatusFrame.homeStatus = homeStatus;
+                
+                [self.homeStatusFrames addObject:homeStatusFrame];
+            }
+            
+            [self.tableView reloadData];
+        } else {
+            [MBProgressHUD showError:@"没有更多数据了"];
+        }
+        
+        
         
         // 让刷新控件停止显示刷新状态
         [self.footer endRefreshing];
@@ -186,24 +291,29 @@
  */
 - (void)loadNewData
 {
-    self.currentPage = 1;
+    self.parameters.curPage = @1;
     
-    // 2.2封装请求数据
-    SLHomeStatusParameters *parameters = [SLHomeStatusParameters parameters];
-    parameters.search = @"";
-    parameters.pageSize = @20;
-    parameters.curPage = [NSNumber numberWithLong:self.currentPage];
-
-    [SLHomeStatusTool homeStatusesWithParameters:parameters success:^(NSArray *homeStatusArray) {
-        NSMutableArray *homeStatusFrameArray = [NSMutableArray array];
-        NSArray *homeStatuses = homeStatusArray;
-        for (SLHomeStatus *homeStatus in homeStatuses) {
-            SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
-            homeStatusFrame.homeStatus = homeStatus;
-            [homeStatusFrameArray addObject:homeStatusFrame];
+    [SLHomeStatusTool homeStatusesWithParameters:self.parameters success:^(NSArray *homeStatusArray) {
+        
+        [self.homeStatusFrames removeAllObjects];
+        
+        if (homeStatusArray.count > 0) {
+            for (int i = 0; i < homeStatusArray.count; i++) {
+                SLHomeStatus *homeStatus = homeStatusArray[i];
+                
+                SLHomeStatusFrame *last = [self.homeStatusFrames lastObject];
+                SLHomeStatus *lastHomeStatus = last.homeStatus;
+                
+                homeStatus.hideTime = [homeStatus.verifyTimeData isEqualToString:lastHomeStatus.verifyTimeData];
+                
+                SLHomeStatusFrame *homeStatusFrame = [[SLHomeStatusFrame alloc] init];
+                homeStatusFrame.homeStatus = homeStatus;
+                
+                [self.homeStatusFrames addObject:homeStatusFrame];
+            }
+        } else {
+            [MBProgressHUD showError:@"没有相关数据"];
         }
-//        [self.homeStatusFrames addObjectsFromArray:homeStatusFrameArray];
-        self.homeStatusFrames = homeStatusFrameArray;
         
         [self.tableView reloadData];
         
@@ -214,27 +324,11 @@
     }];
 }
 
-- (void)dealloc
-{
-    // 释放内存
-    [self.header free];
-    [self.footer free];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self setupNavBar];
-    
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-}
-
-/**
- *  获取当前账户的理财顾问
- */
+#pragma mark ----- getCurrentconsultant获取当前账户的理财顾问
 - (void)getCurrentconsultant
 {
-    SLConsultantParameters *parameters = [SLConsultantParameters parameters];
-    parameters.consultantId = [NSNumber numberWithLong:[SLAccountTool getAccount].accountInfo.vipDetail.userConsultant];
+    SLBaseParameters *parameters = [SLBaseParameters parameters];
+//    parameters.consultantId = [SLAccountTool getAccount].accountInfo.vipDetail.userConsultant;
     
     [SLConsultantTool consultantWithParameters:parameters success:^(SLConsultant *consultant) {
         self.consultant = consultant;
@@ -243,47 +337,14 @@
     }];
 }
 
-/**
- *  设置导航栏
- */
-- (void)setupNavBar
+- (void)dealloc
 {
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-    // 设置背景
-    [navBar setBackgroundImage:[UIImage imageNamed:@"bjNavigationBarPurple"] forBarMetrics:UIBarMetricsDefault];
-    
-    NSMutableDictionary *attri = [NSMutableDictionary dictionary];
-    attri[UITextAttributeTextColor] = [UIColor whiteColor];
-    [navBar setTitleTextAttributes:attri];
-    
-    // 设置右上角的barButton
-    UIBarButtonItem *findItem = [UIBarButtonItem itemWithImage:@"iconSearch" highlightImage:@"iconSearchPress" target:self action:@selector(find)];
-    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
-    self.rightBarButtonItems = @[findItem, callItem];
-    self.navigationItem.rightBarButtonItems = self.rightBarButtonItems;
-    
-    // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
+    // 释放内存
+    [self.header free];
+    [self.footer free];
 }
 
-- (void)find
-{
-    SLSearchController *searchController = [[SLSearchController alloc] init];
-    
-    SLNavigationController *nav = [[SLNavigationController alloc] initWithRootViewController:searchController];
-    
-    [self presentViewController:nav animated:YES completion:^{
-        nil;
-    }];
-}
-
-#pragma mark ----- 设置打电话的item
-- (void)call
-{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:[NSString stringWithFormat:@"%@", self.consultant.mobile], nil];
-    
-    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
-}
+#pragma mark ----- 电话icon点击事件
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UIWebView *callWebView = [[UIWebView alloc] init];

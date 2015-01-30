@@ -8,29 +8,35 @@
 
 #import "SLFinanceProductController.h"
 
-#import "SLAccount.h"
-#import "SLAccountTool.h"
 #import "SLHomeStatus.h"
 #import "SLFinanceProduct.h"
 #import "SLFinanceProductFrame.h"
-#import "MJExtension.h"
+
 #import "SLLabelView.h"
 #import "SLFinanceComparisonViewCell.h"
-#import "UIImage+S_LINE.h"
 #import "SLDetailGrayLabel.h"
 #import "SLDetailBlackLabel.h"
 #import "SLPraiseButton.h"
 #import "SLCollectButton.h"
+#import "SLBackButton.h"
+#import "SLClientToolBar.h"
+
+#import "SLMessageListController.h"
+#import "SLMessageViewController.h"
+#import "SLClientListTableViewController.h"
+#import "SLManageViewController.h"
 
 #import "SLUserOperateParameters.h"
 #import "SLUserOperateTool.h"
 #import "SLMeterialDetialTool.h"
+#import "SLAccountTool.h"
+#import "SLConsultantTool.h"
 
-#import "MBProgressHUD+MJ.h"
+#import "UIImage+S_LINE.h"
 
-#define SLFont13 [UIFont systemFontOfSize:13]
+#import "MJExtension.h"
 
-@interface SLFinanceProductController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIWebViewDelegate>
+@interface SLFinanceProductController ()<UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIWebViewDelegate, UIAlertViewDelegate, UIActionSheetDelegate, SLClientToolBarDelegate>
 
 @property (nonatomic, weak) UIButton *testView;
 
@@ -57,6 +63,11 @@
 
 /** 收益对比图 */
 @property (nonatomic, weak) UITableView *comparisonView;
+
+@property (nonatomic, weak) UIView *currentInterestBarView;
+@property (nonatomic, weak) UILabel *currentInterestLabel;
+@property (nonatomic, weak) UIView *expEarningBarView;
+@property (nonatomic, weak) UILabel *expEarningLabel;
 /** 期限按钮 */
 @property (nonatomic, weak) UIButton *deadlineButton;
 /** 期限数据按钮 */
@@ -124,6 +135,8 @@
 @property (nonatomic, weak) SLDetailBlackLabel *detailInfoContentLabel;
 @property (nonatomic, weak) UIWebView *detailInfoContentWebView;
 
+@property (nonatomic, weak) UIView *hintView;
+
 /** expectedYield 预期收益率 */
 @property (nonatomic, copy) NSString *expectedYield;
 /** valueDateFrom 起息日 */
@@ -136,18 +149,60 @@
 
 @property (nonatomic, strong) SLFinanceProductFrame *financeProductFrame;
 
+@property (nonatomic, copy) NSString *userType;
+@property (nonatomic, strong) SLConsultant *consultant;
+
 @end
 
 @implementation SLFinanceProductController
+
+- (NSString *)userType
+{
+    if (_userType == nil) {
+        _userType = [SLAccountTool getAccount].accountInfo.userType;
+    }
+    return _userType;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
         
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- 设置导航栏样式
+- (void)setNavBar
+{
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    // 设置背景
+    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [navBar setBarTintColor:SLColor(246, 246, 246)];
+    
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+    
+    NSMutableDictionary *attri = [NSMutableDictionary dictionary];
+    attri[UITextAttributeTextColor] = [UIColor blackColor];
+    [navBar setTitleTextAttributes:attri];
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark ----- setupSubviewsData设置所有子控件的frame属性和Data
@@ -157,10 +212,6 @@
     
     CGFloat contentH = CGRectGetMaxY(self.financeProductFrame.chartViewF) + 20;
     self.scrollView.contentSize = CGSizeMake(0, contentH);
-//    // 增加额外的滚动区域(在顶部增加64的区域,在底部增加44的区域)
-//    self.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 44, 0);
-//    // 设置一开始的滚动位置(往下滚动64)
-//    self.scrollView.contentOffset = CGPointMake(0, -64);
     
     
     /** titleLabel */
@@ -182,19 +233,23 @@
     NSDate *now = [NSDate date];
     NSTimeInterval nowTimeInterval = [now timeIntervalSince1970];
     long long leftTime = ([self.financeProductFrame.financeProduct.financialProductsDetail.subscribeEnd longLongValue] / 1000 - nowTimeInterval) / 60 / 60 / 24;
-    self.leftTimeLabel.text = [NSString stringWithFormat:@"剩余时间:%lld天", leftTime];
+    if (leftTime <= 0) {
+        self.leftTimeLabel.text = [NSString stringWithFormat:@"剩余时间:已结束"];
+    } else {
+        self.leftTimeLabel.text = [NSString stringWithFormat:@"剩余时间:%lld天", leftTime];
+    }
     
     /** 图表区域整体的view */
     self.chartView.frame = self.financeProductFrame.chartViewF;
     
     /** currentInterestButton */
     self.currentInterestView.frame = self.financeProductFrame.currentInterestViewF;
-    self.currentInterestView.colorView.backgroundColor = SLColor(125, 36, 126);
+    self.currentInterestView.colorView.backgroundColor = SLRed;
     self.currentInterestView.label.text = @"活期银行利息";
     
     /** expEarningButton */
     self.expEarningView.frame = self.financeProductFrame.expEarningViewF;
-    self.expEarningView.colorView.backgroundColor = SLColor(60, 115, 211);
+    self.expEarningView.colorView.backgroundColor = SLBlue;
     self.expEarningView.label.text = @"预期年化收益";
     
     /** multipleLabel */
@@ -205,45 +260,67 @@
     double multiple = expextedEarnRatio / 0.35;
     self.multipleLabel.text = [NSString stringWithFormat:@"倍数:%.1f", multiple];
     
-    
-    
     /** 收益对比图 */
     self.comparisonView.frame = self.financeProductFrame.comparisonViewF;
     
+    self.currentInterestBarView.frame = self.financeProductFrame.currentInterestBarViewF;
+    self.currentInterestBarView.backgroundColor = SLRed;
+    
+    self.currentInterestLabel.frame = self.financeProductFrame.currentInterestLabelF;
+    self.currentInterestLabel.font = SLFont12;
+    self.currentInterestLabel.textColor = SLRed;
+    self.currentInterestLabel.textAlignment = NSTextAlignmentCenter;
+    self.currentInterestLabel.text = [NSString stringWithFormat:@"%@%%", self.financeProductFrame.financeProduct.financialProductsDetail.compareValue];
+    
+    self.expEarningBarView.frame = self.financeProductFrame.expEarningBarViewF;
+    self.expEarningBarView.backgroundColor = SLBlue;
+    
+    self.expEarningLabel.frame = self.financeProductFrame.expEarningLabelF;
+    self.expEarningLabel.font = SLFont12;
+    self.expEarningLabel.textColor = SLBlue;
+    self.expEarningLabel.textAlignment = NSTextAlignmentCenter;
+    self.expEarningLabel.text = [NSString stringWithFormat:@"%@%%", self.financeProductFrame.financeProduct.financialProductsDetail.expectedYield];
     
     /** 期限按钮 */
+    self.deadlineButton.userInteractionEnabled = NO;
     self.deadlineButton.frame = self.financeProductFrame.deadlineButtonF;
     [self.deadlineButton setTitle:@"期限" forState:UIControlStateNormal];
     
     /** 期限数据按钮 */
+    self.deadlineDataButton.userInteractionEnabled = NO;
     self.deadlineDataButton.frame = self.financeProductFrame.deadlineDataButtonF;
     self.valueDateFrom = [financialProductDetain.valueDateFrom longLongValue];
     self.valueDateTo = [financialProductDetain.valueDateTo longLongValue];
     long long deadline = (self.valueDateTo - self.valueDateFrom) / 1000 / 60 / 60 / 24;
     [self.deadlineDataButton setTitle:[NSString stringWithFormat:@"%lld", deadline] forState:UIControlStateNormal];
     
-    
     /** 风险按钮 */
+    self.riskButton.userInteractionEnabled = NO;
     self.riskButton.frame = self.financeProductFrame.riskButtonF;
     [self.riskButton setTitle:@"风险" forState:UIControlStateNormal];
     
     /** 风险数据按钮 */
+    self.riskDataButton.userInteractionEnabled = NO;
     self.riskDataButton.frame = self.financeProductFrame.riskDataButtonF;
     [self.riskDataButton setTitle:financialProductDetain.extRiskLevel forState:UIControlStateNormal];
     
     /** 起购额按钮 */
+    self.minBuyLimitButton.userInteractionEnabled = NO;
     self.minBuyLimitButton.frame = self.financeProductFrame.minBuyLimitButtonF;
     [self.minBuyLimitButton setTitle:@"起购额" forState:UIControlStateNormal];
     
     /** 起购额数据按钮 */
+    self.minBuyLimitDataButton.userInteractionEnabled = NO;
     self.minBuyLimitDataButton.frame = self.financeProductFrame.minBuyLimitDataButtonF;
     [self.minBuyLimitDataButton setTitle:[NSString stringWithFormat:@"%@元", financialProductDetain.minAmount] forState:UIControlStateNormal];
     
     /** 手续费按钮 */
+    self.feeButton.userInteractionEnabled = NO;
     self.feeButton.frame = self.financeProductFrame.feeButtonF;
     [self.feeButton setTitle:@"手续费" forState:UIControlStateNormal];
     
     /** 手续费数据按钮 */
+    self.feeDataButton.userInteractionEnabled = NO;
     self.feeDataButton.frame = self.financeProductFrame.feeDataButtonF;
     [self.feeDataButton setTitle:[NSString stringWithFormat:@"%.2f%%", [financialProductDetain.managerRite doubleValue]] forState:UIControlStateNormal];
     
@@ -304,7 +381,10 @@
     
     /** moneyAmountTextField */
     self.moneyAmountTextField.placeholder = @"理财金额";
-    self.moneyAmountTextField.textAlignment = NSTextAlignmentRight;
+    self.moneyAmountTextField.backgroundColor = SLLightGray;
+    self.moneyAmountTextField.layer.cornerRadius = 5;
+    self.moneyAmountTextField.clipsToBounds = YES;
+    self.moneyAmountTextField.textAlignment = NSTextAlignmentCenter;
     self.moneyAmountTextField.contentMode = UIViewContentModeCenter;
     self.moneyAmountTextField.frame = self.financeProductFrame.moneyAmountTextFieldF;
     
@@ -323,7 +403,13 @@
     
     /** resultLabel */
     self.resultLabel.frame = self.financeProductFrame.resultLabelF;
-
+#pragma mark ----- 添加下划线
+    CGRect underlineF = self.resultLabel.bounds;
+    underlineF.origin.y = underlineF.size.height - 0.5;
+    underlineF.size.height = 0.5;
+    UIView *underline = [[UIView alloc] initWithFrame:underlineF];
+    underline.backgroundColor = SLLightGray;
+    [self.resultLabel addSubview:underline];
     
     /** resultYuanLabel */
     self.resultYuanLabel.frame = self.financeProductFrame.resultYuanLabelF;
@@ -332,7 +418,8 @@
     /** calculateButton */
     self.calculateButton.frame = self.financeProductFrame.calculateButtonF;
     [self.calculateButton setTitle:@"计算收益" forState:UIControlStateNormal];
-    [self.calculateButton setBackgroundColor:SLColor(213, 43, 41)];
+#warning 设置颜色
+    [self.calculateButton setBackgroundColor:SLRed];
     [self.calculateButton addTarget:self action:@selector(calculateButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     /** attentionLabel */
@@ -351,18 +438,21 @@
     [self.detailInfoContentWebView loadHTMLString:self.financeProductFrame.financeProduct.content baseURL:nil];
 }
 
-/**
- *  点击开始计算按钮
- */
+#pragma mark ----- calculateButtonClick计算按钮点击事件
 - (void)calculateButtonClick:(UIButton *)calculateButton
 {
-    double expextedEarnRatio = [self.expectedYield doubleValue];
-    
-    long long days = (self.valueDateTo - self.valueDateFrom) / 1000 / 60 / 60 / 24;
-    
-    double result = expextedEarnRatio * [self.moneyAmountTextField.text longLongValue] * days / 365 / 100;
-    
-    self.resultLabel.text = [NSString stringWithFormat:@"%.2f", result];
+    if ([self.moneyAmountTextField.text longLongValue] < [self.financeProductFrame.financeProduct.financialProductsDetail.minAmount longLongValue]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"输入金额需要大于起购金额" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        [alert show];
+    } else {
+        double expextedEarnRatio = [self.expectedYield doubleValue];
+        
+        long long days = (self.valueDateTo - self.valueDateFrom) / 1000 / 60 / 60 / 24;
+        
+        double result = expextedEarnRatio * [self.moneyAmountTextField.text longLongValue] * days / 365 / 100;
+        
+        self.resultLabel.text = [NSString stringWithFormat:@"%.2f", result];
+    }
 }
 
 
@@ -418,7 +508,6 @@
     [self.scrollView addSubview:leftTimeLabel];
     self.leftTimeLabel = leftTimeLabel;
     
-    
     /** 图表区域整体的view */
     UIView *chartView = [[UIView alloc] init];
     [self.scrollView addSubview:chartView];
@@ -444,7 +533,6 @@
     [self.chartView addSubview:multipleLabel];
     self.multipleLabel = multipleLabel;
     
-    
     /** 收益对比图 */
     UITableView *comparisonView = [[UITableView alloc] init];
     comparisonView.backgroundColor = [UIColor redColor];
@@ -455,6 +543,22 @@
     comparisonView.userInteractionEnabled = NO;
     [self.chartView addSubview:comparisonView];
     self.comparisonView = comparisonView;
+    
+    UIView *currentInterestBarView = [[UIView alloc] init];
+    self.currentInterestBarView = currentInterestBarView;
+    [comparisonView addSubview:currentInterestBarView];
+    
+    UILabel *currentInterestLabel = [[UILabel alloc] init];
+    self.currentInterestLabel = currentInterestLabel;
+    [comparisonView addSubview:currentInterestLabel];
+    
+    UIView *expEarningBarView = [[UIView alloc] init];
+    self.expEarningBarView = expEarningBarView;
+    [comparisonView addSubview:expEarningBarView];
+    
+    UILabel *expEarningLabel = [[UILabel alloc] init];
+    self.expEarningLabel = expEarningLabel;
+    [comparisonView addSubview:expEarningLabel];
     
     /** 期限按钮 */
     UIButton *deadlineButton = [[UIButton alloc] init];
@@ -515,9 +619,11 @@
     /** basicInfoButton */
     UIButton *basicInfoButton = [[UIButton alloc] init];
     [basicInfoButton setTitle:@"基本信息" forState:UIControlStateNormal];
-    [basicInfoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [basicInfoButton setBackgroundImage:[UIImage resizableImageWithImageName:@"zuoKuang"] forState:UIControlStateNormal];
-    [basicInfoButton setBackgroundImage:[UIImage resizableImageWithImageName:@"zuoKuangJiaoHu"] forState:UIControlStateSelected];
+#warning 设置颜色
+    [basicInfoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [basicInfoButton setTitleColor:SLRed forState:UIControlStateNormal];
+    [basicInfoButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_left_normal"] forState:UIControlStateNormal];
+    [basicInfoButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_left_selected"] forState:UIControlStateSelected];
     [basicInfoButton addTarget:self action:@selector(basicInfoButtonClick:) forControlEvents:UIControlEventTouchDown];
     [self.chartView addSubview:basicInfoButton];
     self.basicInfoButton = basicInfoButton;
@@ -576,8 +682,11 @@
     /** expEarningCulButton */
     UIButton *expEarningCulButton = [[UIButton alloc] init];
     [expEarningCulButton setTitle:@"预期收益计算" forState:UIControlStateNormal];
-    [expEarningCulButton setBackgroundImage:[UIImage resizableImageWithImageName:@"youKuang"] forState:UIControlStateNormal];
-    [expEarningCulButton setBackgroundImage:[UIImage resizableImageWithImageName:@"youKuangJiaoHu"] forState:UIControlStateSelected];
+#warning 设置颜色
+    [expEarningCulButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [expEarningCulButton setTitleColor:SLRed forState:UIControlStateNormal];
+    [expEarningCulButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_right_normal"] forState:UIControlStateNormal];
+    [expEarningCulButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_right_selected"] forState:UIControlStateSelected];
     [expEarningCulButton addTarget:self action:@selector(expEarningCulButtonClick:) forControlEvents:UIControlEventTouchDown];
     [self.chartView addSubview:expEarningCulButton];
     self.expEarningCulButton = expEarningCulButton;
@@ -650,19 +759,139 @@
     detailInfoContentWebView.scrollView.bounces = NO;
     [self.chartView addSubview:detailInfoContentWebView];
     self.detailInfoContentWebView = detailInfoContentWebView;
+    
+    UIView *hintView = [[UIView alloc] init];
+    hintView.bounds = CGRectMake(0, 0, 200, 200);
+    hintView.center = self.view.center;
+    hintView.hidden = YES;
+    self.hintView = hintView;
+    [self.view addSubview:hintView];
+    
+    UILabel *hintLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 100)];
+    hintLabel.text = @"网络不给力哦,请稍后重试";
+    hintLabel.font = SLFont12;
+    hintLabel.textAlignment = NSTextAlignmentCenter;
+    [hintView addSubview:hintLabel];
+    
+    UIButton *hintButton = [[UIButton alloc] initWithFrame:CGRectMake(50, 100, 100, 25)];
+    [hintButton setTitle:@"刷新看看" forState:UIControlStateNormal];
+    [hintButton setBackgroundColor:SLLightGray];
+    hintButton.titleLabel.font = SLFont12;
+    [hintButton addTarget:self action:@selector(hintButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [hintView addSubview:hintButton];
+    
+    CGFloat toolBarW = screenW;
+    CGFloat toolBarH = 49;
+    CGFloat toolBarX = 0;
+    CGFloat toolBarY = screenH - toolBarH;
+    SLClientToolBar *toolBar = [[SLClientToolBar alloc] initWithFrame:CGRectMake(toolBarX, toolBarY, toolBarW, toolBarH)];
+    toolBar.delegate = self;
+    [self.view addSubview:toolBar];
+    
+    [self loadInternetData];
 }
 
-/**
- *  预期收益计算按钮点击事件
- */
+- (void)clientToolBar:(SLClientToolBar *)clientToolBar didClickedLeftButton:(SLTabBarButton *)leftButton
+{
+    SLAccount *account = [SLAccountTool getAccount];
+    
+    if ([account.accountInfo.userType isEqualToString:@"3"]) {
+        SLMessageViewController *messagevc = [[SLMessageViewController alloc] init];
+        messagevc.from = @"toolBar";
+        [self.navigationController pushViewController:messagevc animated:YES];
+    } else if ([account.accountInfo.userType isEqualToString:@"2"]) {
+        SLMessageListController *mlvc = [[SLMessageListController alloc] init];
+        mlvc.from = @"toolBar";
+        [self.navigationController pushViewController:mlvc animated:YES];
+    }
+}
+
+- (void)clientToolBar:(SLClientToolBar *)clientToolBar didClickedRightButton:(SLTabBarButton *)rightButton
+{
+    SLAccount *account = [SLAccountTool getAccount];
+    
+    if ([account.accountInfo.userType isEqualToString:@"2"]) {
+        SLClientListTableViewController *clvc = [[SLClientListTableViewController alloc] init];
+        clvc.from = @"toolBar";
+        [self.navigationController pushViewController:clvc animated:YES];
+    } else if ([account.accountInfo.userType isEqualToString:@"3"]) {
+        [self setActionSheet];
+    }
+}
+
+#pragma mark ----- 设置actionSheet
+- (void)setActionSheet
+{
+    SLConsultant *consultant = [SLConsultantTool getConsultantAccount];
+    
+    UIActionSheet *actionSheet;
+    if (consultant.mobile) {
+        if (consultant.telephone) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:consultant.mobile, consultant.telephone, nil];
+        } else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:consultant.mobile, nil];
+        }
+    } else {
+        if (consultant.telephone) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:consultant.telephone, nil];
+        } else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil];
+        }
+    }
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIWebView *callWebView = [[UIWebView alloc] init];
+    [self.view addSubview:callWebView];
+    
+    SLConsultant *consultant = [SLConsultantTool getConsultantAccount];
+    
+    if (consultant.mobile) {
+        if (consultant.telephone) {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:consultant.mobile];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+            } else if (buttonIndex == 1) {
+                NSURL *url = [NSURL URLWithString:consultant.telephone];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+            } else if (buttonIndex == 2) {
+            }
+        } else {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:consultant.mobile];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+            } else if (buttonIndex == 1) {
+            }
+        }
+    } else {
+        if (consultant.telephone) {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:consultant.telephone];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+            } else if (buttonIndex == 1) {
+            }
+        } else {
+            if (buttonIndex == 0) {
+            }
+        }
+    }
+}
+
+- (void)hintButtonClick:(UIButton *)hintButton
+{
+    [self loadInternetData];
+}
+
+#pragma mark ----- 预期收益计算按钮点击事件
 - (void)expEarningCulButtonClick:(UIButton *)expEarningCulButton
 {
     self.basicInfoButton.selected = NO;
     self.basicInfoView.hidden = YES;
-    [self.basicInfoButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
     self.expEarningCulButton.selected = YES;
     self.expEarningCulView.hidden = NO;
-    [self.expEarningCulButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 }
 /**
  *  基本信息按钮点击事件
@@ -671,10 +900,8 @@
 {
     self.expEarningCulButton.selected = NO;
     self.expEarningCulView.hidden = YES;
-    [self.expEarningCulButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
     self.basicInfoButton.selected = YES;
     self.basicInfoView.hidden = NO;
-    [self.basicInfoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
 }
 
 #pragma mark ----- viewDidLoad
@@ -682,12 +909,7 @@
 {
     [super viewDidLoad];
     
-    self.view.window.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [MBProgressHUD showMessage:@"数据加载中"];
-    
-    [self loadInternetData];
     
     // 添加所有的子控件
     [self addAllSubviews];
@@ -701,37 +923,37 @@
 #pragma mark ----- 加载网络数据
 - (void)loadInternetData
 {
+    [MBProgressHUD showMessage:@"数据加载中"];
+    
     SLMeterialDetialParameters *parameters = [SLMeterialDetialParameters parameters];
     parameters.materialId = self.materialId;
     
     [SLMeterialDetialTool meterialDetialWithParameters:parameters success:^(SLResult *result) {
         
-        NSDictionary *dict = [result.info lastObject];
-        SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
-        SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
-        financeProductFrame.financeProduct = financeProduct;
-        self.financeProductFrame = financeProductFrame;
-        
-        [self setNavBar];
-        
+        [MBProgressHUD hideHUD];
+        if (result.info.count > 0) {
+            NSDictionary *dict = [result.info lastObject];
+            SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
+            SLFinanceProductFrame *financeProductFrame = [[SLFinanceProductFrame alloc] init];
+            financeProductFrame.financeProduct = financeProduct;
+            self.financeProductFrame = financeProductFrame;
+            
+            [self setCollectAndPrise];
+            
+            self.hintView.hidden = YES;
+        }
         [MBProgressHUD hideHUD];
         
     } failure:^(NSError *error) {
+        [MBProgressHUD hideHUD];
         
+        self.hintView.hidden = NO;
     }];
 }
 
-#pragma mark ----- setNavBar设置导航栏
-- (void)setNavBar
+#pragma mark ----- setCollectAndPrise设置导航栏赞和收藏图标
+- (void)setCollectAndPrise
 {
-    UINavigationBar *navBar = self.navigationController.navigationBar;
-    // 设置背景
-    [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    
-//    NSMutableDictionary *attri = [NSMutableDictionary dictionary];
-//    attri[UITextAttributeTextColor] = [UIColor whiteColor];
-//    [navBar setTitleTextAttributes:attri];
-    
     // 设置右上角的barButton
     SLPraiseButton *priseButton = [SLPraiseButton button];
     [priseButton setMaterialId:self.financeProductFrame.financeProduct.financialProductsDetail.materialId praiseCounts:self.financeProductFrame.financeProduct.praiseCounts praiseFlag:self.financeProductFrame.financeProduct.materialUser.praiseFlag];
@@ -740,32 +962,51 @@
     SLCollectButton *collectButton = [SLCollectButton button];
     [collectButton setMaterialId:self.financeProductFrame.financeProduct.financialProductsDetail.materialId collectFlag:self.financeProductFrame.financeProduct.materialUser.collectFlag];
     UIBarButtonItem *collectItem = [[UIBarButtonItem alloc] initWithCustomView:collectButton];
-//    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
     
-    NSArray *rightBarButtonItems = @[priseItem, collectItem];
-    self.navigationItem.rightBarButtonItems = rightBarButtonItems;
+    UIButton *manageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [manageButton setTitle:@"管理" forState:UIControlStateNormal];
+    [manageButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    manageButton.titleLabel.font = SLFont14;
+    [manageButton addTarget:self action:@selector(manageButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *manageItem = [[UIBarButtonItem alloc] initWithCustomView:manageButton];
+    
+    SLAccount *account = [SLAccountTool getAccount];
+    
+    if ([account.accountInfo.userType isEqualToString:@"2"]) {
+        NSArray *rightBarButtonItems = @[manageItem, priseItem, collectItem];
+        self.navigationItem.rightBarButtonItems = rightBarButtonItems;
+    } else if ([account.accountInfo.userType isEqualToString:@"3"]) {
+        NSArray *rightBarButtonItems = @[priseItem, collectItem];
+        self.navigationItem.rightBarButtonItems = rightBarButtonItems;
+    }
+}
+
+#pragma mark ----- 管理按钮点击事件
+- (void)manageButtonClick:(UIButton *)manageButton
+{
+    SLManageViewController *mvc = [[SLManageViewController alloc] init];
+    mvc.materialId = self.materialId;
+    [self.navigationController pushViewController:mvc animated:YES];
 }
 
 
-/**
- *  调出键盘时的处理事件
- */
+#pragma mark ----- 调出键盘时的监听方法
 - (void)keyboardWillChangeFrame:(NSNotification *)note
 {
     // 0.取出键盘动画的时间
-    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+//    CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     // 1.取得键盘最后的frame
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardFrame1 = [note.userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    CGFloat move = (keyboardFrame1.origin.y - keyboardFrame.origin.y) * 0.5;
     
-    // 3.执行动画
-    [UIView animateWithDuration:duration animations:^{
-        
-        CGPoint center = self.scrollView.center;
-        center.y = center.y - (keyboardFrame1.origin.y - keyboardFrame.origin.y) * 0.55;
-        self.scrollView.center = center;
-    }];
+    if (move > 0) {
+        [self.scrollView setContentOffset:CGPointMake(0, 108) animated:YES];
+    } else {
+        [self.scrollView setContentOffset:CGPointMake(0, -64) animated:YES];
+    }
+    
 }
 
 #pragma mark ----- 数据传输在viewDidLoad之后进行

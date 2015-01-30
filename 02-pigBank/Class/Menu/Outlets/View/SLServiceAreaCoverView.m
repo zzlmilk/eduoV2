@@ -74,6 +74,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
+    cell.textLabel.font = SLFont16;
     
     if (tableView.tag == 1) {
         if (indexPath.row == 0) {
@@ -144,7 +145,11 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {}
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{}
+{
+    if ([self.delegate respondsToSelector:@selector(serviceAreaCoverViewDidTouchCoverView:)]) {
+        [self.delegate serviceAreaCoverViewDidTouchCoverView:self];
+    }
+}
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {}
 @end

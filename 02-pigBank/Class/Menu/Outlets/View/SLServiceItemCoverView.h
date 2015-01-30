@@ -16,6 +16,7 @@
 
 @optional
 - (void)serviceItemCoverView:(SLServiceItemCoverView *)serviceItemCoverView didSelectedServiceItem:(SLOutletsServiceItem *)serviceItem;
+- (void)serviceItemCoverViewDidTouchCoverView:(SLServiceItemCoverView *)serviceItemCoverView ;
 
 @end
 

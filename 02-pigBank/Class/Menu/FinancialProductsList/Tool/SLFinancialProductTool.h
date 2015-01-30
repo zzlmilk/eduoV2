@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLFinancialProductParameters.h"
+#import "SLResult.h"
 
 @interface SLFinancialProductTool : NSObject
 

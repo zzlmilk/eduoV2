@@ -23,12 +23,13 @@
     
     // 设置所有子控件的frame值
     /** dateLabelF */
-    CGFloat dateLabelX = 0;
-    CGFloat dateLabelY = 0;
-    CGFloat dateLabelW = cellW;
-//    CGFloat dateLabelH = 30;
-    CGFloat dateLabelH = 0;
-    _dateLabelF = CGRectMake(dateLabelX, dateLabelY, dateLabelW, dateLabelH);
+    if (homeStatus.hideTime == NO) {
+        CGFloat dateLabelX = 0;
+        CGFloat dateLabelY = 0;
+        CGFloat dateLabelW = cellW;
+        CGFloat dateLabelH = 30;
+        _dateLabelF = CGRectMake(dateLabelX, dateLabelY, dateLabelW, dateLabelH);
+    }
     
     /** extPicture标 */
     CGFloat extPictureViewX = margin;
@@ -48,6 +49,7 @@
         titleLabelS = [[NSString stringWithFormat:@"【VIP特权】%@", homeStatus.title] sizeWithFont:SLHomeStatusTitleFont constrainedToSize:CGSizeMake(titleLabelMaxW, CGFLOAT_MAX)];
     }
     _titleLabelF = (CGRect){{titleLabelX, titleLabelY}, titleLabelS};
+    _titleLabelF = CGRectMake(titleLabelX, titleLabelY, titleLabelMaxW, 40);
     
     /** 赞的图标 */
     CGFloat likeViewX = titleLabelX;

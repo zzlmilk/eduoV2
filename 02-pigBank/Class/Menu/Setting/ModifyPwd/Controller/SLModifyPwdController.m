@@ -8,45 +8,49 @@
 
 #import "SLModifyPwdController.h"
 
-#import "MBProgressHUD+MJ.h"
-#import "NSString+Password.h"
-#import "SLAccountTool.h"
 #import "SLAccount.h"
 
-#import "SLModifyPwdFrame.h"
+#import "SLBackButton.h"
+#import "SLInputTextField.h"
+#import "SLLoginButton.h"
+
+#import "SLAccountTool.h"
+#import "SLModifyTool.h"
+
+#import "NSString+Password.h"
 
 @interface SLModifyPwdController ()
 
-/** bjView  */
-@property (nonatomic, weak) UIView *bjView;
-/** topLineView  */
-@property (nonatomic, weak) UIView *topLineView;
-/** pwdLeftImageView */
-@property (nonatomic, weak) UIImageView *oldPwdLeftImageView;
-/** pwdTextField */
-@property (nonatomic, weak) UITextField *oldPwdTextField;
-/** middleUpLineView */
-@property (nonatomic, weak) UIView *middleUpLineView;
-/** freshMobileLeftImageView */
-@property (nonatomic, weak) UIImageView *freshPwdLeftImageView;
-/** freshMobileTextField */
-@property (nonatomic, weak) UITextField *freshPwdTextField;
-/** middleDownLineView */
-@property (nonatomic, weak) UIView *middleDownLineView;
-/** captchaLeftImageView */
-@property (nonatomic, weak) UIImageView *reFreshPwdLeftImageView;
-/** captchaTextField */
-@property (nonatomic, weak) UITextField *reFreshPwdTextField;
-/** bottomLineView  */
-@property (nonatomic, weak) UIView *bottomLineView;
-/** sureButton */
-@property (nonatomic, weak) UIButton *sureButton;
-
-@property (nonatomic, strong) SLModifyPwdFrame *modifyPwdFrame;
+@property (nonatomic, weak) SLInputTextField *oldPwdTextField;
+@property (nonatomic, weak) SLInputTextField *freshPwdTextField;
+@property (nonatomic, weak) SLInputTextField *confirmPwdTextField;
+@property (nonatomic, weak) SLLoginButton *commitButton;
 
 @end
 
 @implementation SLModifyPwdController
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    SLBackButton *backButton = [SLBackButton button];
+    [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -65,200 +69,114 @@
     // 添加所有子控件
     [self addAllSubviews];
     
-    SLModifyPwdFrame *modifyPwdFrame = [[SLModifyPwdFrame alloc] init];
-    modifyPwdFrame.login = 1;
-    self.modifyPwdFrame = modifyPwdFrame;
+    [self addObserver];
+}
+
+#pragma mark ----- 添加监听方法
+- (void)addObserver
+{
+    // 监听文本框文字改变
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.oldPwdTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.freshPwdTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextFieldTextDidChangeNotification object:self.confirmPwdTextField];
+}
+
+- (void)textChanged
+{
+    self.commitButton.enabled = self.oldPwdTextField.text.length && self.freshPwdTextField.text.length && self.confirmPwdTextField.text.length;
+}
+
+#pragma mark ----- 添加所有子控件
+- (void)addAllSubviews
+{
+    SLInputTextField *oldPwdTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_oldPwd"];
+    CGFloat oldPwdTextFieldX = middleMargin;
+    CGFloat oldPwdTextFieldY = largeMargin + 64;
+    CGFloat oldPwdTextFieldW = screenW - largeMargin;
+    CGFloat oldPwdTextFieldH = 30;
+    CGRect oldPwdTextFieldF = CGRectMake(oldPwdTextFieldX, oldPwdTextFieldY, oldPwdTextFieldW, oldPwdTextFieldH);
+    oldPwdTextField.frame = oldPwdTextFieldF;
+    oldPwdTextField.borderStyle = UITextBorderStyleRoundedRect;
+    oldPwdTextField.placeholder = @"请输入旧密码";
+    oldPwdTextField.secureTextEntry = YES;
+    oldPwdTextField.font = SLFont14;
+    self.oldPwdTextField = oldPwdTextField;
+    [self.view addSubview:oldPwdTextField];
     
-    // 加载子控件数据
-    [self setupSubviewsData];
+    SLInputTextField *freshPwdTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_newPwd"];
+    CGFloat freshPwdTextFieldX = oldPwdTextFieldX;
+    CGFloat freshPwdTextFieldY = CGRectGetMaxY(oldPwdTextFieldF) + largeMargin;
+    CGFloat freshPwdTextFieldW = oldPwdTextFieldW;
+    CGFloat freshPwdTextFieldH = oldPwdTextFieldH;
+    CGRect freshPwdTextFieldF = CGRectMake(freshPwdTextFieldX, freshPwdTextFieldY, freshPwdTextFieldW, freshPwdTextFieldH);
+    freshPwdTextField.frame = freshPwdTextFieldF;
+    freshPwdTextField.borderStyle = UITextBorderStyleRoundedRect;
+    freshPwdTextField.placeholder = @"请输入新密码";
+    freshPwdTextField.secureTextEntry = YES;
+    freshPwdTextField.font = SLFont14;
+    self.freshPwdTextField = freshPwdTextField;
+    [self.view addSubview:freshPwdTextField];
+    
+    SLInputTextField *confirmPwdTextField = [SLInputTextField inputTextFieldWithLeftViewImage:@"icon_image_confirmPwd"];
+    CGFloat confirmPwdTextFieldX = freshPwdTextFieldX;
+    CGFloat confirmPwdTextFieldY = CGRectGetMaxY(freshPwdTextFieldF) + largeMargin;
+    CGFloat confirmPwdTextFieldW = freshPwdTextFieldW;
+    CGFloat confirmPwdTextFieldH = freshPwdTextFieldH;
+    CGRect confirmPwdTextFieldF = CGRectMake(confirmPwdTextFieldX, confirmPwdTextFieldY, confirmPwdTextFieldW, confirmPwdTextFieldH);
+    confirmPwdTextField.frame = confirmPwdTextFieldF;
+    confirmPwdTextField.borderStyle = UITextBorderStyleRoundedRect;
+    confirmPwdTextField.placeholder = @"确认新密码";
+    confirmPwdTextField.secureTextEntry = YES;
+    confirmPwdTextField.font = SLFont14;
+    self.confirmPwdTextField = confirmPwdTextField;
+    [self.view addSubview:confirmPwdTextField];
+    
+    SLLoginButton *commitButton = [SLLoginButton buttonWithTitle:@"确定" backgroundImage:@"login_loginButtonBg_normal" highlightBackgroundImage:@"login_loginButtonBg_highlight"];
+    CGFloat commitButtonX = confirmPwdTextFieldX;
+    CGFloat commitButtonY = CGRectGetMaxY(confirmPwdTextFieldF) + largeMargin;
+    CGFloat commitButtonW = confirmPwdTextFieldW;
+    CGFloat commitButtonH = confirmPwdTextFieldH;
+    CGRect commitButtonF = CGRectMake(commitButtonX, commitButtonY, commitButtonW, commitButtonH);
+    commitButton.frame = commitButtonF;
+    [commitButton addTarget:self action:@selector(commitButtonClidk:) forControlEvents:UIControlEventTouchUpInside];
+    commitButton.enabled = NO;
+    self.commitButton = commitButton;
+    [self.view addSubview:commitButton];
+}
+
+#pragma mark ----- 确定按钮点击事件
+- (void)commitButtonClidk:(SLLoginButton *)commitButton
+{
+    if ([self.freshPwdTextField.text isEqualToString:self.confirmPwdTextField.text]) {
+        SLModifyPwdParameters *parameters = [SLModifyPwdParameters parameters];
+        parameters.oldpwd = [self.oldPwdTextField.text MD5];
+        parameters.password = [self.freshPwdTextField.text MD5];
+        
+        [SLModifyTool modifyPasswordWithParameters:parameters success:^(SLResult *result) {
+            
+            if ([result.code isEqualToString:@"0000"]) {
+                [MBProgressHUD showSuccess:@"密码修改成功"];
+            } else {
+                [MBProgressHUD showError:result.msg];
+            }
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    } else {
+        [MBProgressHUD showError:@"您输入的密码不一致"];
+    }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.view endEditing:YES];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-/**
- *  添加所有子控件
- */
-- (void)addAllSubviews
-{
-    // 添加输入部分整体的view
-    UIView *bjView = [[UIView alloc] init];
-    [self.view addSubview:bjView];
-    self.bjView = bjView;
-    
-    /** topLineView  */
-    UIView *topLineView = [[UIView alloc] init];
-    [bjView addSubview:topLineView];
-    self.topLineView = topLineView;
-    
-    /** oldPwdLeftImageView */
-    UIImageView *oldPwdLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:oldPwdLeftImageView];
-    self.oldPwdLeftImageView = oldPwdLeftImageView;
-    
-    /** oldPwdTextField */
-    UITextField *oldPwdTextField = [[UITextField alloc] init];
-    [bjView addSubview:oldPwdTextField];
-    self.oldPwdTextField = oldPwdTextField;
-    
-    /** middleUpLineView */
-    UIView *middleUpLineView = [[UIView alloc] init];
-    [bjView addSubview:middleUpLineView];
-    self.middleUpLineView = middleUpLineView;
-    
-    /** freshPwdLeftImageView */
-    UIImageView *freshPwdLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:freshPwdLeftImageView];
-    self.freshPwdLeftImageView = freshPwdLeftImageView;
-    
-    /** freshPwdTextField */
-    UITextField *freshPwdTextField = [[UITextField alloc] init];
-    [bjView addSubview:freshPwdTextField];
-    self.freshPwdTextField = freshPwdTextField;
-    
-    /** middleDownLineView */
-    UIView *middleDownLineView = [[UIView alloc] init];
-    [bjView addSubview:middleDownLineView];
-    self.middleDownLineView = middleDownLineView;
-    
-    /** reFreshPwdLeftImageView */
-    UIImageView *reFreshPwdLeftImageView = [[UIImageView alloc] init];
-    [bjView addSubview:reFreshPwdLeftImageView];
-    self.reFreshPwdLeftImageView = reFreshPwdLeftImageView;
-    
-    /** reFreshPwdTextField */
-    UITextField *reFreshPwdTextField = [[UITextField alloc] init];
-    [bjView addSubview:reFreshPwdTextField];
-    self.reFreshPwdTextField = reFreshPwdTextField;
-    
-    /** bottomLineView  */
-    UIView *bottomLineView = [[UIView alloc] init];
-    [bjView addSubview:bottomLineView];
-    self.bottomLineView = bottomLineView;
-    
-    /** sureButton */
-    UIButton *sureButton = [[UIButton alloc] init];
-    [self.view addSubview:sureButton];
-    self.sureButton = sureButton;
-}
-
-/**
- *  设置子控件的数据
- */
-- (void)setupSubviewsData
-{
-    /** bjView  */
-    self.bjView.frame = self.modifyPwdFrame.bjViewF;
-    
-    /** topLineView  */
-    self.topLineView.frame = self.modifyPwdFrame.topLineViewF;
-    self.topLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** oldPwdLeftImageView */
-    self.oldPwdLeftImageView.frame = self.modifyPwdFrame.oldPwdLeftImageViewF;
-    self.oldPwdLeftImageView.image = [UIImage imageNamed:@"shuMiMa"];
-    self.oldPwdLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** oldPwdTextField */
-    self.oldPwdTextField.frame = self.modifyPwdFrame.oldPwdTextFieldF;
-    self.oldPwdTextField.placeholder = @"请输入旧密码";
-    self.oldPwdTextField.font = SLFont14;
-    self.oldPwdTextField.contentMode = UIViewContentModeCenter;
-    
-    /** middleUpLineView */
-    self.middleUpLineView.frame = self.modifyPwdFrame.middleUpLineViewF;
-    self.middleUpLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** freshPwdLeftImageView */
-    self.freshPwdLeftImageView.frame = self.modifyPwdFrame.freshPwdLeftImageViewF;
-    self.freshPwdLeftImageView.image = [UIImage imageNamed:@"xinMiMa"];
-    self.freshPwdLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** freshPwdTextField */
-    self.freshPwdTextField.frame = self.modifyPwdFrame.freshPwdTextFieldF;
-    self.freshPwdTextField.placeholder = @"请输入新密码";
-    self.freshPwdTextField.keyboardType = UIKeyboardTypeNumberPad;
-    self.freshPwdTextField.font = SLFont14;
-    self.freshPwdTextField.contentMode = UIViewContentModeCenter;
-    
-    /** middleDownLineView */
-    self.middleDownLineView.frame = self.modifyPwdFrame.middleDownLineViewF;
-    self.middleDownLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** reFreshPwdLeftImageView */
-    self.reFreshPwdLeftImageView.frame = self.modifyPwdFrame.reFreshPwdLeftImageViewF;
-    self.reFreshPwdLeftImageView.image = [UIImage imageNamed:@"queRenMiMa"];
-    self.reFreshPwdLeftImageView.contentMode = UIViewContentModeCenter;
-    
-    /** reFreshPwdTextField */
-    self.reFreshPwdTextField.frame = self.modifyPwdFrame.reFreshPwdTextFieldF;
-    self.reFreshPwdTextField.placeholder = @"确认新密码";
-    self.reFreshPwdTextField.font = SLFont14;
-    self.reFreshPwdTextField.contentMode = UIViewContentModeCenter;
-    
-    /** bottomLineView  */
-    self.bottomLineView.frame = self.modifyPwdFrame.bottomLineViewF;
-    self.bottomLineView.backgroundColor = SLColor(177, 177, 177);
-    
-    /** sureButton */
-    self.sureButton.frame = self.modifyPwdFrame.sureButtonF;
-    [self.sureButton setTitle:@"确定" forState:UIControlStateNormal];
-    [self.sureButton setBackgroundImage:[UIImage imageNamed:@"anNiuZhuCe"] forState:UIControlStateNormal];
-    [self.sureButton setBackgroundImage:[UIImage imageNamed:@"anNiuZhuCeJiaoHu"] forState:UIControlStateHighlighted];
-    [self.sureButton addTarget:self action:@selector(sureButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-/**
- *  确定按钮事件
- */
-- (void)sureButtonClick:(UIButton *)sureButton
-{
-    // 创建请求管理对象
-    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    
-    // 获取账户信息
-    SLAccount *account = [SLAccountTool getAccount];
-    
-    // 封装请求参数
-    NSMutableDictionary *paraments = [NSMutableDictionary dictionary];
-    // oldpwd:String/用户旧密码（MD5加密后）
-    paraments[@"oldpwd"] = [self.oldPwdTextField.text MD5];
-    // password:String/用户密码（MD5加密后）
-    paraments[@"password"] = [self.reFreshPwdTextField.text MD5];
-    // uid:Long/当前登录用户UID
-    paraments[@"uid"] = [NSNumber numberWithInteger:account.uid];
-    // token:String/当前登录用户身份识别码（登陆、注册接口返回该值）
-    paraments[@"token"] = account.token;
-    
-    // 发送请求
-    [mgr POST:@"http://117.79.93.100:8013/data2.0/ds/user/changePwdByOldPwd" parameters:paraments success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        SLLog(@"%@", responseObject);
-        
-        /*
-         0000：接口业务调用成功
-         9999：接口业务调用失败
-         9998：登陆信息验证失败
-         9001：用户不存在
-         9006：旧密码输入错误
-         9018：新密码格式错误
-         */
-        if ([responseObject[@"code"] isEqualToString:@"0000"]) {
-            [MBProgressHUD showSuccess:@"密码修改成功"];
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        SLLog(@"请求失败");
-    }];
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
 }
 
 @end

@@ -8,28 +8,41 @@
 
 #import "SLConsultantTool.h"
 
-#import "MJExtension.h"
+#import "SLResult.h"
 
 #import "SLHttpTool.h"
+#import "MJExtension.h"
+#import "MBProgressHUD+MJ.h"
 
 #define SLConsultantAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"consultantAccount.data"]
 
 @implementation SLConsultantTool
 
-+ (void)consultantWithParameters:(SLConsultantParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure
++ (void)consultantWithParameters:(SLBaseParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure
 {
-    NSString *url = [SLHttpUrl stringByAppendingString:@"/user/catchConsultantInfoById"];
+    NSString *url = [SLHttpUrl stringByAppendingString:@"/user/catchMyConsultant"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        NSDictionary *consultantDict = [responseObject[@"info"] lastObject];
         
-        SLConsultant *consultant = [SLConsultant objectWithKeyValues:consultantDict];
+        SLLog(@"%@", responseObject);
         
-        // 归档
-        [SLConsultantTool saveConsultantAccount:consultant];
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
         
-        if (success) {
-            success(consultant);
+        if ([result.code isEqualToString:@"0000"]) {
+            if (result.info.count > 0) {
+                NSDictionary *consultantDict = [result.info lastObject];
+                
+                SLConsultant *consultant = [SLConsultant objectWithKeyValues:consultantDict];
+                
+                // 归档
+                [SLConsultantTool saveConsultantAccount:consultant];
+                
+                if (success) {
+                    success(consultant);
+                }
+            } else {
+                [MBProgressHUD showError:@"未能成功获取理财顾问信息..."];
+            }
         }
         
     } failure:^(NSError *error) {

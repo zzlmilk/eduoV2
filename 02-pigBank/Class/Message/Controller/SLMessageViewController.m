@@ -7,48 +7,79 @@
 //
 
 #import "SLMessageViewController.h"
-#import "UIBarButtonItem+SL.h"
+
 #import "SLSearchBar.h"
+#import "SLBackButton.h"
+
+#import "SLChatViewController.h"
+
+#import "UIBarButtonItem+SL.h"
 
 @interface SLMessageViewController ()
+
+@property (nonatomic, assign) CGFloat tabbarFrameY;
+
+@property (nonatomic, assign) BOOL flag;
 
 @end
 
 @implementation SLMessageViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)viewWillAppear:(BOOL)animated
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    [super viewWillAppear:animated];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    if ([self.from isEqualToString:@"toolBar"]) {
+        SLBackButton *backButton = [SLBackButton button];
+        [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        self.navigationItem.leftBarButtonItem = backItem;
+    } else {
+        CGRect tabbatFrame = self.tabBarController.tabBar.frame;
+        self.tabbarFrameY = tabbatFrame.origin.y;
+        tabbatFrame.origin.y += 49;
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.tabBarController.tabBar.frame = tabbatFrame;
+        }];
+        
+        SLBackButton *backButton = [SLBackButton button];
+        [backButton addTarget:self action:@selector(backButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        self.navigationItem.leftBarButtonItem = backItem;
     }
-    return self;
+}
+
+#pragma mark ----- backButtonClicked返回按钮点击事件
+- (void)backButtonClicked:(SLBackButton *)backButton
+{
+    if ([self.from isEqualToString:@"toolBar"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {if ([self.delegate respondsToSelector:@selector(messageViewController:didPopWithFlag:)]) {
+        [self.delegate messageViewController:self didPopWithFlag:NO];
+    }
+        
+        CGRect tabbatFrame = self.tabBarController.tabBar.frame;
+        tabbatFrame.origin.y = self.tabbarFrameY;
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.tabBarController.tabBar.frame = tabbatFrame;
+        }];
+    }
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(more)];
-    
-    // 设置右上角的barButton
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithImage:@"renWu" highlightImage:@"renWuJiaoHu" target:self action:@selector(renwu)];
-    
-    
-//    SLSearchBar *search = [[SLSearchBar alloc] init];
-//    search.frame = CGRectMake(0, 0, 300, 30);
-//    self.navigationItem.titleView = search;
-}
-
-- (void)renwu
-{
-    SLLog(@"message - renwu");
-}
-
-- (void)more
-{
-    SLLog(@"message - more");
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,81 +87,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

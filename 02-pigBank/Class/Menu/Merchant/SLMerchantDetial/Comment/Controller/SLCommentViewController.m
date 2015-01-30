@@ -10,12 +10,12 @@
 
 #import "SLCommitCommentParameters.h"
 
-#import "UIBarButtonItem+SL.h"
+#import "SLUpImageButton.h"
+
 #import "SLCommitCommentTool.h"
 
-#import "MBProgressHUD+MJ.h"
-
-#define scoreButtonW 20
+#define scoreButtonW 30
+#define scoreButtonH 30
 
 @interface SLCommentViewController ()<UITextViewDelegate>
 
@@ -26,8 +26,9 @@
 @property (nonatomic, weak) UITextView *commentTextView;
 
 @property (nonatomic, weak) UILabel *placeholdLabel;
+@property (nonatomic, weak) UILabel *countWordLabel;
 
-@property (nonatomic, assign) int score;
+@property (nonatomic, assign) NSInteger score;
 
 @end
 
@@ -41,18 +42,9 @@
     return _scoreButtonArray;
 }
 
-#pragma mark ----- viewDidLoad
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    self.score = 0;
-    
-    [self addAllSubviews];
-    
-    [self setSubviewData];
+    [super viewWillAppear:animated];
     
     [self setNavBar];
 }
@@ -73,16 +65,19 @@
     }
     
     SLCommitCommentParameters *parameters = [SLCommitCommentParameters parameters];
-    parameters.merchantId = [NSNumber numberWithLong:self.vipMerchantDetail.merchantId];
-    parameters.score = [NSNumber numberWithInt:self.score];
+    parameters.merchantId = self.merchantId;
+    parameters.score = [NSNumber numberWithInteger:self.score];
     parameters.comment = self.commentTextView.text;
     
-    [SLCommitCommentTool commitCommentWithParameters:parameters success:^(NSString *code) {
+    [SLCommitCommentTool commitCommentWithParameters:parameters success:^(SLResult *result) {
+        NSString *code = [NSString stringWithFormat:@"%@", result.code];
         if ([code isEqualToString:@"0000"]) {
             
             [MBProgressHUD showSuccess:@"点评成功"];
             
             [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            SLLog(@"%@ %@", result.code, result.msg);
         }
     } failure:^(NSError *error) {
         
@@ -95,12 +90,24 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark ----- viewDidLoad
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.score = 0;
+    
+    [self addAllSubviews];
+}
+
 #pragma mark ----- addAllSubviews添加所有子控件
 - (void)addAllSubviews
 {
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     // 评分按钮
     for (int i = 0; i < 5; i++) {
-        UIButton *scoreButton = [[UIButton alloc] init];
+        SLUpImageButton *scoreButton = [[SLUpImageButton alloc] init];
         [self.scoreButtonArray addObject:scoreButton];
         [self.view addSubview:scoreButton];
     }
@@ -120,6 +127,20 @@
     UILabel *placeholdLabel = [[UILabel alloc] init];
     [self.commentTextView addSubview:placeholdLabel];
     self.placeholdLabel = placeholdLabel;
+    
+    UILabel *countWordLabel = [[UILabel alloc] init];
+    [self.commentTextView addSubview:countWordLabel];
+    self.countWordLabel = countWordLabel;
+    
+    [self setSubviewData];
+    
+    [self addObserver];
+}
+
+#pragma mark ----- 添加监听方法
+- (void)addObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged) name:UITextViewTextDidChangeNotification object:self.commentTextView];
 }
 
 #pragma mark ----- setSubviewData设置子控件数据
@@ -127,22 +148,25 @@
 {
     // 评分按钮
     for (int i = 0; i < 5; i++) {
-        UIButton *scoreButton = self.scoreButtonArray[i];
+        SLUpImageButton *scoreButton = self.scoreButtonArray[i];
         CGFloat scoreButtonX = (screenW - (scoreButtonW * 5)) / 2 + scoreButtonW * i;
         CGFloat scoreButtonY = 74;
-        scoreButton.frame = CGRectMake(scoreButtonX, scoreButtonY, scoreButtonW, scoreButtonW);
+        scoreButton.frame = CGRectMake(scoreButtonX, scoreButtonY, scoreButtonW, scoreButtonH);
         scoreButton.tag = i;
         [scoreButton addTarget:self action:@selector(scoreButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [scoreButton setImage:[UIImage imageNamed:@"pingFenXin"] forState:UIControlStateNormal];
+        [scoreButton setTitle:[NSString stringWithFormat:@"%d", (i + 1) * 2] forState:UIControlStateNormal];
+        [scoreButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     }
     
     // 提示按钮
     CGFloat tipLabelX = 0;
-    CGFloat tipLabelY = 74 + scoreButtonW + middleMargin;
+    CGFloat tipLabelY = 74 + scoreButtonH + smallMargin;
     CGFloat tipLabelW = screenW;
     CGFloat tipLabelH = 12;
     self.tipLabel.frame = CGRectMake(tipLabelX, tipLabelY, tipLabelW, tipLabelH);
     self.tipLabel.font = SLFont12;
+    self.tipLabel.textColor = SLColor(144, 144, 144);
     self.tipLabel.textAlignment = NSTextAlignmentCenter;
     self.tipLabel.text = @"请点击星星评分";
     
@@ -150,30 +174,52 @@
     CGFloat commentTextViewX = middleMargin;
     CGFloat commentTextViewY = CGRectGetMaxY(self.tipLabel.frame) + middleMargin;
     CGFloat commentTextViewW = screenW - middleMargin * 2;
-    CGFloat commentTextViewH = 100;
+    CGFloat commentTextViewH = 200;
     self.commentTextView.frame = CGRectMake(commentTextViewX, commentTextViewY, commentTextViewW, commentTextViewH);
-    self.commentTextView.backgroundColor = [UIColor lightGrayColor];
+    self.commentTextView.backgroundColor = SLColor(237, 237, 237);
     self.commentTextView.font = SLFont14;
     
     // placeholder
     CGFloat placeholdLabelX = smallMargin;
     CGFloat placeholdLabelY = 5;
-    CGFloat placeholdLabelW = 250;
+    CGFloat placeholdLabelW = commentTextViewW;
     CGFloat placeholdLabelH = 20;
     self.placeholdLabel.frame = CGRectMake(placeholdLabelX, placeholdLabelY, placeholdLabelW, placeholdLabelH);
     self.placeholdLabel.font = SLFont14;
+    self.placeholdLabel.textColor = SLColor(120, 120, 120);
     self.placeholdLabel.text = @"最多可输入140字的评论";
+    
+    CGFloat countWordLabelW = commentTextViewW;
+    CGFloat countWordLabelH = 20;
+    CGFloat countWordLabelX = commentTextViewW - countWordLabelW - middleMargin;
+    CGFloat countWordLabelY = commentTextViewH - countWordLabelH - smallMargin;
+    self.countWordLabel.frame = CGRectMake(countWordLabelX, countWordLabelY, countWordLabelW, countWordLabelH);
+    self.countWordLabel.font = SLFont12;
+    self.countWordLabel.textAlignment = NSTextAlignmentRight;
+    self.countWordLabel.text = @"还可以输入140字";
+}
+
+#pragma mark ----- 当输入框字数发生改变时调用
+- (void)textChanged
+{
+    int letfCount = 140 - [self.commentTextView.text length];
+    
+    if (letfCount > 0) {
+        self.countWordLabel.text = [NSString stringWithFormat:@"还可以输入%d字", letfCount];
+    } else {
+        self.countWordLabel.text = [NSString stringWithFormat:@"评论字符已超过限制!!!"];
+    }
 }
 
 #pragma mark ----- textView代理方法,当textView的文字发生改变时调用
 - (void)textViewDidChange:(UITextView *)textView
 {
     NSInteger number = [textView.text length];
-    if (number >= 140) {
-        textView.text = [textView.text substringToIndex:140];
-        
-        [MBProgressHUD showError:@"字符已达上限"];
-    }
+//    if (number >= 140) {
+//        textView.text = [textView.text substringToIndex:140];
+//        
+//        [MBProgressHUD showError:@"字符已达上限"];
+//    }
     
     if (number == 0) {
         self.placeholdLabel.hidden = NO;

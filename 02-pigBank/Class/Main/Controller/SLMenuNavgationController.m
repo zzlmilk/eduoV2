@@ -20,8 +20,8 @@
     [super viewDidLoad];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"iconMore"] forState:UIControlStateNormal];
-    [button setImage:[UIImage imageNamed:@"iconMorePress"] forState:UIControlStateHighlighted];
+    [button setImage:[UIImage imageNamed:@"iconMorePress"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"iconMore"] forState:UIControlStateHighlighted];
     button.frame = CGRectMake(0, 0, button.currentImage.size.width, button.currentImage.size.height);
     [button addTarget:self action:@selector(more:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -29,6 +29,12 @@
     
     self.navigationItem.leftBarButtonItem = item;
     SLLog(@"-------%@---------", self.navigationItem.leftBarButtonItem);
+}
+
+#pragma mark ----- button的点击事件
+- (void)more:(UIButton *)button
+{
+    
 }
 
 /**
@@ -43,41 +49,14 @@
 + (void)setupNavBarTheme
 {
     // 取出appearance
-    UINavigationBar *navBar = [UINavigationBar appearance];
+//    UINavigationBar *navBar = [UINavigationBar appearance];
     
     
-}
-
-- (void)more:(id)sender
-{
-    [self.drawer open];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - ICSDrawerControllerPresenting
-
-- (void)drawerControllerWillOpen:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = NO;
-}
-
-- (void)drawerControllerDidOpen:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = YES;
-}
-
-- (void)drawerControllerWillClose:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = NO;
-}
-
-- (void)drawerControllerDidClose:(ICSDrawerController *)drawerController
-{
-    self.view.userInteractionEnabled = YES;
 }
 
 @end

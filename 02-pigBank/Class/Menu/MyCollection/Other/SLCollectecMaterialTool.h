@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SLCollectedMaterialParameter.h"
+#import "SLResult.h"
 
 @interface SLCollectecMaterialTool : NSObject
 
@@ -20,5 +21,7 @@
  *  @param failure 请求失败后的回调
  */
 + (void)CollcetedMerchantWithParameters:(SLCollectedMaterialParameter *)parameters success:(void (^)(NSArray *collectedMaterialArray))success failure:(void (^)(NSError *error))failure;
+
++ (void)collcetedMaterialWithParameters:(SLCollectedMaterialParameter *)parameters urlStr:(NSString *)urlStr success:(void (^)(SLResult *result))success failure:(void (^)(NSError *error))failure;
 
 @end

@@ -26,7 +26,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SLVipPrivilegeDetail.h"
 #import "SLPrivilegeDetail.h"
 
 @interface SLVipStatusFirstMaterialInfo : NSObject
@@ -37,7 +36,7 @@
 @property (nonatomic, copy) NSString *content;
 /** materialId */
 @property (nonatomic, strong) NSNumber *materialId;
-@property (nonatomic, strong) NSNumber *plateId;
+@property (nonatomic, strong) NSNumber *plateId;                         
 /** praiseCounts */
 @property (nonatomic, strong) NSNumber *praiseCounts;
 /** vipPrivilegeDetail */

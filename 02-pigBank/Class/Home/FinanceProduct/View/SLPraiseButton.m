@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSNumber *merchantId;
 @property (nonatomic, strong) NSNumber *materialId;
 @property (nonatomic, strong) NSNumber *praiseCounts;
-@property (nonatomic, strong) NSNumber *praiseFlag;
+@property (nonatomic, copy) NSString *praiseFlag;
 
 @end
 
@@ -26,8 +26,7 @@
 
 + (instancetype)button
 {
-    SLPraiseButton *button = [[SLPraiseButton alloc] initWithFrame:CGRectMake(0, 0, 40, 42)];
-    
+    SLPraiseButton *button = [[SLPraiseButton alloc] initWithFrame:CGRectMake(0, 0, 40, 46)];
     return button;
 }
 
@@ -35,12 +34,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
     }
     return self;
 }
 
-- (void)setMaterialId:(NSNumber *)materialId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSNumber *)praiseFlag
+- (void)setMaterialId:(NSNumber *)materialId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSString *)praiseFlag
 {
     self.materialId = materialId;
     self.praiseCounts = praiseCounts;
@@ -49,7 +47,7 @@
     [self setMaterialData];
 }
 
-- (void)setMaterialId:(NSNumber *)materialId praiseFlag:(NSNumber *)praiseFlag
+- (void)setMaterialId:(NSNumber *)materialId praiseFlag:(NSString *)praiseFlag
 {
     self.materialId = materialId;
     self.praiseFlag = praiseFlag;
@@ -57,7 +55,7 @@
     [self setMaterialData];
 }
 
-- (void)setMerchantId:(NSNumber *)merchantId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSNumber *)praiseFlag
+- (void)setMerchantId:(NSNumber *)merchantId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSString *)praiseFlag
 {
     self.merchantId = merchantId;
     self.praiseCounts = praiseCounts;
@@ -65,7 +63,7 @@
     
     [self setMaterialData];
 }
-- (void)setMerchantId:(NSNumber *)merchantId praiseFlag:(NSNumber *)praiseFlag
+- (void)setMerchantId:(NSNumber *)merchantId praiseFlag:(NSString *)praiseFlag
 {
     self.merchantId = merchantId;
     self.praiseFlag = praiseFlag;
@@ -79,12 +77,17 @@
         self.bounds = CGRectMake(0, 0, 25, 42);
     } else {
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        self.titleLabel.font = SLFont14;
+        self.titleLabel.font = SLFont12;
         self.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
         [self setTitle:[NSString stringWithFormat:@"%@", self.praiseCounts] forState:UIControlStateNormal];
     }
     [self setImage:[UIImage imageNamed:@"zan"] forState:UIControlStateNormal];
     [self setImage:[UIImage imageNamed:@"zanJiaoHu"] forState:UIControlStateSelected];
+#warning ----- 调整titlelabel的方位
+    CGRect titleLabelF = self.titleLabel.frame;
+    titleLabelF.origin.y = largeMargin;
+    self.titleLabel.frame = titleLabelF;
+    
     if (self.materialId) {
         [self addTarget:self action:@selector(praiseButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     } else {
@@ -93,6 +96,8 @@
     int praiseFlag = [self.praiseFlag intValue];
     if (praiseFlag == 1) {
         self.selected = YES;
+#pragma mark ----- 设置praiseButton一旦选中不等取消
+        self.userInteractionEnabled = NO;
     } else {
         self.selected = NO;
     }
@@ -124,6 +129,8 @@
         }];
     } else {
         praiseButton.selected = YES;
+#pragma mark ----- 设置praiseButton一旦选中不等取消
+        praiseButton.userInteractionEnabled = NO;
         if (self.praiseCounts == nil) {
         } else {
             long praiseCounts = [self.praiseCounts longValue];

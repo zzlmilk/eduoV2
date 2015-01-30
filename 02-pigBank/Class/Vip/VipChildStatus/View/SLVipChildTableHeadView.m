@@ -59,18 +59,20 @@
     
     /** 设置localButton数据 */
     [self.localButton setTitle:@"本地" forState:UIControlStateNormal];
-    [self.localButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
+#warning 设置颜色
+    [self.localButton setTitleColor:SLRed forState:UIControlStateNormal];
     [self.localButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [self.localButton setBackgroundImage:[UIImage resizableImageWithImageName:@"zuoKuang"] forState:UIControlStateNormal];
-    [self.localButton setBackgroundImage:[UIImage resizableImageWithImageName:@"zuoKuangJiaoHu"] forState:UIControlStateSelected];
+    [self.localButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_left_normal"] forState:UIControlStateNormal];
+    [self.localButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_left_selected"] forState:UIControlStateSelected];
     [self.localButton addTarget:self action:@selector(localButtonClick:) forControlEvents:UIControlEventTouchDown];
     
     /** 设置nationwideButton数据 */
     [self.nationwideButton setTitle:@"全国" forState:UIControlStateNormal];
-    [self.nationwideButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
+#warning 设置颜色
+    [self.nationwideButton setTitleColor:SLRed forState:UIControlStateNormal];
     [self.nationwideButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-    [self.nationwideButton setBackgroundImage:[UIImage resizableImageWithImageName:@"youKuang"] forState:UIControlStateNormal];
-    [self.nationwideButton setBackgroundImage:[UIImage resizableImageWithImageName:@"youKuangJiaoHu"] forState:UIControlStateSelected];
+    [self.nationwideButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_right_normal"] forState:UIControlStateNormal];
+    [self.nationwideButton setBackgroundImage:[UIImage resizableImageWithImageName:@"icon_button_right_selected"] forState:UIControlStateSelected];
     [self.nationwideButton addTarget:self action:@selector(nationwideButtonClick:) forControlEvents:UIControlEventTouchDown];
 }
 
@@ -80,9 +82,7 @@
 - (void)localButtonClick:(UIButton *)localButton
 {
     self.nationwideButton.selected = NO;
-    [self.nationwideButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
     self.localButton.selected = YES;
-    [self.localButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     if ([self.delegate respondsToSelector:@selector(vipChildTableHeadView:didClickLocalButton:)]) {
         [self.delegate vipChildTableHeadView:self didClickLocalButton:self.localButton];
@@ -94,9 +94,7 @@
 - (void)nationwideButtonClick:(UIButton *)nationwideButton
 {
     self.localButton.selected = NO;
-    [self.localButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
     self.nationwideButton.selected = YES;
-    [self.nationwideButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     
     if ([self.delegate respondsToSelector:@selector(vipChildTableHeadView:didClickNationwideButton:)]) {
         [self.delegate vipChildTableHeadView:self didClickNationwideButton:self.nationwideButton];

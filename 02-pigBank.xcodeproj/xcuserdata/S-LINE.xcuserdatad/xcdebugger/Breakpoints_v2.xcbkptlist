@@ -6,11 +6,73 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             scope = "0"
             stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "02-pigBank/Class/Menu/MyCollection/Other/SLCollectecMaterialTool.m"
+            timestampString = "443963594.080613"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "+collcetedMaterialWithParameters:urlStr:success:failure:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "02-pigBank/Class/Login/Register/Tool/SLRegisterTool.m"
+            timestampString = "444054915.620398"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "+registerWithParameters:success:failure:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__57+[SLRegisterTool registerWithParameters:success:failure:]_block_invoke"
+                  moduleName = "02-pigBank"
+                  urlString = "file:///Users/S-LINE/Desktop/%E6%98%93%E6%9C%B5%E9%93%B6%E8%A1%8C/06-pigBank(XMPP)/02-pigBank/Class/Login/Register/Tool/SLRegisterTool.m"
+                  timestampString = "444304638.325369"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "95">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__57+[SLRegisterTool registerWithParameters:success:failure:]_block_invoke23"
+                  moduleName = "02-pigBank"
+                  urlString = "file:///Users/S-LINE/Desktop/%E6%98%93%E6%9C%B5%E9%93%B6%E8%A1%8C/06-pigBank(XMPP)/02-pigBank/Class/Login/Register/Tool/SLRegisterTool.m"
+                  timestampString = "444304638.325719"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "41">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SLVipStatus.h"
 
-@interface SLVipProductViewController : UITableViewController
+@interface SLVipProductViewController : UIViewController
 
 @property (nonatomic, strong) NSNumber *materialId;
 

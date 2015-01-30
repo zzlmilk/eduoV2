@@ -7,14 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ICSDrawerController.h"
 
-@interface SLTabBarController : UITabBarController <ICSDrawerControllerChild, ICSDrawerControllerPresenting>
-
-@property(nonatomic, weak) ICSDrawerController *drawer;
+@interface SLTabBarController : UITabBarController
 
 @property (nonatomic, assign) int selectedIndexPath;
-
-- (void)showMenu;
 
 @end

@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SLVipMerchantDetail.h"
+#import "SLMerchantDetail.h"
 
 @interface SLMerchantStatusFrame : NSObject
 
-@property (nonatomic, strong) SLVipMerchantDetail *merchantDetial;
+@property (nonatomic, strong) SLMerchantDetail *merchantDetial;
 
 /** pictureImageViewF */
 @property (nonatomic, assign, readonly) CGRect pictureImageViewF;
@@ -26,5 +26,7 @@
 @property (nonatomic, assign, readonly) CGRect priseCountLabelF;
 /** distanceLabelF */
 @property (nonatomic, assign, readonly) CGRect distanceLabelF;
+/** distanceLabelF */
+@property (nonatomic, assign, readonly) CGRect separatorViewF;
 
 @end

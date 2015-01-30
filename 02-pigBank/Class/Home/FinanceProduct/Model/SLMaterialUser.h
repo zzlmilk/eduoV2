@@ -22,26 +22,14 @@
 
 @interface SLMaterialUser : NSObject
 
-/** collectFlag */
-@property (nonatomic, strong) NSNumber *collectFlag;
-
-/** firstReadTime */
+@property (nonatomic, copy) NSString *collectFlag;
 @property (nonatomic, strong) NSNumber *firstReadTime;
-
-/** joinFlag */
-@property (nonatomic, strong) NSNumber *joinFlag;
-
-/** firstReadTime */
+@property (nonatomic, copy) NSString *joinFlag;
 @property (nonatomic, strong) NSNumber *lastReadTime;
 @property (nonatomic, strong) NSNumber *materialId;
-
-/** firstReadTime */
-@property (nonatomic, strong) NSNumber *praiseFlag;
-
-/** firstReadTime */
-@property (nonatomic, strong) NSNumber *readFlag;
-
-/** firstReadTime */
+@property (nonatomic, copy) NSString *praiseFlag;
+@property (nonatomic, strong) NSNumber *praiseTime;
+@property (nonatomic, copy) NSString *readFlag;
 @property (nonatomic, strong) NSNumber *readTimes;
 @property (nonatomic, strong) NSNumber *userId;
 

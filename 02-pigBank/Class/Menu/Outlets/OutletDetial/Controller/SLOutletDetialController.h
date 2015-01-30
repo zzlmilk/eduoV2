@@ -10,7 +10,7 @@
 
 #import "SLOutletsInfo.h"
 
-@interface SLOutletDetialController : UITableViewController
+@interface SLOutletDetialController : UIViewController
 
 @property (nonatomic, strong) NSNumber *materialId;
 

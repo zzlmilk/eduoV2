@@ -23,32 +23,39 @@
     // 1.先从缓存里面加载
     NSArray *financialStatusFrameArray = [SLFinancialProductFrameCacheTool statuesWithParameters:parameters];
     
-    // 传递了block
-    if (success) {
-        success(financialStatusFrameArray);
+    if (financialStatusFrameArray.count > 0) {
+        // 传递了block
+        if (success) {
+            success(financialStatusFrameArray);
+        }
     }
     
     NSString *url = [SLHttpUrl stringByAppendingString:@"/material/listFPMaterialInfo"];
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
-        // 取出状态字典数组
-        NSArray *dictArray = [responseObject[@"info"] lastObject];
         
-        NSMutableArray *financialProductStatusFrameArray = [NSMutableArray array];
+        SLLog(@"%@", responseObject);
         
-        for (NSDictionary *dict in dictArray) {
-            SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
-            SLFinancialStatusFrame *financialStatusFrame = [[SLFinancialStatusFrame alloc] init];
-            financialStatusFrame.financeProduct = financeProduct;
-            [financialProductStatusFrameArray addObject:financialStatusFrame];
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
+        
+        if (result.info.count > 0) {
+            
+            NSArray *dictArray = [result.info lastObject];
+            NSMutableArray *financialProductStatusFrameArray = [NSMutableArray array];
+            
+            for (NSDictionary *dict in dictArray) {
+                SLFinanceProduct *financeProduct = [SLFinanceProduct objectWithKeyValues:dict];
+                SLFinancialStatusFrame *financialStatusFrame = [[SLFinancialStatusFrame alloc] init];
+                financialStatusFrame.financeProduct = financeProduct;
+                [financialProductStatusFrameArray addObject:financialStatusFrame];
+            }
+            
+            [SLFinancialProductFrameCacheTool addFinancialProductFrames:financialProductStatusFrameArray];
+            
+            if (success) {
+                success(financialProductStatusFrameArray);
+            }
         }
-        
-        [SLFinancialProductFrameCacheTool addFinancialProductFrames:financialProductStatusFrameArray];
-        
-        if (success) {
-            success(financialProductStatusFrameArray);
-        }
-        
     } failure:^(NSError *error) {
         if (failure) {
             failure(error);

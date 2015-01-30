@@ -6,18 +6,49 @@
 //  Copyright (c) 2014年 ___FULLUSERNAME___. All rights reserved.
 //
 
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <MAMapKit/MAMapKit.h>
+
 #import "SLAppDelegate.h"
-#import "SLTabBarController.h"
+
 #import "SLNewFeaturesController.h"
 #import "SLLoginViewController.h"
+#import "SLNavigationController.h"
+
+
+@interface SLAppDelegate ()<CLLocationManagerDelegate>
+{
+    UINavigationController *_navController;
+    CLLocationManager      *_locationmanager;
+}
+
+@end
 
 @implementation SLAppDelegate
 
+- (void)configureAPIKey
+{
+    [MAMapServices sharedServices].apiKey = @"5027080bd14f703009c1ac06f53d43b9";
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    if (iOS8) {
+        
+        [UIApplication sharedApplication].idleTimerDisabled = TRUE;
+        
+        _locationmanager = [[CLLocationManager alloc] init];
+        [_locationmanager requestAlwaysAuthorization];        //NSLocationAlwaysUsageDescription
+        [_locationmanager requestWhenInUseAuthorization];     //NSLocationWhenInUseDescription
+        _locationmanager.delegate = self;
+        
+    }
+    
+    [self configureAPIKey];
+    
     application.statusBarHidden = NO;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor clearColor];
     
     NSString *key = @"CFBundleVersion";
@@ -28,7 +59,16 @@
     NSString *currentVersion = [NSBundle mainBundle].infoDictionary[key];
     
     if ([currentVersion isEqualToString:lastVersion]) {
-        self.window.rootViewController = [[SLLoginViewController alloc] init];
+        
+#warning ----- 跳转判断
+        SLAccount *account = [SLAccountTool getAccount];
+        if (account.token.length > 1) {
+            
+        }
+        
+        SLLoginViewController *loginvc = [[SLLoginViewController alloc] init];
+        SLNavigationController *nav = [[SLNavigationController alloc] initWithRootViewController:loginvc];
+        self.window.rootViewController = nav;
     } else {
         self.window.rootViewController = [[SLNewFeaturesController alloc] init];
         
@@ -37,9 +77,26 @@
         [defaults synchronize];
     }
     
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
+    
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    SLLog(@"deviceToken : %@", deviceToken);
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    SLLog(@"error : %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    SLLog(@"userInfo : %@", userInfo);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

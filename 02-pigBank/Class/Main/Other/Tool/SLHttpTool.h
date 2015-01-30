@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class SLFormData;
+
 @interface SLHttpTool : NSObject
 /**
  * 发送一个POST请求
@@ -28,6 +30,8 @@
  * failure    请求失败后的回调
  */
 + (void)postWithUrlstr:(NSString *)url parameters:(NSDictionary *)parameters formDataArray:(NSArray *)formDataArray success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
+
++ (void)postWithUrlstr:(NSString *)url parameters:(NSDictionary *)parameters formData:(SLFormData *)formData success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
 /**
  * 发送一个GET请求

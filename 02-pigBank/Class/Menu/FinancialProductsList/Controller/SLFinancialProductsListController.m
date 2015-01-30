@@ -8,14 +8,17 @@
 
 #import "SLFinancialProductsListController.h"
 
+#import "SLPlateInfo.h"
 #import "SLFinanceProduct.h"
 #import "SLFinancialStatusFrame.h"
 #import "SLFinanceProductFrame.h"
 #import "SLClientPlate.h"
 #import "SLFinancialProductParameters.h"
+#import "SLFinancialProductListScreenParameters.h"
 
 #import "SLFinancialProductListCell.h"
 #import "SLFinancialProductListTableHeadView.h"
+#import "SLFinancialScreenView.h"
 
 #import "SLFinanceProductController.h"
 
@@ -23,12 +26,15 @@
 #import "UIBarButtonItem+SL.h"
 #import "SLClientPlatesTool.h"
 #import "SLFinancialProductTool.h"
+#import "SLFinancialProductListScreenTool.h"
+#import "SLPlateInfoTool.h"
 
 #import "MJRefresh.h"
 #import "MJExtension.h"
 #import "UIViewController+REXSideMenu.h"
+#import "MBProgressHUD+MJ.h"
 
-@interface SLFinancialProductsListController ()<SLFinancialProductListTableHeadViewDelegate, MJRefreshBaseViewDelegate>
+@interface SLFinancialProductsListController ()<UITableViewDelegate, UITableViewDataSource, SLFinancialProductListTableHeadViewDelegate, MJRefreshBaseViewDelegate, SLFinancialScreenViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *financialProductStatusFrameArray;
 
@@ -42,12 +48,16 @@
 /** orderType 网络参数 */
 @property (nonatomic, copy) NSString *orderType;
 
+@property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, weak) MJRefreshHeaderView *header;
 @property (nonatomic, weak) MJRefreshFooterView *footer;
 
 @property (nonatomic, assign) long currentPage;
 
+@property (nonatomic, weak) SLFinancialScreenView *financialScreenView;
 @property (nonatomic, strong) SLFinancialProductParameters *parameters;
+@property (nonatomic, strong) NSArray *financialProductClassArray;
+@property (nonatomic, strong) NSNumber *classId;
 
 @end
 
@@ -56,6 +66,7 @@
 {
     if (_parameters == nil) {
         _parameters = [SLFinancialProductParameters parameters];
+        _parameters.pageSize = @20;
     }
     return _parameters;
 }
@@ -67,37 +78,143 @@
     return _financialProductStatusFrameArray;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)viewWillAppear:(BOOL)animated
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    [self setNavBar];
+}
+
+#pragma mark ----- setNavBar设置导航栏
+- (void)setNavBar
+{
+    // 设置左上角的barButton
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
+    
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
+    [rightButton setImage:[UIImage imageNamed:@"shanXuan"] forState:UIControlStateNormal];
+    [rightButton setImage:[UIImage imageNamed:@"shanXuanJiaoHu"] forState:UIControlStateHighlighted];
+    [rightButton addTarget:self action:@selector(rightButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+- (void)rightButtonClicked:(UIButton *)rightButton
+{
+    if (self.financialScreenView.hidden == YES) {
+        self.financialScreenView.alpha = 0;
+        self.financialScreenView.hidden = NO;
+        self.tableView.scrollEnabled = NO;
+        self.tabBarController.tabBar.userInteractionEnabled = NO;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.financialScreenView.alpha = 1;
+        } completion:^(BOOL finished) {
+        }];
+    } else {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.financialScreenView.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.financialScreenView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
     }
-    return self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.header endRefreshing];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    /**
-     *  添加tableHeadView
-     */
+    [self loadScreenData];
+    
+    [self addSubviews];
+}
+
+- (void)loadScreenData
+{
+    SLFinancialProductListScreenParameters *parameters = [SLFinancialProductListScreenParameters parameters];
+    parameters.plateId = @2;
+    
+    [SLFinancialProductListScreenTool financialProductListScreenItemWithParameters:parameters success:^(NSArray *financialProductClassArray) {
+        
+        self.financialProductClassArray = financialProductClassArray;
+        self.financialScreenView.financialProductClassArray = financialProductClassArray;
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)addSubviews
+{
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.frame];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.rowHeight = 85;
+    self.tableView = tableView;
+    [self.view addSubview:tableView];
+    
+    [self setTableHeadFootView];
+    
+    // 集成刷新控件
+    [self setupRefreshView];
+    
+    SLFinancialScreenView *financialScreenView = [[SLFinancialScreenView alloc] initWithFrame:CGRectMake(0, 64, screenW, screenH)];
+    financialScreenView.delegate = self;
+    self.financialScreenView = financialScreenView;
+    financialScreenView.hidden = YES;
+    [self.view insertSubview:financialScreenView aboveSubview:tableView];
+}
+
+#pragma mark ----- 设置TableHeadFootView
+- (void)setTableHeadFootView
+{
     SLFinancialProductListTableHeadView *headView = [[SLFinancialProductListTableHeadView alloc] init];
     headView.delegate = self;
     self.tableView.tableHeaderView = headView;
     self.headView = headView;
     
-    if (self.tag == 1) {
-        // 设置左上角的barButton
-        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
-    }
-    
-    // 集成刷新控件
-    [self setupRefreshView];
-    
-    self.tableView.rowHeight = 85;
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 0.5)];
+    footView.backgroundColor = SLLightGray;
+    self.tableView.tableFooterView = footView;
 }
+
+- (void)financialScreenView:(SLFinancialScreenView *)financialScreenView didSelectedClassId:(NSNumber *)classId
+{
+    self.classId = classId;
+    
+    [self.header beginRefreshing];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        financialScreenView.alpha = 0;
+    } completion:^(BOOL finished) {
+        financialScreenView.hidden = YES;
+        self.tableView.scrollEnabled = YES;
+        self.tabBarController.tabBar.userInteractionEnabled = YES;
+    }];
+}
+- (void)financialScreenViewDidTouchCoverView:(SLFinancialScreenView *)financialScreenView
+{
+    if (financialScreenView.hidden == NO) {
+        [UIView animateWithDuration:0.5 animations:^{
+            financialScreenView.alpha = 0;
+        } completion:^(BOOL finished) {
+            financialScreenView.hidden = YES;
+            self.tableView.scrollEnabled = YES;
+            self.tabBarController.tabBar.userInteractionEnabled = YES;
+        }];
+    }
+}
+
 /**
  *  集成刷新控件
  */
@@ -110,6 +227,12 @@
     // 自动进入刷新状态
     [header beginRefreshing];
     self.header = header;
+    
+    // 2.上拉刷新(上拉加载更多数据)
+    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+    footer.scrollView = self.tableView;
+    footer.delegate = self;
+    self.footer = footer;
 }
 
 #pragma mark ----- 代理方法,mj刷新包的代理方法
@@ -134,11 +257,21 @@
     
     self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
     
+    if ([self.classId intValue] == 0) {
+        self.parameters.classId = nil;
+    } else {
+        self.parameters.classId = self.classId;
+    }
+    
     [SLFinancialProductTool financialProductListWithParameters:self.parameters success:^(NSArray *financialProductStatusFrameArray) {
         
-        [self.financialProductStatusFrameArray addObject:financialProductStatusFrameArray];
-        
-        [self.tableView reloadData];
+        if (financialProductStatusFrameArray.count > 0) {
+            [self.financialProductStatusFrameArray addObject:financialProductStatusFrameArray];
+            
+            [self.tableView reloadData];
+        } else {
+            [MBProgressHUD showError:@"没有更多数据了"];
+        }
         
         // 让刷新控件停止显示刷新状态
         [self.footer endRefreshing];
@@ -156,29 +289,34 @@
     
     // 2.2封装请求数据
     self.parameters.search = @"";
-    self.parameters.pageSize = @20;
     self.parameters.curPage = [NSNumber numberWithLong:self.currentPage];
     self.parameters.orderType = self.orderType;
-    self.parameters.plateId = [NSNumber numberWithInteger:[SLClientPlatesTool getFinancialProductClientPlate].plateId];
+    self.parameters.classId = self.classId;
+    NSArray *internerPlateList = [SLPlateInfoTool getInternetPlateList];
+    for (SLPlateInfo *plateInfo in internerPlateList) {
+        if ([plateInfo.plateType isEqualToString:@"3"]) {
+            self.parameters.plateId = plateInfo.plateId;
+        }
+    }
+    if ([self.classId intValue] == 0) {
+        self.parameters.classId = nil;
+    } else {
+        self.parameters.classId = self.classId;
+    }
     
     [SLFinancialProductTool financialProductListWithParameters:self.parameters success:^(NSArray *financialProductStatusFrameArray) {
         
-        self.financialProductStatusFrameArray = nil;
-        [self.financialProductStatusFrameArray addObjectsFromArray:financialProductStatusFrameArray];
-        
-        if (financialProductStatusFrameArray.count > 19) {
-            // 2.上拉刷新(上拉加载更多数据)
-            MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-            footer.scrollView = self.tableView;
-            footer.delegate = self;
-            self.footer = footer;
+        if (financialProductStatusFrameArray.count > 0) {
+            [self.financialProductStatusFrameArray removeAllObjects];
+            [self.financialProductStatusFrameArray addObjectsFromArray:financialProductStatusFrameArray];
+            
+            [self.tableView reloadData];
+        } else {
+            [MBProgressHUD showError:@"没有相关数据..."];
         }
-        
-        [self.tableView reloadData];
         
         // 让刷新控件停止显示刷新状态
         [self.header endRefreshing];
-        
     } failure:^(NSError *error) {
         [self.header endRefreshing];
     }];
@@ -202,35 +340,6 @@
     self.orderType = @"1";
     [self.header beginRefreshing];
 }
-
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//    /**
-//     *  请求网络数据
-//     */
-////    [self expectedYieldButtonClick:self.expectedYieldButton];
-//    self.orderType = @"2";
-//    [self loadNewData];
-//}
-
-#pragma mark ----- 请求网络数据
-//- (void)loadFinancialProductsListData
-//{
-//    SLFinancialProductParameters *parameters = [SLFinancialProductParameters parameters];
-//    
-//    parameters.orderType = self.orderType;
-//    parameters.plateId = [NSNumber numberWithInteger:[SLClientPlatesTool getFinancialProductClientPlate].plateId];
-//    
-//    [SLFinancialProductTool financialProductListWithParameters:parameters success:^(NSArray *financialProductStatusFrameArray) {
-//        
-//        _financialProductStatusFrameArray = (NSMutableArray *)financialProductStatusFrameArray;
-//        
-//        [self.tableView reloadData];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -257,13 +366,6 @@
     return cell;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    SLFinancialStatusFrame *fsf = self.financialProductStatusFrameArray[indexPath.row];
-//    
-//    return fsf.cellHeight;
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SLFinancialStatusFrame *fsf = self.financialProductStatusFrameArray[indexPath.row];
@@ -275,6 +377,7 @@
     SLFinanceProductController *financeProductController = [[SLFinanceProductController alloc] init];
     
     financeProductController.materialId = financeProductFrame.financeProduct.financialProductsDetail.materialId;
+    financeProductController.hidesBottomBarWhenPushed = YES;
     
     [self.navigationController pushViewController:financeProductController animated:YES];
 }

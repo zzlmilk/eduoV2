@@ -16,6 +16,7 @@
 
 @optional
 - (void)merchantTypeCoverView:(SLMerchantTypeCoverView *)merchantTypeCoverView didSelectedChildrenScope:(SLChildrenScope *)childrenScope;
+- (void)merchantTypeCoverViewDidTouchCoverView:(SLMerchantTypeCoverView *)merchantTypeCoverView;
 
 @end
 

@@ -21,7 +21,7 @@
  *  @param success 请求成功后的回调
  *  @param failure 请求失败后的回调
  */
-+ (void)consultantWithParameters:(SLConsultantParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure;
++ (void)consultantWithParameters:(SLBaseParameters *)parameters success:(void (^)(SLConsultant *consultant))success failure:(void (^)(NSError *error))failure;
 
 + (void)saveConsultantAccount:(SLConsultant *)consultant;
 + (SLConsultant *)getConsultantAccount;

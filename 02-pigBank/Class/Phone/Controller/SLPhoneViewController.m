@@ -7,12 +7,14 @@
 //
 
 #import "SLPhoneViewController.h"
-#import "SLTitleButton.h"
+
+#import "SLConsultantTool.h"
+
 #import "MBProgressHUD+MJ.h"
 
 @interface SLPhoneViewController ()<UIActionSheetDelegate>
 
-@property (nonatomic, weak) UIView *coverView;
+@property (nonatomic, strong) SLConsultant *consultant;
 
 @end
 
@@ -27,64 +29,90 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setActionSheet];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-//    [MBProgressHUD showMessage:@""];
-    
-    
-    
-    // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor whiteColor];
-//    
-//    SLTitleButton *button = [[SLTitleButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-//    
-//    [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
-//    [button setTitle:@"哈哈哈哈" forState:UIControlStateNormal];
-//    [button addTarget:self action:@selector(titleClick:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    self.navigationItem.titleView = button;
-    
-    
 }
 
-//-
-
-//- (void)titleClick:(SLTitleButton *)button
-//{
-//    if (button.currentImage == [UIImage imageNamed:@"navigationbar_arrow_up_os7"]) {
-//        [UIView animateWithDuration:0.5 animations:^{
-//            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_down_os7"] forState:UIControlStateNormal];
-//        }];
-//    } else {
-//        [UIView animateWithDuration:0.5 animations:^{
-//            [button setImage:[UIImage imageNamed:@"navigationbar_arrow_up_os7"] forState:UIControlStateNormal];
-//        }];
-//    }
-//}
-
-- (void)viewWillAppear:(BOOL)animated
+#pragma mark ----- 设置actionSheet
+- (void)setActionSheet
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"猪子" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"021-10000", @"18121253011", nil];
+    self.consultant = [SLConsultantTool getConsultantAccount];
     
+    UIActionSheet *actionSheet;
+    if (self.consultant.mobile) {
+        if (self.consultant.telephone) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:self.consultant.mobile, self.consultant.telephone, nil];
+        } else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:self.consultant.mobile, nil];
+        }
+    } else {
+        if (self.consultant.telephone) {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:self.consultant.telephone, nil];
+        } else {
+            actionSheet = [[UIActionSheet alloc] initWithTitle:self.consultant.dispName delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:nil];
+        }
+    }
+    
+    actionSheet.delegate = self;
     [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-#warning 已经创建了call
     UIWebView *callWebView = [[UIWebView alloc] init];
     [self.view addSubview:callWebView];
     
-    if (buttonIndex == 0) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://18121253011"]];
-        [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
-    } else if (buttonIndex == 1) {
-        SLLog(@"1111");
-    } else if (buttonIndex == 2) {
-        
+    if (self.consultant.mobile) {
+        if (self.consultant.telephone) {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:self.consultant.mobile];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                [self pop];
+            } else if (buttonIndex == 1) {
+                NSURL *url = [NSURL URLWithString:self.consultant.telephone];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                [self pop];
+            } else if (buttonIndex == 2) {
+                [self pop];
+            }
+        } else {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:self.consultant.mobile];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                [self pop];
+            } else if (buttonIndex == 1) {
+                [self pop];
+            }
+        }
+    } else {
+        if (self.consultant.telephone) {
+            if (buttonIndex == 0) {
+                NSURL *url = [NSURL URLWithString:self.consultant.telephone];
+                [callWebView loadRequest:[NSURLRequest requestWithURL:url]];
+                [self pop];
+            } else if (buttonIndex == 1) {
+                [self pop];
+            }
+        } else {
+            if (buttonIndex == 0) {
+                [self pop];
+            }
+        }
+    }
+}
+
+- (void)pop
+{
+    if ([self.delegate respondsToSelector:@selector(phoneViewControllerDidPoped:)]) {
+        [self.delegate phoneViewControllerDidPoped:self];
     }
 }
 
@@ -93,16 +121,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

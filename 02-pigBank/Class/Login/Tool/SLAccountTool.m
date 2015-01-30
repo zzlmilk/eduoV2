@@ -19,7 +19,7 @@
 //    NSString *file = [document stringByAppendingPathComponent:@"account.data"];
     // 算出过期时间
     NSDate *now = [NSDate date];
-    account.expireTime = [now dateByAddingTimeInterval:account.time];
+    account.expireTime = [now dateByAddingTimeInterval:[account.time doubleValue]];
     
     // 存储
     [NSKeyedArchiver archiveRootObject:account toFile:SLAccountFile];

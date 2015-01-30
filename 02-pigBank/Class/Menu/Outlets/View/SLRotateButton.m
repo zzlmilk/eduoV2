@@ -22,17 +22,12 @@
         self.imageView.contentMode = UIViewContentModeCenter;
         self.titleLabel.textAlignment = NSTextAlignmentRight;
         self.contentMode = UIViewContentModeCenter;
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     return self;
 }
 
 - (CGRect)imageRectForContentRect:(CGRect)contentRect
 {
-//    CGFloat imageY = 0;
-//    CGFloat imageW = SLRotateButtonImageW;
-//    CGFloat imageX = contentRect.size.width - imageW - 30;
-//    CGFloat imageH = contentRect.size.height;
     CGFloat imageY = 0;
     CGFloat imageW = 20;
     CGFloat imageX = 110;

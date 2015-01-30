@@ -12,6 +12,11 @@
 
 @interface SLOutletsTableHeadView ()
 
+/** serviceItemButton 服务项目 */
+@property (nonatomic, weak) SLRotateButton *serviceItemButton;
+/** serviceAreaButton 服务区域 */
+@property (nonatomic, weak) SLRotateButton *serviceAreaButton;
+
 @end
 
 @implementation SLOutletsTableHeadView
@@ -52,7 +57,8 @@
     
     /** 设置serviceItemButton数据 */
     [self.serviceItemButton setTitle:@"服务项目" forState:UIControlStateNormal];
-    [self.serviceItemButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
+#warning 设置颜色
+    [self.serviceItemButton setTitleColor:SLRed forState:UIControlStateNormal];
     [self.serviceItemButton setImage:[UIImage imageNamed:@"xiaLa"] forState:UIControlStateNormal];
     [self.serviceItemButton setImage:[UIImage imageNamed:@"xiaLaJiaoHu"] forState:UIControlStateSelected];
     // 背景
@@ -61,7 +67,8 @@
     
     /** 设置serviceAreaButton数据 */
     [self.serviceAreaButton setTitle:@"服务区域" forState:UIControlStateNormal];
-    [self.serviceAreaButton setTitleColor:SLColor(126, 33, 128) forState:UIControlStateNormal];
+#warning 设置颜色
+    [self.serviceAreaButton setTitleColor:SLRed forState:UIControlStateNormal];
     [self.serviceAreaButton setImage:[UIImage imageNamed:@"xiaLa"] forState:UIControlStateNormal];
     [self.serviceAreaButton setImage:[UIImage imageNamed:@"xiaLaJiaoHu"] forState:UIControlStateSelected];
     // 背景

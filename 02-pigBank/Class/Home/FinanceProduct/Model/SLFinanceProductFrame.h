@@ -48,9 +48,13 @@
 /** multipleLabel */
 @property (nonatomic, assign, readonly) CGRect multipleLabelF;
 
-
 /** 收益对比图 */
 @property (nonatomic, assign, readonly) CGRect comparisonViewF;
+
+@property (nonatomic, assign, readonly) CGRect currentInterestBarViewF;
+@property (nonatomic, assign, readonly) CGRect currentInterestLabelF;
+@property (nonatomic, assign, readonly) CGRect expEarningBarViewF;
+@property (nonatomic, assign, readonly) CGRect expEarningLabelF;
 
 /** 期限按钮 */
 @property (nonatomic, assign, readonly) CGRect deadlineButtonF;

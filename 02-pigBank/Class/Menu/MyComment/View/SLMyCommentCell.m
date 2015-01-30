@@ -78,37 +78,17 @@
 #pragma mark ----- setSubviewsData设置所有子控件的数据
 - (void)setSubviewsData
 {
-    CGFloat iconImageViewX = middleMargin;
-    CGFloat iconImageViewY = gap;
-    CGFloat iconImageViewW = 29;
-    CGFloat iconImageViewH = 29;
-    CGRect iconImageViewF = CGRectMake(iconImageViewX, iconImageViewY, iconImageViewW, iconImageViewH);
     self.iconImageView.frame = self.myCommentStatusFrame.iconImageViewF;
     self.iconImageView.image = [UIImage imageNamed:@"shangQuan"];
     
-    CGFloat merchantNameLabelX = CGRectGetMaxX(iconImageViewF) + middleMargin;
-    CGFloat merchantNameLabelY = iconImageViewY;
-    CGFloat merchantNameLabelW = screenW - merchantNameLabelX - 40;
-    CGFloat merchantNameLabelH = iconImageViewH;
-    CGRect merchantNameLabelF = CGRectMake(merchantNameLabelX, merchantNameLabelY, merchantNameLabelW, merchantNameLabelH);
     self.merchantNameLabel.frame = self.myCommentStatusFrame.merchantNameLabelF;
     self.merchantNameLabel.font = SLBoldFont14;
     self.merchantNameLabel.text = self.myCommentStatusFrame.myCommentStatus.merchantName;
     
-    CGFloat accessoryImageViewX = screenW - 7 - middleMargin;
-    CGFloat accessoryImageViewY = merchantNameLabelY;
-    CGFloat accessoryImageViewW = 7;
-    CGFloat accessoryImageViewH = merchantNameLabelH;
-    CGRect accessoryImageViewF = CGRectMake(accessoryImageViewX, accessoryImageViewY, accessoryImageViewW, accessoryImageViewH);
     self.accessoryImageView.frame = self.myCommentStatusFrame.accessoryImageViewF;
     self.accessoryImageView.contentMode = UIViewContentModeCenter;
     self.accessoryImageView.image = [UIImage imageNamed:@"jianTou"];
     
-    CGFloat separatorImageViewX = 0;
-    CGFloat separatorImageViewY = CGRectGetMaxY(iconImageViewF) + gap;
-    CGFloat separatorImageViewW = screenW;
-    CGFloat separatorImageViewH = 9;
-    CGRect separatorImageViewF = CGRectMake(separatorImageViewX, separatorImageViewY, separatorImageViewW, separatorImageViewH);
     self.separatorImageView.frame = self.myCommentStatusFrame.separatorImageViewF;
     self.separatorImageView.image = [UIImage imageNamed:@"jianJiaoXian"];
 }

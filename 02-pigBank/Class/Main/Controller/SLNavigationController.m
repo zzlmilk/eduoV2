@@ -41,8 +41,6 @@
     // 取出appearance
     UINavigationBar *navBar = [UINavigationBar appearance];
     
-    
-#warning 状态栏样式设置失效
     // 设置状态栏样式
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     NSMutableDictionary *attri = [NSMutableDictionary dictionary];
@@ -51,10 +49,14 @@
     [navBar setTitleTextAttributes:attri];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 #pragma mark - vipViewController的代理方法
@@ -63,7 +65,7 @@
  */
 -(void)financialProductListController:(SLFinancialProductsListController *)financialProductListController didClickMoreButton:(UIBarButtonItem *)more
 {
-    [self.drawer open];
+    
 }
 
 - (void)didReceiveMemoryWarning

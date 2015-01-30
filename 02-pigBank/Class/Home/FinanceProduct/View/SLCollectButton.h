@@ -12,10 +12,10 @@
 
 + (instancetype)button;
 
-- (void)setMaterialId:(NSNumber *)materialId collectCounts:(NSNumber *)collectCounts collectFlag:(NSNumber *)collectFlag;
-- (void)setMaterialId:(NSNumber *)materialId collectFlag:(NSNumber *)collectFlag;
+- (void)setMaterialId:(NSNumber *)materialId collectCounts:(NSNumber *)collectCounts collectFlag:(NSString *)collectFlag;
+- (void)setMaterialId:(NSNumber *)materialId collectFlag:(NSString *)collectFlag;
 
-- (void)setMerchantId:(NSNumber *)merchantId collectCounts:(NSNumber *)collectCounts collectFlag:(NSNumber *)collectFlag;
-- (void)setMerchantId:(NSNumber *)merchantId collectFlag:(NSNumber *)collectFlag;
+- (void)setMerchantId:(NSNumber *)merchantId collectCounts:(NSNumber *)collectCounts collectFlag:(NSString *)collectFlag;
+- (void)setMerchantId:(NSNumber *)merchantId collectFlag:(NSString *)collectFlag;
 
 @end

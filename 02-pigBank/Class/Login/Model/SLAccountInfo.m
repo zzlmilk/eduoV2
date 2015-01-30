@@ -8,31 +8,10 @@
 
 #import "SLAccountInfo.h"
 
+#import "MJExtension.h"
+
 @implementation SLAccountInfo
 
-/**
- *  从文件中解析对象时调用
- */
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    if (self = [super init]) {
-        self.dispName = [aDecoder decodeObjectForKey:@"dispName"];
-        self.mobile = [aDecoder decodeObjectForKey:@"mobile"];
-        self.vipDetail = [aDecoder decodeObjectForKey:@"vipDetail"];
-        self.pictureUrl = [aDecoder decodeObjectForKey:@"pictureUrl"];
-    }
-    return self;
-}
-
-/**
- *  将对象写入文件时调用
- */
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:self.dispName forKey:@"dispName"];
-    [aCoder encodeObject:self.mobile forKey:@"mobile"];
-    [aCoder encodeObject:self.vipDetail forKey:@"vipDetail"];
-    [aCoder encodeObject:self.pictureUrl forKey:@"pictureUrl"];
-}
+MJCodingImplementation
 
 @end

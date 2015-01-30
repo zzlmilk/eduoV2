@@ -10,4 +10,6 @@
 
 @interface SLLoginViewController : UIViewController
 
+@property (nonatomic, copy) NSString *code;
+
 @end

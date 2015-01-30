@@ -27,8 +27,6 @@
     _financeProduct = financeProduct;
     
     [self setupFinanceProductFrame];
-    
-    
 }
 
 - (void)setupFinanceProductFrame
@@ -91,6 +89,30 @@
     CGFloat comparisonViewW = 200;
     CGFloat comparisonViewH = 130; // _chartViewF.size.height - smallLabelHeight
     _comparisonViewF = CGRectMake(comparisonViewX, comparisonViewY, comparisonViewW, comparisonViewH);
+    
+    CGFloat currentInterestBarViewX = largeMargin * 3;
+    CGFloat currentInterestBarViewY = comparisonViewH - 20;
+    CGFloat currentInterestBarViewW = 30;
+    CGFloat currentInterestBarViewH = -([self.financeProduct.financialProductsDetail.compareValue doubleValue] / [self.financeProduct.financialProductsDetail.expectedYield doubleValue]) * 78;
+    _currentInterestBarViewF = CGRectMake(currentInterestBarViewX, currentInterestBarViewY, currentInterestBarViewW, currentInterestBarViewH);
+    
+    CGFloat currentInterestLabelX = currentInterestBarViewX - middleMargin;
+    CGFloat currentInterestLabelY = CGRectGetMinY(_currentInterestBarViewF) - largeMargin;
+    CGFloat currentInterestLabelW = currentInterestBarViewW + largeMargin;
+    CGFloat currentInterestLabelH = largeMargin;
+    _currentInterestLabelF = CGRectMake(currentInterestLabelX, currentInterestLabelY, currentInterestLabelW, currentInterestLabelH);
+    
+    CGFloat expEarningBarViewX = CGRectGetMaxX(_currentInterestBarViewF) + largeMargin * 2;
+    CGFloat expEarningBarViewY = currentInterestBarViewY - 78;
+    CGFloat expEarningBarViewW = currentInterestBarViewW;
+    CGFloat expEarningBarViewH = 78;
+    _expEarningBarViewF = CGRectMake(expEarningBarViewX, expEarningBarViewY, expEarningBarViewW, expEarningBarViewH);
+    
+    CGFloat expEarningLabelX = expEarningBarViewX - middleMargin;
+    CGFloat expEarningLabelY = CGRectGetMinY(_expEarningBarViewF) - largeMargin;
+    CGFloat expEarningLabelW = currentInterestLabelW;
+    CGFloat expEarningLabelH = largeMargin;
+    _expEarningLabelF = CGRectMake(expEarningLabelX, expEarningLabelY, expEarningLabelW, expEarningLabelH);
     
     /** 期限按钮 */
     CGFloat deadlineButtonX = CGRectGetMaxX(_comparisonViewF);

@@ -20,8 +20,12 @@
     
     [SLHttpTool postWithUrlstr:url parameters:parameters.keyValues success:^(id responseObject) {
         
-        NSString *code = responseObject[@"code"];
-        NSString *msg = responseObject[@"msg"];
+        SLLog(@"%@", responseObject);
+        
+        SLResult *result = [SLResult objectWithKeyValues:responseObject];
+        
+//        NSString *code = responseObject[@"code"];
+//        NSString *msg = responseObject[@"msg"];
         
         // 取出状态字典数组
 //        NSArray *dictArray = [responseObject[@"info"] lastObject];

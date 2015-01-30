@@ -22,11 +22,12 @@
 
 @interface SLMerchantHeadView : UIView
 
-- (void)setLeftButtonWithTitle:(NSString *)title imageName:(NSString *)image highlightImageName:(NSString *)highlightImage;
-- (void)setRightButtonWithTitle:(NSString *)title imageName:(NSString *)image highlightImageName:(NSString *)highlightImage;
+- (void)setLeftButtonWithTitle:(NSString *)title titleColot:(UIColor *)color imageName:(NSString *)image highlightImageName:(NSString *)highlightImage;
+- (void)setRightButtonWithTitle:(NSString *)title titleColot:(UIColor *)color  imageName:(NSString *)image highlightImageName:(NSString *)highlightImage;
 
 - (void)setLeftButtonWithTitle:(NSString *)title;
 - (void)setRightButtonWithTitle:(NSString *)title;
+- (void)setLeftButtonTitle:(NSString *)leftTitle rightButtonTitle:(NSString *)rightTitle;
 
 - (void)setLeftButtonStatusNormal;
 - (void)setRightButtonStatusNormal;

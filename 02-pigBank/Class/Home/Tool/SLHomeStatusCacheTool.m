@@ -47,7 +47,7 @@ static FMDatabaseQueue *_queue;
     [_queue inDatabase:^(FMDatabase *db) {
         // 1.获得需要存储的数据
         NSNumber *uid = [SLAccountTool getAccount].uid;
-        NSNumber *materialId = [NSNumber numberWithInteger:status.materialId];
+        NSNumber *materialId = status.materialId;
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:status];
         
         // 2.存储数据

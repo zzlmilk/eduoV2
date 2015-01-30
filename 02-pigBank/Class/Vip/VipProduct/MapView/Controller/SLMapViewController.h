@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 #import "SLOutletsInfo.h"
-#import "SLVipMerchantDetail.h"
-#import "SLMerchantInDetail.h"
+#import "SLMerchantDetail.h"
+#import "SLPrivilegeProduct.h"
+#import "SLActivityDetail.h"
 
 @interface SLMapViewController : UIViewController
 
 @property (nonatomic, strong) SLOutletsInfo *outletsInfo;
-@property (nonatomic, strong) SLMerchantInDetail *merchantDetail;
-
+@property (nonatomic, strong) SLMerchantDetail *merchantDetail;
+@property (nonatomic, strong) SLPrivilegeProduct *privilegeProduct;
+@property (nonatomic, strong) SLActivityDetail *activityDetail;
 @end

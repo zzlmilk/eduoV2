@@ -14,7 +14,7 @@
 #import "SLVipChildClassParameters.h"
 #import "SLVipStatusFrame.h"
 #import "SLVipStatus.h"
-
+#import "SLPlateInfo.h"
 
 #import "SLVipStatusCell.h"
 #import "SLVipHeadViewButton.h"
@@ -27,6 +27,7 @@
 #import "UIBarButtonItem+SL.h"
 #import "SLConsultantTool.h"
 #import "SLAccountTool.h"
+#import "SLPlateInfoTool.h"
 
 #import "UIButton+WebCache.h"
 #import "MJExtension.h"
@@ -45,6 +46,7 @@
 
 /** vipStatusFrame */
 @property (nonatomic, strong) NSArray *vipStatusFrames;
+@property (nonatomic, strong) NSNumber *plateId;
 
 @property (nonatomic, strong) SLConsultant *consultant;
 
@@ -69,30 +71,58 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    
-    self.tableView.rowHeight = 70;
+    [super viewWillAppear:animated];
     
     // 设置导航栏
     [self setupNavBar];
-    
-    // 设置tableHeadView
-    [self setupTableHeadView];
-    
-    [self setupVipViewData];
 }
 
 #pragma mark ----- setupNavBar设置导航栏
 - (void)setupNavBar
 {
     // 设置右上角的barButton
-    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
-    self.navigationItem.rightBarButtonItem = callItem;
+//    UIBarButtonItem *callItem = [UIBarButtonItem itemWithImage:@"dianHua" highlightImage:@"dianHua" target:self action:@selector(call)];
+//    self.navigationItem.rightBarButtonItem = callItem;
     
     // 设置左上角的barButton
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMore" highlightImage:@"iconMorePress" target:self action:@selector(presentLeftMenuViewController:)];
+    self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithImage:@"iconMorePress" highlightImage:@"iconMore" target:self action:@selector(presentLeftMenuViewController:)];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.tableView.rowHeight = 70;
+    
+    [self getPlateId];
+    
+    // 设置tableHeadView
+    [self setupTableHeadView];
+    
+    [self setupVipViewData];
+    
+    [self setTableFootView];
+}
+
+#pragma mark ----- 获得plateId
+- (void)getPlateId
+{
+    NSArray *plateInfoArray = [SLPlateInfoTool getInternetPlateList];
+    for (SLPlateInfo *plateInfo in plateInfoArray) {
+        if ([plateInfo.plateType isEqualToString:@"2"]) {
+            self.plateId = plateInfo.plateId;
+        }
+    }
+}
+
+#pragma mark ----- 设置tableFootView
+- (void)setTableFootView
+{
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 0.5)];
+    footView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footView;
 }
 
 #pragma mark ----- call设置打电话的item
@@ -140,7 +170,7 @@
     }];
 }
 
-/** setupTableHeadView 设置tableHeadView */
+#pragma mark ----- 设置tableHeadView
 - (void)setupTableHeadView
 {
     UIScrollView *tableHeadScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 86)];
@@ -171,9 +201,11 @@
 #pragma mark ----- headBtnClick:tableHeadView按钮点击事件
 - (void)headBtnClick:(SLVipHeadViewButton *)headButton
 {
+    
     SLVipChildViewController *vcvc = [[SLVipChildViewController alloc] init];
     vcvc.classId = [NSNumber numberWithInteger:headButton.tag];
-    
+    vcvc.plateId = self.plateId;
+    vcvc.title = headButton.titleLabel.text;
     [self.navigationController pushViewController:vcvc animated:YES];
 }
 

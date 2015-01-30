@@ -12,10 +12,10 @@
 
 + (instancetype)button;
 
-- (void)setMaterialId:(NSNumber *)materialId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSNumber *)praiseFlag;
-- (void)setMaterialId:(NSNumber *)materialId praiseFlag:(NSNumber *)praiseFlag;
+- (void)setMaterialId:(NSNumber *)materialId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSString *)praiseFlag;
+- (void)setMaterialId:(NSNumber *)materialId praiseFlag:(NSString *)praiseFlag;
 
-- (void)setMerchantId:(NSNumber *)merchantId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSNumber *)praiseFlag;
-- (void)setMerchantId:(NSNumber *)merchantId praiseFlag:(NSNumber *)praiseFlag;
+- (void)setMerchantId:(NSNumber *)merchantId praiseCounts:(NSNumber *)praiseCounts praiseFlag:(NSString *)praiseFlag;
+- (void)setMerchantId:(NSNumber *)merchantId praiseFlag:(NSString *)praiseFlag;
 
 @end

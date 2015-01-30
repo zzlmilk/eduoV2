@@ -10,7 +10,7 @@
 
 @implementation SLMerchantStatusFrame
 
-- (void)setMerchantDetial:(SLVipMerchantDetail *)merchantDetial
+- (void)setMerchantDetial:(SLMerchantDetail *)merchantDetial
 {
     _merchantDetial = merchantDetial;
     
@@ -50,7 +50,7 @@
     CGFloat priseCountLabelY = likeViewY;
     //    CGFloat priseCountLabelW = titleLabelW;
     //    CGFloat priseCountLabelH = 16;
-    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%ld人很喜欢", merchantDetial.praiseCounts] sizeWithFont:SLFont12];
+    CGSize priseCountLabelS = [[NSString stringWithFormat:@"%@人很喜欢", merchantDetial.praiseCounts] sizeWithFont:SLFont12];
     _priseCountLabelF = (CGRect){{priseCountLabelX, priseCountLabelY}, priseCountLabelS};
     
     /** distanceLabelF */
@@ -59,6 +59,12 @@
     CGFloat distanceLabelW = 50;
     CGFloat distanceLabelH = _priseCountLabelF.size.height;
     _distanceLabelF = CGRectMake(distanceLabelX, distanceLabelY, distanceLabelW, distanceLabelH);
+    
+    CGFloat separatorViewX = pictureImageViewX;
+    CGFloat separatorViewY = CGRectGetMaxY(_pictureImageViewF) + smallMargin;
+    CGFloat separatorViewW = screenW - separatorViewX;
+    CGFloat separatorViewH = -0.5;
+    _separatorViewF = CGRectMake(separatorViewX, separatorViewY, separatorViewW, separatorViewH);
 }
 
 @end
